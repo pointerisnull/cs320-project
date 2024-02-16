@@ -1,0 +1,6 @@
+Youtube Links
+  https://youtube.com/playlist?list=PL5V-f7iCG28XXrCAmpMNW_tcrBNDU5qow&feature=shared
+
+SVG: Scalable Vector Graphics
+  https://developer.mozilla.org/en-US/docs/Web/SVG
+
