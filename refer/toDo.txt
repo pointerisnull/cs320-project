@@ -1,0 +1,7 @@
+2/16
+
+  set up docker
+  start Next.js file // for website
+  start database file
+  start simple input-output text game
+
