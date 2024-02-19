@@ -4,3 +4,6 @@ Youtube Links
 SVG: Scalable Vector Graphics
   https://developer.mozilla.org/en-US/docs/Web/SVG
 
+NextJS
+  https://nextjs.org/docs/pages/building-your-application
+  https://nextjs.org/docs/app/building-your-application
