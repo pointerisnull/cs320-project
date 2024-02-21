@@ -1,6 +1,6 @@
 # CS320 Full Stack WebApp
 
-[Access the website here](207.246.81.16)
+[Access the website here](http://207.246.81.16)
 
 `ssh (username)@207.246.81.16`
 
