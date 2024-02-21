@@ -1,7 +1,6 @@
 2/16
 
-  set up docker
- X start Next.js file // for website
-  start database file
+X start node.js file // for website
+X start database file
   start a simple input-output text game
 
