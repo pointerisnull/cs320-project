@@ -1,9 +1,14 @@
-Youtube playlist
-  https://youtube.com/playlist?list=PL5V-f7iCG28XXrCAmpMNW_tcrBNDU5qow&feature=shared
+Linux:
+rm <name> ~ remove file
+cd / ~root dir
+ip a ~ IP list
+nano <file name> ~ nano text editor
 
-SVG: Scalable Vector Graphics
-  https://developer.mozilla.org/en-US/docs/Web/SVG
+Server:
+sudo ./restart.sh ~ restart server
 
-NextJS
-  https://nextjs.org/docs/pages/building-your-application
-  https://nextjs.org/docs/app/building-your-application
+MongoDB:
+mongosh ~ start mongo
+show dbs ~ show databases
+use <name> ~ go into database
+show collections ~ show collections/tables
