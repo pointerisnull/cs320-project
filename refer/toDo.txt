@@ -4,3 +4,9 @@ X start node.js file // for website
 X start database file
   start a simple input-output text game
 
+2/27 - Sprint 1
+ X Live Website (localhost?)
+  demonstrate access to online database through logins and passwords
+  interface for 3 games
+  space for adverts
+  credits page
