@@ -1,0 +1,41 @@
+text {
+    fill:black;
+    font-size:10px;
+    font-weight:bold;
+    font-family: 'Nunito';
+    font-variant: small-caps;
+    filter:url(#darkerEdges);
+}
+polygon:hover {
+    fill:gray;
+}
+.North_America {
+    stroke:green;
+    fill:green;
+    filter:url(#darkerEdges);
+}
+.South_America {
+    stroke:yellowgreen;
+    fill:yellowgreen;
+    filter:url(#darkerEdges);
+}
+.Europe {
+    stroke:blue;
+    fill:blue;
+    filter:url(#darkerEdges);
+}
+.Africa {
+    stroke:red;
+    fill:red;
+    filter:url(#darkerEdges);
+}
+.Asia {
+    stroke:orange;
+    fill:orange;
+    filter:url(#darkerEdges);
+}
+.Australia {
+    stroke:darkblue;
+    fill:darkblue;
+    filter:url(#darkerEdges);
+}
