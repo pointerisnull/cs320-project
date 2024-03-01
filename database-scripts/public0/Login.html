@@ -18,17 +18,26 @@
 		<a class="item page" href="http://localhost:80/gamezcentral/tictactoe">Tic-Tac-Toe</a>
 		<img class="ui avatar image login" src="./Media/logo.png">
 	</div>
+	<!--Mid-->
+	<h1>Login</h1>
+	<div class="login-container">
+		<form id="login-form">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" required>
+			</div>
+			<button type="submit">Login</button>
+		</form>
+		<button id="forgot-password-btn">Forgot Password?</button>
+		<a position="center" href="./signUp.html"><button id="sign-up-btn">Sign Up!</button></a> <!-- redirect to signUp page-->
+		<!--  href="http://localhost:80/gamezcentral/signup" onclick="redirectToPage()" -->
+	</div>
 
-	<h1>Chess</h1>
-
-	<img src="./Media/ChessMap.jpg" width="600" usemap="#chess" class="ui centered rounded image">
-	<map name="chess">
-		<area shape="rect" coords="1,1,30,600" href="https://frame.work/">
-		<area shape="rect" coords="1,1,600,30" href="https://frame.work/">
-		<area shape="rect" coords="600,1,570,600" href="https://frame.work/">
-		<area shape="rect" coords="1,600,600,570" href="https://frame.work/">
-	</map>
-
+	<script src="/UserInformation/script.js"></script>
 </body>
 <footer>
 	<div class="ui inverted bottom fixed menu">
