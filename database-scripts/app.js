@@ -1,31 +1,57 @@
-const express = require('express');
+/*Try not to break anything please :)*/
+const http = require('http');
+const fs = require('fs');
 const path = require('path');
 
-// mongoConnection
-const { connectToDatabase } = require('./mongoConnection')
+const server = http.createServer((req, res) => {
+    let filePath = path.join(__dirname, 'public0', req.url);
 
-const app = express();
+    // If the URL is '/', serve Home.html
+    if (req.url === '/') {
+        filePath = path.join(__dirname, 'public0', 'Home.html');
+    }
 
-// webpage display
-app.get('/api', (req, res) => { // localhost:80/api
-    res.json(`HTTP GET request recieved`) // print msg on page ig
-})
+    // Check if the requested file is within the public0 directory
+    if (filePath.indexOf(path.join(__dirname, 'public0')) !== 0) {
+        res.writeHead(403);
+        res.end('Forbidden');
+        return;
+    }
 
-app.use('/gamezcentral', express.static(path.join(__dirname, 'public0/Home.html'))); // home page (http://localhost:80/gamezcentral)
-app.use('/gamezcentral/chess', express.static(path.join(__dirname, 'public0/Chess.html'))); // chess page (http://localhost:80/gamezcentral/chess)
-app.use('/gamezcentral/risk', express.static(path.join(__dirname, 'public0/Risk.html'))); // risk page (http://localhost:80/gamezcentral/risk)
-app.use('/gamezcentral/tictactoe', express.static(path.join(__dirname, 'public0/Tic-Tac-Toe.html'))); // tictactoe page (http://localhost:80/gamezcentral/tictactoe)
-app.use('/gamezcentral/login', express.static(path.join(__dirname, 'public0/Login.html'))); // login page (http://localhost:80/gamezcentral/login)
-app.use('/gamezcentral/signup', express.static(path.join(__dirname, 'public0/signUp.html'))); // signup page (http://localhost:80/gamezcentral/signup)
+    // Read the file
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                res.writeHead(404);
+                res.end('File not found!');
+            } else {
+                res.writeHead(500);
+                res.end('Internal Server Error');
+            }
+        } else {
+            // Determine the content type based on the file extension
+            const ext = path.extname(filePath);
+            let contentType = 'text/html'; // default to HTML
+            switch (ext) {
+                case '.js':
+                    contentType = 'text/javascript';
+                    break;
+                case '.css':
+                    contentType = 'text/css';
+                    break;
+                // Add more cases for other file types if needed
+            }
 
-app.use((req, res) => {
-    res.status(404);
-    res.send(`<h1>Error 404: Resource not found</h1>`);
-})
+            // Set the appropriate content type
+            res.setHeader('Content-Type', contentType);
+            res.writeHead(200);
+            res.end(data);
+        }
+    });
+});
 
-app.listen(80, () => { // http://localhost:80/
-    console.log("App listening on port 80");
-})
+const PORT = 80;
 
-// app.use('/<name>', express.static(path.join(__dirname, '<html>'))); // run on subdir of root (http://localhost:80/<name>/)
-//app.use('/', express.static(path.join(__dirname + '/react-app/build'))); // ex of react application hosting
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
