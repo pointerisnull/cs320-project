@@ -4,15 +4,15 @@ const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, 'public0', req.url);
+    let filePath = path.join(__dirname, 'html', req.url);
 
     // If the URL is '/', serve Home.html
     if (req.url === '/') {
-        filePath = path.join(__dirname, 'public0', 'index.html');
+        filePath = path.join(__dirname, 'html', 'index.html');
     }
 
-    // Check if the requested file is within the public0 directory
-    if (filePath.indexOf(path.join(__dirname, 'public0')) !== 0) {
+    // Check if the requested file is within the html directory
+    if (filePath.indexOf(path.join(__dirname, 'html')) !== 0) {
         res.writeHead(403);
         res.end('Forbidden');
         return;
