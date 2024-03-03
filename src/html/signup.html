@@ -11,7 +11,7 @@
 
 	<div class="ui top fixed menu">
 		<div class="item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px" >
-			<a class="dropbtn" href="index.html"><img src="./Media/logo.png" width="50px"></a >
+			<a class="dropbtn" href="../index.html"><img src="./Media/logo.png" width="50px"></a >
 		</div>
 		<!-- link to html file ex. href="./Risk.html"-->
 		<a class="item page" href="risk.html">Risk</a>
@@ -23,7 +23,7 @@
 
     <div class="signup-container">
         <h2>Sign Up</h2>
-        <form id="signup-form">
+        <form id="signup-form" action="/html/signup.html" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -53,7 +53,7 @@
         </form>
     </div>
 
-    <script src="/UserInformation/script.js"></script>
+    <script type="module" src="./scripts/script.js"></script>
 </body>
 <footer>
     <div class="ui inverted bottom fixed menu">
