@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (signUpBtn) {
         signUpBtn.addEventListener('click', function() {
             // Redirect to the forgot password page or trigger the forgot password process
-            alert('Sign Up functionality triggered!');
+            // alert('Sign Up functionality triggered!');
         });
     }
 
