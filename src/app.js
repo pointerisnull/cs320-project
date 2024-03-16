@@ -30,16 +30,15 @@ const server = http.createServer((req, res) => {
                 const formData = querystring.parse(data);
                 console.log('Parsed form data:', formData);
 
-                // Now 'formData' contains your user input
+                //'formData' contains user input
                 const email = formData.email;
                 const username = formData.username;
                 const password = formData.password;
                 const avatar = formData.avatar;
-
-                // Move MongoDB operations here
+                
                 await createUser(username, password, email, avatar);
 
-                // Respond to the client (modify this based on your needs)
+                // Respond to the client
                 res.end('User signed up successfully!');
             } catch (error) {
                 console.error('Error processing form data:', error);
