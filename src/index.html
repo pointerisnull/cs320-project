@@ -1,22 +1,24 @@
 <!doctype html>
 <html>
+
 <head>
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="html/GC.css">
 </head>
+
 <body>
 
 	<div class="ui top fixed menu">
-		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
-			<a href="./Home.html" ><img src="./Media/logo.png" width="50px"></a >
+		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+			<a href="./index.html"><img src="./Media/logo.png" width="50px"></a>
 		</div>
-		<a class="item page" href="./Risk.html">Risk</a>
-		<a class="item page" href="./Chess.html">Chess</a>
-		<a class="item page" href="./Tic-Tac-Toe.html">Tic-Tac-Toe</a>
+		<a class="item page" href="html/risk.html">Risk</a>
+		<a class="item page" href="html/chess.html">Chess</a>
+		<a class="item page" href="html/tictactoe.html">Tic-Tac-Toe</a>
 		<a class="item page" href="html/leaderboard.html">Leaderboard</a>
 		<a class="item page" href="html/credits.html">Credits</a>
-		<div class="right item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px" >
+		<div class="right item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px">
 			<img src="./Media/account.png" width="50px">
 			<div class="dropdown-content">
 				<a href="html/login.html">Login</a>
@@ -24,8 +26,8 @@
 			</div>
 		</div>
 	</div>
-	
-  <h1>Gamez Central</h1>
+
+	<h1>Gamez Central</h1>
 	<div class="ui horizontal equal width segments" style=" width: 90%; text-align: center; margin: auto">
 		<div class="ui segment">
 			<a class="link" href="html/risk.html">Risk</a>
@@ -37,10 +39,92 @@
 			<img src="html/Media/Chess.png" height="300px" class="ui centered rounded image" alt="Image of chess game">
 			<p>Conquer the board, command your pieces, and outwit your opponent</p>
 		</div>
-		<div class="ui segment">
+		<div class="ui segment" onmouseover="anim()">
 			<a class="link" href="html/tictactoe.html">Tic-Tac-Toe</a>
-			<img src="html/Media/Tic-Tac-Toe.png" height="300px" class="ui centered rounded image" alt="Image of tic-tac-toe game">
+			<!--<img src="html/Media/Tic-Tac-Toe.png" height="300px" class="ui centered rounded image"
+				alt="Image of tic-tac-toe game">-->
 			<p>A timeless game of Xs and Os</p>
+			<svg class="ui centered rounded image" fill="#000000" height="300px" width="300px" version="1.1" id="Layer_1"
+				xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+				xml:space="preserve">
+				<g>
+					<g>
+						<path id="board"
+							d="M508.852,167.869v-16.787H347.279V0h-16.787v151.082H179.41V0h-16.787v151.082H3.148v16.787h159.475v151.082H3.148v16.787h159.475V512h16.787V335.738h151.082V512h16.787V335.738h161.574v-16.787H347.279V167.869H508.852z M330.492,318.951H179.41V167.869h151.082V318.951z"
+							fill="#000000" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="0x0" 
+						d="M256,184.656c-32.398,0-58.754,26.356-58.754,58.754s26.356,58.754,58.754,58.754s58.754-26.356,58.754-58.754
+               S288.398,184.656,256,184.656z M256,285.377c-23.141,0-41.967-18.827-41.967-41.967s18.826-41.967,41.967-41.967
+               s41.967,18.827,41.967,41.967S279.141,285.377,256,285.377z" 
+			   			transform="translate(-170 180)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="0x1"
+							d="M100,243.41l44.426-44.425c3.279-3.279,3.279-8.592,0-11.871c-3.275-3.277-8.594-3.277-11.869,0L88.131,231.54
+               l-44.426-44.426c-3.275-3.277-8.594-3.277-11.869,0c-3.279,3.279-3.279,8.592,0,11.871l44.426,44.425l-44.426,44.425
+               c-3.279,3.279-3.279,8.592,0,11.871c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458l44.426-44.426l44.426,44.426
+               c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458c3.279-3.279,3.279-8.592,0-11.871L100,243.41z"
+							transform="translate(0 0)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="0x2"
+							d="M100,243.41l44.426-44.425c3.279-3.279,3.279-8.592,0-11.871c-3.275-3.277-8.594-3.277-11.869,0L88.131,231.54
+               l-44.426-44.426c-3.275-3.277-8.594-3.277-11.869,0c-3.279,3.279-3.279,8.592,0,11.871l44.426,44.425l-44.426,44.425
+               c-3.279,3.279-3.279,8.592,0,11.871c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458l44.426-44.426l44.426,44.426
+               c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458c3.279-3.279,3.279-8.592,0-11.871L100,243.41z"
+							transform="translate(340 180)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="1x0"
+							d="M100,243.41l44.426-44.425c3.279-3.279,3.279-8.592,0-11.871c-3.275-3.277-8.594-3.277-11.869,0L88.131,231.54
+               l-44.426-44.426c-3.275-3.277-8.594-3.277-11.869,0c-3.279,3.279-3.279,8.592,0,11.871l44.426,44.425l-44.426,44.425
+               c-3.279,3.279-3.279,8.592,0,11.871c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458l44.426-44.426l44.426,44.426
+               c1.637,1.638,3.787,2.458,5.934,2.458s4.297-0.82,5.934-2.458c3.279-3.279,3.279-8.592,0-11.871L100,243.41z"
+							transform="translate(170 180)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="1x1" 
+						d="M256,184.656c-32.398,0-58.754,26.356-58.754,58.754s26.356,58.754,58.754,58.754s58.754-26.356,58.754-58.754
+               S288.398,184.656,256,184.656z M256,285.377c-23.141,0-41.967-18.827-41.967-41.967s18.826-41.967,41.967-41.967
+               s41.967,18.827,41.967,41.967S279.141,285.377,256,285.377z" 
+			   			transform="translate(0 0)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="1x2" 
+						d="M256,184.656c-32.398,0-58.754,26.356-58.754,58.754s26.356,58.754,58.754,58.754s58.754-26.356,58.754-58.754
+               S288.398,184.656,256,184.656z M256,285.377c-23.141,0-41.967-18.827-41.967-41.967s18.826-41.967,41.967-41.967
+               s41.967,18.827,41.967,41.967S279.141,285.377,256,285.377z" 
+			   			transform="translate(170 0)" />
+					</g>
+				</g>
+				<g>
+					<g>
+						<path id="2x2" 
+						d="M256,184.656c-32.398,0-58.754,26.356-58.754,58.754s26.356,58.754,58.754,58.754s58.754-26.356,58.754-58.754
+               S288.398,184.656,256,184.656z M256,285.377c-23.141,0-41.967-18.827-41.967-41.967s18.826-41.967,41.967-41.967
+               s41.967,18.827,41.967,41.967S279.141,285.377,256,285.377z" 
+			   			transform="translate(170 -170)" />
+					</g>
+				</g>
+
+				<path id="win" 
+				d="M 50 450 L 460 40 Z" 
+				stroke-width="10" />
+			</svg>
 		</div>
 	</div>
 </body>
@@ -50,8 +134,12 @@
 			<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
 		</div>
 		<div class="item">
-			<p >CSS provided by Fomantic-UI</p>
+			<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a></p>
+			
 		</div>
 	</div>
 </footer>
+
+<script src="./html/scripts/anim.js"></script>
+
 </html>
