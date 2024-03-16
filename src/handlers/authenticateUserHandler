@@ -12,11 +12,6 @@ async function handleUserAuthentication(username, password) {
         });
 
         if (user) {
-            // Here, you should compare the provided password with the hashed password stored in the database
-            // If they match, return true; otherwise, return false
-            // const passwordMatches = comparePasswords(password, user.password);
-
-            // return passwordMatches; // Return the authentication result
 
             console.log('User found: ', user);
 
@@ -36,13 +31,6 @@ async function handleUserAuthentication(username, password) {
         throw error;
     }
 }
-
-// Function to compare passwords (You need to implement this)
-// function comparePasswords(inputPassword, storedPassword) {
-//     // Implement your password comparison logic here
-//     // You should hash the input password and compare it with the stored hashed password
-//     // You can use libraries like bcrypt for hashing passwords securely
-// }
 
 module.exports = {
     handleUserAuthentication,
