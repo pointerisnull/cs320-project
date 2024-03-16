@@ -25,6 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             alert(`Username: ${username}\nPassword: ${password}`);
+
+            // Send a POST request to the server with username and password
+            fetch('/html/login.html', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/'; // Redirect to home page if login is successful
+                } else {
+                    alert('Incorrect username or password');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
         });
     }
 

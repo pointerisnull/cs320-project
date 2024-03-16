@@ -1,0 +1,49 @@
+const { connectToDatabase } = require('../mongoConnection');
+
+async function handleUserAuthentication(username, password) {
+    console.log('Handling authentication request...');
+
+    try {
+        const db = await connectToDatabase();
+        const userInformationCollection = db.collection('UserInformation');
+
+        const user = await userInformationCollection.findOne({
+            'user_name': { $regex: username, $options: 'i' }
+        });
+
+        if (user) {
+            // Here, you should compare the provided password with the hashed password stored in the database
+            // If they match, return true; otherwise, return false
+            // const passwordMatches = comparePasswords(password, user.password);
+
+            // return passwordMatches; // Return the authentication result
+
+            console.log('User found: ', user);
+
+            if(password === user.password) {
+                console.log('Correct password:', password);
+                return true;
+            } else {
+                console.log('Wrong password: ', password);
+                return false;
+            }
+        } else {
+            console.log('User not found');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+}
+
+// Function to compare passwords (You need to implement this)
+// function comparePasswords(inputPassword, storedPassword) {
+//     // Implement your password comparison logic here
+//     // You should hash the input password and compare it with the stored hashed password
+//     // You can use libraries like bcrypt for hashing passwords securely
+// }
+
+module.exports = {
+    handleUserAuthentication,
+};

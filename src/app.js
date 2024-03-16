@@ -5,12 +5,13 @@ const path = require('path');
 const querystring = require('querystring');
 const { createUser } = require('./database-scripts/User/UserInsert');
 const { handleLeaderboardRequest } = require('./handlers/leaderBoardHandler'); // Import the function
+const {handleUserAuthentication} = require('./handlers/authenticateUserHandler');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
 
 
-    // Handle POST requests
+    // Handle POST requests for signups
     if (req.method === 'POST' && req.url === '/html/signup.html') {
         console.log('Handling POST request for /signup.html');
         let data = '';
@@ -45,6 +46,37 @@ const server = http.createServer((req, res) => {
                 res.end('Internal Server Error');
             } finally {
                 res.end();
+            }
+        });
+    }
+
+    // Handle POST request for login
+    if (req.method === 'POST' && req.url === '/html/login.html') {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+        });
+        req.on('end', async () => {
+            try {
+                const { username, password } = JSON.parse(data);
+                const isAuthenticated = await handleUserAuthentication(username, password);
+                if(isAuthenticated) {
+                    console.log('User authenticated successfully');
+                    res.statusCode = 200;
+                    res.end();
+                    return;
+                }
+                else {
+                    console.log('User authentication failed');
+                    res.statusCode = 401;
+                    res.end();
+                    return;
+                }
+            } catch (error) {
+                console.error('Error processing login request:', error);
+                res.statusCode = 500;
+                res.end('Internal Server Error');
+                return;
             }
         });
     }
