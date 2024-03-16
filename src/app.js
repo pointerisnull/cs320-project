@@ -5,7 +5,7 @@ const path = require('path');
 const querystring = require('querystring');
 const { createUser } = require('./database-scripts/User/UserInsert');
 const { handleLeaderboardRequest } = require('./handlers/leaderBoardHandler'); // Import the function
-const {handleUserAuthentication} = require('./handlers/authenticateUserHandler');
+const { handleUserAuthentication } = require('./handlers/authenticateUserHandler');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
