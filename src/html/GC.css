@@ -95,10 +95,14 @@ a.drop:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     z-index: 1;
+    right: 0; /* Position the menu to the right */
+    margin-top: 40px; /* Add some space between the account image and the menu */
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
+    right: 0; /* Ensure the menu stays aligned to the right */
+    left: auto; /* Ensure the menu stays aligned to the right */
 }
 
 .dropdown-content a {
@@ -110,6 +114,11 @@ a.drop:hover {
 
 .dropdown-content a:hover {
     background-color: #777;
+}
+
+/* Add styling for the coin icon and balance */
+#coin {
+    margin-right: 5px; /* Adjust spacing between coin icon and balance */
 }
 
 /*ad space*/
@@ -240,4 +249,71 @@ select {
     border-radius: 3px;
     background-color: #fff;
     appearance: none;
+}
+
+/* For profile.html */
+
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-info .info-item {
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Light gray background */
+}
+
+.profile-info .info-item .header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333; /* Dark gray text */
+}
+
+.profile-info .info-item .content {
+    color: #666666; /* Gray text */
+}
+
+/* for the store pgea */
+.store-container {
+    margin: 20px;
+    text-align: center;
+}
+
+.store-item {
+    display: inline-block;
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.item-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.item-details {
+    margin-top: 10px;
+}
+
+.item-details h3 {
+    margin-bottom: 5px;
+}
+
+.storeAddButton {
+    width: 50%;
 }

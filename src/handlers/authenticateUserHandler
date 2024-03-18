@@ -1,18 +1,24 @@
+// This file handles the authentication process for when a user fills out the login form.
+
 const { connectToDatabase } = require('../mongoConnection');
 
+// Function to handle user authentication
 async function handleUserAuthentication(username, password) {
     console.log('Handling authentication request...');
 
     try {
+        // Connect to the database
         const db = await connectToDatabase();
+        // Access the UserInformation collection
         const userInformationCollection = db.collection('UserInformation');
 
+        // Find user in the collection based on username
         const user = await userInformationCollection.findOne({
             'user_name': { $regex: username, $options: 'i' }
         });
 
+        // Check if user exists and if the password is correct
         if (user) {
-
             console.log('User found: ', user);
 
             if(password === user.password) {
@@ -32,6 +38,7 @@ async function handleUserAuthentication(username, password) {
     }
 }
 
+// Export the function
 module.exports = {
     handleUserAuthentication,
 };

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamez Central - Leaderboard</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="GC.css">
+    <title>Gamez Central - Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+    <link rel="stylesheet" href="GC.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
         <a class="item page" href="./leaderboard.html">Leaderboard</a>
         <a class="item page" href="./credits.html">Credits</a>
         <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
-            <img src="./Media/coin.png" id="coin" width="20px"> <!-- Replace with your coin image -->
+            <img src="./Media/coin.png" id="coin" width="20px">
             <p id="balanceTop" style="margin-right:10px"></p>
             <img src="./Media/account.png" width="50px">
             <div class="dropdown-content">
@@ -33,25 +33,32 @@
         </div>
     </div>
 
-    <h1>Gamez Central - Leaderboard</h1>
-
-    <div class="ui horizontal equal width segments" style="width: 90%; text-align: center; margin: auto">
-        <div class="ui segment">
-            <table id="leaderboard-table" class="ui celled table">
-                <thead>
-                  <tr>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Balance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Data will be inserted here dynamically -->
-                </tbody>
-            </table>
+    <div class="profile-container">
+        <h2 class="ui center aligned header">Profile</h2>
+        <div class="profile-info">
+            <div class="info-item">
+                <div class="header">User Name</div>
+                <div class="content" id="username"></div>
+            </div>
+            <div class="info-item">
+                <div class="header">Email</div>
+                <div class="content" id="email"></div>
+            </div>
+            <div class="info-item">
+                <div class="header">Balance</div>
+                <div class="content" id="balance"></div>
+            </div>
+            <div class="info-item">
+                <div class="header">Password</div>
+                <div class="content" id="password"></div>
+            </div>
+            <div class="info-item">
+                <div class="header">User ID</div>
+                <div class="content" id="userid"></div>
+            </div>
         </div>
     </div>
-
+    
 </body>
 
 <footer>
@@ -69,12 +76,10 @@
 
 <script>
 
-    // Call the function to fetch and update data when the page loads
-    window.onload = function() {
-        fetchBalance();
-        fetchLeaderboardData();
-    };
-
+window.onload = function () {
+    fetchBalance();
+    fetchUserData();
+};
 </script>
 
 </html>
