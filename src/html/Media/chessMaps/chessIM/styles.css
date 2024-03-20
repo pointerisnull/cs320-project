@@ -1,26 +1,19 @@
-.popup {
-    display: none;
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+area {
+    outline: 5px solid var(--red);
+}
+
+.container {
+    position: relative;
+}
+
+.map {
     position: absolute;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-}
-
-.popup:target {
-    display: block;
-}
-
-.close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: #333;
-    text-decoration: none;
-}
-
-.close:hover {
-    color: #000;
+    top: 0;
+    left: 0;
 }
