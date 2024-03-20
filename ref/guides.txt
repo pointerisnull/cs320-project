@@ -1,3 +1,7 @@
+SVG anim:
+https://gsap.com/resources/svg ~ animation
+https://www.svgrepo.com/
+
 Linux/Powershell:
 rm <name> ~ remove file
 cd / ~root dir
