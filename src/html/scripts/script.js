@@ -25,6 +25,34 @@ document.addEventListener('DOMContentLoaded', function () {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             alert(`Username: ${username}\nPassword: ${password}`);
+
+            // Send a POST request to the server with username and password
+            fetch('/html/login.html', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    alert('Incorrect username or password');
+                }
+            })
+            .then(data => {
+                console.log(data);
+                // Store the token in localStorage
+                localStorage.setItem('token', data.token);
+                console.log("Token put in local storage: ", data.token);
+                // Redirect to home page if login is successful
+                window.location.href = '/';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
         });
     }
 
@@ -66,4 +94,135 @@ document.addEventListener('DOMContentLoaded', function () {
             alert(`Email: ${email}\nUsername: ${username}\nPassword: ${password}\nAvatar: ${avatar}`);
         });
     }
+
+    // The stuff below deals with logging in and out.
+
+    // Retrieve token from local storage
+    const token = localStorage.getItem('token');
+
+    // Get references to DOM elements which are the links in our dropdown menu in the top-right of each page
+    const loginLink = document.getElementById('loginLink');
+    const signupLink = document.getElementById('signupLink');
+    const profileLink = document.getElementById('profileLink');
+    const storeLink = document.getElementById('storeLink');
+    const logoutLink = document.getElementById('logoutLink');
+    const coinIcon = document.getElementById('coin');
+
+    if (token) {
+        // User is logged in
+        // Show logout button and hide login and signup links
+        loginLink.style.display = 'none';
+        signupLink.style.display = 'none';
+        profileLink.style.display = 'block';
+        storeLink.style.display = 'block';
+        logoutLink.style.display = 'block';
+        coinIcon.style.display = 'block';
+
+
+        // Add event listener for logout
+        logoutLink.addEventListener('click', function() {
+            // Clear token from localStorage
+            localStorage.removeItem('token');
+            // Redirect user to logout route (which is just our home page (i.e., index.html or '/'))
+            window.location.href = '/';
+        });
+    } else {
+        // User is logged out
+        // Show login and signup links and hide logout button
+        loginLink.style.display = 'block';
+        signupLink.style.display = 'block';
+        profileLink.style.display = 'none';
+        storeLink.style.display = 'none';
+        logoutLink.style.display = 'none';
+        coinIcon.style.display = 'none';
+    }
+
 });
+
+// These functions below deal with fetching needed data. Whether that is for the leaderboard page or the profile page or whatever else. This was absolute hell trying to figure out...
+
+// Fetch balance based on user data and display on top ui (this function should be ran on all pages on window load)
+async function fetchBalance() {
+    try {
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return;
+        }
+
+        // Fetch user data using token
+        const response = await fetch('/user-data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Check if response is successful
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        // Parse response data
+        const data = await response.json();
+
+        // Add balance on top ui
+        document.getElementById('balanceTop').textContent = data.balance;
+    } catch (error) {
+        // Log error if fetching balance fails
+        console.error('Error fetching balance:', error);
+    }
+}
+
+// Fetch leaderboard data and update the table
+async function fetchLeaderboardData() {
+    const response = await fetch('/leaderboard-data');
+    const data = await response.json();
+
+    // Update the table with the fetched data
+    const tbody = document.querySelector('#leaderboard-table tbody');
+    tbody.innerHTML = ''; // Clear existing rows
+
+    data.forEach((user) => {
+        const row = `<tr>
+                        <td>${user.user_name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.balance}</td>
+                    </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+// Fetch user data and update profile page
+async function fetchUserData() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return;
+        }
+
+        const response = await fetch('/user-data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        // Update profile information
+        document.getElementById('username').textContent = data.user_name;
+        document.getElementById('email').textContent = data.email;
+        document.getElementById('balance').textContent = data.balance;
+        document.getElementById('password').textContent = data.password;
+        document.getElementById('userid').textContent = data._id;
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}

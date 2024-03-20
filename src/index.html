@@ -8,24 +8,28 @@
 </head>
 
 <body>
-
-	<div class="ui top fixed menu">
-		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
-			<a href="./index.html"><img src="./Media/logo.png" width="50px"></a>
-		</div>
-		<a class="item page" href="html/risk.html">Risk</a>
-		<a class="item page" href="html/chess.html">Chess</a>
-		<a class="item page" href="html/tictactoe.html">Tic-Tac-Toe</a>
-		<a class="item page" href="html/leaderboard.html">Leaderboard</a>
-		<a class="item page" href="html/credits.html">Credits</a>
-		<div class="right item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px">
-			<img src="./Media/account.png" width="50px">
-			<div class="dropdown-content">
-				<a href="html/login.html">Login</a>
-				<a href="html/signup.html">Sign Up</a>
-			</div>
-		</div>
-	</div>
+    <div class="ui top fixed menu">
+        <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
+            <a href="./index.html" ><img src="html/Media/logo.png" width="50px"></a >
+        </div>
+        <a class="item page" href="html/Risk.html">Risk</a>
+        <a class="item page" href="html/Chess.html">Chess</a>
+        <a class="item page" href="html/tictactoe.html">Tic-Tac-Toe</a>
+        <a class="item page" href="html/leaderboard.html">Leaderboard</a>
+        <a class="item page" href="html/credits.html">Credits</a>
+        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
+            <img src="html/Media/coin.png" id="coin" width="20px"> <!-- Replace with your coin image -->
+            <p id="balanceTop" style="margin-right:10px"></p>
+            <img src="html/Media/account.png" width="50px">
+            <div class="dropdown-content">
+                <a id="loginLink" href="html/login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="signupLink" href="html/signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="profileLink" href="html/profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="storeLink" href="html/store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
+            </div>
+        </div>
+    </div>
 
 	<h1>Gamez Central</h1>
 	<div class="ui horizontal equal width segments" style=" width: 90%; text-align: center; margin: auto">
@@ -141,5 +145,15 @@
 </footer>
 
 <script src="./html/scripts/anim.js"></script>
+<script src="./html/scripts/script.js"></script>
+
+<script>
+
+	// Call the function to fetch and update data when the page loads
+	window.onload = function() {
+		fetchBalance();
+	};
+
+</script>
 
 </html>
