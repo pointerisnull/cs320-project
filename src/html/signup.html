@@ -4,29 +4,33 @@
 <head>
     <title>Gamez Central</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="GC.css">
+    <link rel="stylesheet" type="text/css" href="./GC.css">
 </head>
 
 <body class="ln">
     <div class="ui top fixed menu">
-        <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
-            <a href="../index.html" ><img src="./Media/logo.png" width="50px"></a >
+        <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+            <a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
         </div>
         <a class="item page" href="./Risk.html">Risk</a>
         <a class="item page" href="./Chess.html">Chess</a>
         <a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
         <a class="item page" href="./leaderboard.html">Leaderboard</a>
         <a class="item page" href="./credits.html">Credits</a>
-        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
+        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
             <img src="./Media/coin.png" id="coin" width="20px"> <!-- Replace with your coin image -->
             <p id="balanceTop" style="margin-right:10px"></p>
             <img src="./Media/account.png" width="50px">
             <div class="dropdown-content">
                 <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="signupLink" href="./signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="storeLink" href="./store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="signupLink" href="./signup.html">Sign Up</a>
+                <!--Displayed when logged out, hidden when logged in -->
+                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a>
+                <!--Hidden when logged out, showing when logged in -->
+                <a id="storeLink" href="./store.html" style="display:none;">Store</a>
+                <!--Hidden when logged out, showing when logged in -->
+                <a id="logoutLink" href="#" style="display:none;">Logout</a>
+                <!--Hidden when logged out, showing when logged in -->
             </div>
         </div>
     </div>
@@ -51,14 +55,21 @@
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
-            <div class="form-group">
-                <label for="avatar">Choose Avatar</label>
-                <select id="avatar" name="avatar">
-                    <option value="avatar1">Avatar 1</option>
-                    <option value="avatar2">Avatar 2</option>
-                    <option value="avatar3">Avatar 3</option>
-                    <!-- want to add avatar options for users to make a profile pic -->
-                </select>
+            <div id="avatar-label">Choose your avatar:</div>
+            <div class="avatar-options">
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P0" class="avatar-input" />
+                    <img src="./Media/profile/account-avatar-profile-user-3-svgrepo-com.svg" alt="Avatar 1">
+                </label>
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P1" class="avatar-input" />
+                    <img src="./Media/profile/account-avatar-profile-user-15-svgrepo-com.svg" alt="Avatar 2">
+                </label>
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P3" class="avatar-input" />
+                    <img src="./Media/profile/account-avatar-profile-user-16-svgrepo-com.svg" alt="Avatar 3">
+                </label>
+                <!-- Add more avatar options as needed -->
             </div>
             <button type="submit">Sign Up</button>
         </form>
@@ -80,10 +91,10 @@
 
 <script>
 
-	// Call the function to fetch and update data when the page loads
-	window.onload = function() {
-		fetchBalance();
-	};
+    // Call the function to fetch and update data when the page loads
+    window.onload = function () {
+        fetchBalance();
+    };
 
 </script>
 

@@ -241,14 +241,41 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+/*profile pics*/
+.avatar-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
 
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    appearance: none;
+.avatar-option {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.avatar-option img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.avatar-option img:hover {
+    border-color: blue;
+}
+
+.avatar-option.selected img {
+    border-color: blue;
+}
+
+#avatar-input {
+    display: none;
+}
+
+#avatar-label {
+    margin-bottom: 10px;
 }
 
 /* For profile.html */
