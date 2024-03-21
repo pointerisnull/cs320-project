@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
-            const avatar = document.getElementById('avatar').value;
+            const avatar = document.querySelector('input[name="avatar"]:checked').value;
+            console.log(avatar);
     
             if (password !== confirmPassword) {
                 alert("Passwords do not match!");
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add event listener for logout
         logoutLink.addEventListener('click', function() {
             // Clear token from localStorage
-            localStorage.removeItem('token');
+            localStorage.clear();
             // Redirect user to logout route (which is just our home page (i.e., index.html or '/'))
             window.location.href = '/';
         });
@@ -136,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
         logoutLink.style.display = 'none';
         coinIcon.style.display = 'none';
     }
-
 });
 
 // These functions below deal with fetching needed data. Whether that is for the leaderboard page or the profile page or whatever else. This was absolute hell trying to figure out...
@@ -224,5 +224,96 @@ async function fetchUserData() {
 
     } catch (error) {
         console.error('Error fetching user data:', error);
+    }
+}
+
+function addToCart(item) {
+    if(item === "coinPack1") {
+        const numberOfItem = parseInt(localStorage.getItem('coinPack1'));
+        if(!numberOfItem) {
+            localStorage.setItem('coinPack1', 1);
+            console.log("There are ", numberOfItem, "coinPack1s in the cart.");
+        }
+        else {
+            const updatedNumberOfItem = numberOfItem + 1;
+            localStorage.setItem('coinPack1', numberOfItem + 1);
+            console.log("There are ", updatedNumberOfItem, "coinPack1s in the cart.");
+        }
+    }
+    else if(item === "coinPack2") {
+        const numberOfItem = parseInt(localStorage.getItem('coinPack2'));
+        if(!numberOfItem) {
+            localStorage.setItem('coinPack2', 1);
+            console.log("There are ", numberOfItem, "coinPack2s in the cart.");
+        }
+        else {
+            const updatedNumberOfItem = numberOfItem + 1;
+            localStorage.setItem('coinPack2', numberOfItem + 1);
+            console.log("There are ", updatedNumberOfItem, "coinPack2s in the cart.");
+        }
+    }
+    else if(item === "coinPack3") {
+        const numberOfItem = parseInt(localStorage.getItem('coinPack3'));
+        if(!numberOfItem) {
+            localStorage.setItem('coinPack3', 1);
+            console.log("There are ", numberOfItem, "coinPack3s in the cart.");
+        }
+        else {
+            const updatedNumberOfItem = numberOfItem + 1;
+            localStorage.setItem('coinPack3', numberOfItem + 1);
+            console.log("There are ", updatedNumberOfItem, "coinPack3s in the cart.");
+        }
+    }
+    else if(item === "coinPack4") {
+        const numberOfItem = parseInt(localStorage.getItem('coinPack4'));
+        if(!numberOfItem) {
+            localStorage.setItem('coinPack4', 1);
+            console.log("There are ", numberOfItem, "coinPack4s in the cart.");
+        }
+        else {
+            const updatedNumberOfItem = numberOfItem + 1;
+            localStorage.setItem('coinPack4', numberOfItem + 1);
+            console.log("There are ", updatedNumberOfItem, "coinPack4s in the cart.");
+        }
+    }
+    else if(item === "coinPack5") {
+        const numberOfItem = parseInt(localStorage.getItem('coinPack5'));
+        if(!numberOfItem) {
+            localStorage.setItem('coinPack5', 1);
+            console.log("There are ", numberOfItem, "coinPack5s in the cart.");
+        }
+        else {
+            const updatedNumberOfItem = numberOfItem + 1;
+            localStorage.setItem('coinPack5', numberOfItem + 1);
+            console.log("There are ", updatedNumberOfItem, "coinPack5s in the cart.");
+        }
+    }
+}
+
+function loadCart() {
+    // Get all keys from local storage
+    const keys = Object.keys(localStorage);
+    let isEmpty = true;
+
+    // Iterate over each key
+    keys.forEach(key => {
+        // Check if the key represents a coin pack
+        if (key.startsWith('coinPack')) {
+            isEmpty = false;
+            // Get the quantity of the coin pack from local storage
+            const quantity = parseInt(localStorage.getItem(key));
+
+            // Create a new cart item element
+            const cartItem = document.createElement('p');
+            cartItem.textContent = `${quantity} ${key}`; // Display quantity and coin pack name
+            document.getElementById('cartContainer').appendChild(cartItem); // Append item to cart container
+        }
+    });
+    if(isEmpty) {
+        const emptyCartMessage = document.createElement('p');
+        emptyCartMessage.textContent = 'There is nothing in your cart right now!';
+        emptyCartMessage.style.textAlign = 'center';
+        emptyCartMessage.style.fontSize = '18px';
+        document.getElementById('cartContainer').appendChild(emptyCartMessage);
     }
 }
