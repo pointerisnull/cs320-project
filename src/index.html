@@ -4,31 +4,30 @@
 <head>
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="html/GC.css">
+	<link rel="stylesheet" type="text/css" href="./html/GC.css">
 </head>
 
 <body>
     <div class="ui top fixed menu">
         <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
-            <a href="./index.html" ><img src="html/Media/logo.png" width="50px"></a >
+            <a href="./index.html" ><img src="./html/Media/logo.png" width="50px"></a >
         </div>
-        <a class="item page" href="html/Risk.html">Risk</a>
-        <a class="item page" href="html/Chess.html">Chess</a>
-        <a class="item page" href="html/tictactoe.html">Tic-Tac-Toe</a>
-        <a class="item page" href="html/leaderboard.html">Leaderboard</a>
-        <a class="item page" href="html/credits.html">Credits</a>
+        <a class="item page" href="./html/Risk.html">Risk</a>
+        <a class="item page" href="./html/Chess.html">Chess</a>
+        <a class="item page" href="./html/tictactoe.html">Tic-Tac-Toe</a>
+        <a class="item page" href="./html/leaderboard.html">Leaderboard</a>
+        <a class="item page" href="./html/credits.html">Credits</a>
         <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
 			<img src="html/Media/Store/shoppingcart.png" id="shoppingCart" width="20px" style="margin-right: 10px; display:none;">
             <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
             <img src="html/Media/Store/coin.png" id="coin" width="20px">
             <p id="balanceTop" style="margin-right:10px"></p>
-            <img src="html/Media/profile/account.png" width="50px">
+            <img src="./html/Media/profile/account.png" width="50px">
             <div class="dropdown-content">
-                <a id="loginLink" href="html/login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="signupLink" href="html/signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="profileLink" href="html/profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="storeLink" href="html/store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
-				<a id="cartLink" href="html/cart.html" style="display:none;">Cart</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="loginLink" href="./html/login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="signupLink" href="./html/signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="profileLink" href="./html/profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="storeLink" href="./html/store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
                 <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
             </div>
         </div>
@@ -37,20 +36,21 @@
 	<h1>Gamez Central</h1>
 	<div class="ui horizontal equal width segments" style=" width: 90%; text-align: center; margin: auto">
 		<div class="ui segment">
-			<a class="link" href="html/risk.html">Risk</a>
-			<img src="html/Media/Risk.png" height="300px" class="ui centered rounded image" alt="Image of Risk board">
+			<a class="link" href="./html/risk.html">Risk</a>
+			<img src="./html/Media/gamez/Risk.png" height="300px" class="ui centered rounded image" alt="Image of Risk board">
 			<p>The classic game of world domination and conquest</p>
 		</div>
 		<div class="ui segment">
-			<a class="link" href="html/chess.html">Chess</a>
-			<img src="html/Media/Chess.png" height="300px" class="ui centered rounded image" alt="Image of chess game">
+			<a class="link" href="./html/chess.html">Chess</a>
+			<img src="html/Media/gamez/Chess.png" height="300px" class="ui centered rounded image" alt="Image of chess game">
 			<p>Conquer the board, command your pieces, and outwit your opponent</p>
 		</div>
 		<div class="ui segment" onmouseenter="anim()">
-			<a class="link" href="html/tictactoe.html">Tic-Tac-Toe</a>
+			<a class="link" href="./html/tictactoe.html">Tic-Tac-Toe</a>
 			<!--<img src="html/Media/Tic-Tac-Toe.png" height="300px" class="ui centered rounded image"
 				alt="Image of tic-tac-toe game">-->
 			<p>A timeless game of Xs and Os</p>
+			<!--future GIF-->
 			<svg class="ui centered rounded image" fill="#000000" height="300px" width="300px" version="1.1" id="Layer_1"
 				xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
 				xml:space="preserve">

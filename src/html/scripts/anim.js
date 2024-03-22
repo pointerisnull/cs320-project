@@ -34,16 +34,11 @@ function anim() { // https://www.w3schools.com/jsref/met_win_settimeout.asp
     setTimeout(function(){ l.style.stroke="#000000"}, 7000);
   }
 
-  function addX() { // create image map to get inputs
-    X = document.getElementById("P1");
+  function addX(altInfo) { // create image map to get inputs UNFINISHED
+    turn = document.getElementById("P1");
 
-    X.style.fill="#00000000";
-    // 0x0 (-170, 180)
-    // 0x1 (0, 0)
-    // 2x0 (340, 180)
-    // 1x0 (170, 180)
-    // 1x1 (0, 0)?
-    // 2x1 (170, 0)
-    // 2x2 (170, -170)
+    if (altInfo == 0x0){
+      
+    }
   }
 // Risk
