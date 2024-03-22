@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const signupLink = document.getElementById('signupLink');
     const profileLink = document.getElementById('profileLink');
     const storeLink = document.getElementById('storeLink');
+    const cartLink = document.getElementById('cartLink');
     const logoutLink = document.getElementById('logoutLink');
     const coinIcon = document.getElementById('coin');
 
@@ -116,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
         signupLink.style.display = 'none';
         profileLink.style.display = 'block';
         storeLink.style.display = 'block';
+        cartLink.style.display = 'block';
         logoutLink.style.display = 'block';
         coinIcon.style.display = 'block';
 
@@ -134,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
         signupLink.style.display = 'block';
         profileLink.style.display = 'none';
         storeLink.style.display = 'none';
+        cartLink.style.display = 'none';
         logoutLink.style.display = 'none';
         coinIcon.style.display = 'none';
     }
@@ -288,11 +291,13 @@ function addToCart(item) {
             console.log("There are ", updatedNumberOfItem, "coinPack5s in the cart.");
         }
     }
+    checkCart();
 }
 
 function loadCart() {
     // Get all keys from local storage
     const keys = Object.keys(localStorage);
+    let totalOfAllCost = 0;
     let isEmpty = true;
 
     // Iterate over each key
@@ -302,18 +307,112 @@ function loadCart() {
             isEmpty = false;
             // Get the quantity of the coin pack from local storage
             const quantity = parseInt(localStorage.getItem(key));
+            const coinPackNumber = key;
+            const coinPackCosts = [0.99, 2.99, 5.99, 9.99, 19.99]; // These are the exact costs of each item in increasing order.
+            const coinPackAmounts = ['Small Coin Pack (10 Coins)', 'Medium Coin Pack (40 Coins)', 'Large Coin Pack (100 Coins)', 'Extra Large Coin Pack (250 Coins)', 'Jumbo Coin Pack (500 Coins)'];
+
+            // Calculate index for cost and amount arrays
+            const index = parseInt(coinPackNumber.match(/\d+/)[0]) - 1;
+
+            // Calculate total cost
+            const totalCost = quantity * coinPackCosts[index];
 
             // Create a new cart item element
-            const cartItem = document.createElement('p');
-            cartItem.textContent = `${quantity} ${key}`; // Display quantity and coin pack name
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+
+            // Create image element for the coin pack
+            const coinPackImage = document.createElement('img');
+            coinPackImage.src = `./Media/Store/${coinPackNumber}.png`;
+            coinPackImage.alt = coinPackNumber;
+            coinPackImage.width = '100';
+            cartItem.appendChild(coinPackImage);
+
+            // Display quantity and coin pack name
+            const itemDetails = document.createElement('p');
+            itemDetails.textContent = `${quantity} ${coinPackAmounts[index]}`;
+            cartItem.appendChild(itemDetails);
+
+            // Display cost
+            const itemCost = document.createElement('p');
+            itemCost.textContent = `Cost: $${totalCost}`;
+            itemCost.style.fontWeight = 'bold';
+            itemCost.style.textAlign = 'right';
+            cartItem.appendChild(itemCost);
+
             document.getElementById('cartContainer').appendChild(cartItem); // Append item to cart container
+            document.getElementById('cartEmptyButton').style.display = 'block';
+
+            totalOfAllCost += totalCost;
         }
     });
     if(isEmpty) {
+        //If the cart is empty then the cart.html page will display the following...
         const emptyCartMessage = document.createElement('p');
         emptyCartMessage.textContent = 'There is nothing in your cart right now!';
         emptyCartMessage.style.textAlign = 'center';
         emptyCartMessage.style.fontSize = '18px';
         document.getElementById('cartContainer').appendChild(emptyCartMessage);
+        document.getElementById('cartEmptyButton').style.display = 'none';
+        document.getElementById('cartBuyButton').innerText = 'Checkout the store!';
+        document.getElementById('cartBuyButton').onclick = null;
+        document.getElementById('cartBuyButton').addEventListener('click', function() {
+            window.location.href = './store.html';
+        });
     }
+    else {
+        // When the cart is not empty, this else block will display the total
+        document.getElementById('cartContainer').appendChild(document.createElement('hr'));
+        const displayTotal = document.createElement('p');
+        displayTotal.textContent = `Total Cost: $${totalOfAllCost.toFixed(2)}`;
+        displayTotal.style.fontSize = '16px';
+        displayTotal.style.textAlign = 'center';
+        displayTotal.style.fontWeight = 'bold';
+        document.getElementById('cartContainer').appendChild(displayTotal);
+    }
+}
+
+function checkCart() {
+    // Get all keys from local storage
+    const keys = Object.keys(localStorage);
+    let totalItems = 0;
+
+    // Iterate over each key
+    keys.forEach(key => {
+        // Check if the key represents a coin pack
+        if (key.startsWith('coinPack')) {
+            // Get the quantity of the coin pack from local storage
+            totalItems += parseInt(localStorage.getItem(key));
+        }
+    });
+
+    if(totalItems != 0) {
+        document.getElementById('shoppingCart').style.display = 'block';
+        if(totalItems < 10) {
+            document.getElementById('cartItemCount').innerText = totalItems;
+        }
+        else {
+            document.getElementById('cartItemCount').innerText = '9+';
+        }
+        document.getElementById('cartItemCount').style.display = 'block';
+    }
+    else {
+        document.getElementById('shoppingCart').style.display = 'none';
+        document.getElementById('cartItemCount').style.display = 'none';
+    }
+}
+
+function emptyCart() {
+    const keys = Object.keys(localStorage);
+
+    keys.forEach(key => {
+        if(key.startsWith('coinPack')) {
+            localStorage.removeItem(key);
+        }
+    });
+    window.location.href = './cart.html';
+}
+
+function buyCart() {
+    
 }

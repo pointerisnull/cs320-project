@@ -73,21 +73,7 @@ a.link:hover {
     text-align: right !important;
 }
 
-/*drop down option*/
-a.drop {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    margin: 0 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    position: relative;
-}
-
-a.drop:hover {
-    background-color: #777;
-}
-
+/* Dropdown option */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -95,14 +81,12 @@ a.drop:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     z-index: 1;
-    right: 0; /* Position the menu to the right */
-    margin-top: 40px; /* Add some space between the account image and the menu */
+    right: 0;
+    top: 40px;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
-    right: 0; /* Ensure the menu stays aligned to the right */
-    left: auto; /* Ensure the menu stays aligned to the right */
 }
 
 .dropdown-content a {
@@ -189,6 +173,11 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
 }
 
 #forgot-password-btn {
@@ -343,4 +332,52 @@ input[type="password"] {
 
 .storeAddButton {
     width: 50%;
+}
+
+/* For cart */
+.main-cart-container {
+    max-width: 500px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Item Styling */
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+  
+.cart-item img {
+    margin-right: 20px;
+}
+  
+.cart-item p {
+    margin: 0;
+}
+  
+/* Empty Cart Message Styling */
+.empty-cart-message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+  
+/* Checkout Button Styling */
+#cartBuyButton, #cartEmptyButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+#cartBuyButton:hover, #cartEmptyButton:hover {
+    background-color: #0056b3;
 }
