@@ -1,6 +1,7 @@
-SVG anim:
+Graphics:
 https://gsap.com/resources/svg ~ animation
 https://www.svgrepo.com/
+fontawesome.com
 
 Linux/Powershell:
 rm <name> ~ remove file
