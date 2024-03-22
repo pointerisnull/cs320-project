@@ -254,19 +254,19 @@ input[type="password"] {
     cursor: pointer;
 }
 
-.avatar-option img {
-    width: 100px;
-    height: 100px;
+.avatar-option object {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 2px solid transparent;
     transition: border-color 0.3s ease;
 }
 
-.avatar-option img:hover {
+.avatar-option object:hover {
     border-color: blue;
 }
 
-.avatar-option.selected img {
+.avatar-option.selected object {
     border-color: blue;
 }
 
