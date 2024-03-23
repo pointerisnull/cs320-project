@@ -17,53 +17,80 @@
 		<a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
 		<a class="item page" href="./leaderboard.html">Leaderboard</a>
 		<a class="item page" href="./credits.html">Credits</a>
-        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
-            <img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px" style="margin-right: 10px; display:none;">
-            <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
-            <img src="./Media/Store/coin.png" id="coin" width="20px">
-            <p id="balanceTop" style="margin-right:10px"></p>
-            <img src="./Media/profile/account.png" width="50px">
-            <div class="dropdown-content">
-                <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="signupLink" href="./signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="storeLink" href="./store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="cartLink" href="./cart.html" style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
-                <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
-            </div>
-        </div>
-	</div>
-
-	<h1>Tic-Tac-Toe</h1>
-
-	<div class="ui segment">
-
-		<div id="game_container" >
-			<div id="TTT">
-				<img src="./Media/gamez/TTT_SVG/TTT.svg" class="ui centered rounded image"/>
+		<div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
+			<img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px"
+				style="margin-right: 10px; display:none;">
+			<p id="cartItemCount"
+				style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;">
+			</p>
+			<img src="./Media/Store/coin.png" id="coin" width="20px">
+			<p id="balanceTop" style="margin-right:10px"></p>
+			<img src="./Media/profile/account.png" width="50px">
+			<div class="dropdown-content">
+				<a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+				<a id="signupLink" href="./signup.html">Sign Up</a>
+				<!--Displayed when logged out, hidden when logged in -->
+				<a id="profileLink" href="./profile.html" style="display:none;">Profile</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="storeLink" href="./store.html" style="display:none;">Store</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="cartLink" href="./cart.html"
+					style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
+				<a id="logoutLink" href="#" style="display:none;">Logout</a>
+				<!--Hidden when logged out, showing when logged in -->
 			</div>
 		</div>
 	</div>
+
+	<h1>Tic-Tac-Toe</h1>
+	<!--positioning will be fixed-->
+	<div class="ui segment">
+		<div class="ui equal width grid container">
+			<div class="column" style="width: min-content; height: min-content;">
+				<div class="ui vertical icon menu">
+					<span style="font-size: 20px;">
+						<a class="item">
+							<span style="color: tomato;">
+								<i class="fa-solid fa-volume-high"></i>
+							</span>
+						</a>
+						<a class="item">
+							<span style="color: goldenrod;">
+								<i class="fa-solid fa-trophy"></i>
+							</span>
+						</a>
+					</span>
+				</div>
+			</div>
+			<div class="column" style="width: max-content; height: max-content;">
+				<div class="ui fluid container" style=" border:1px dashed black;">
+					<img src="./Media/gamez/TTT_Maps/TTT.svg" class="ui centered rounded image" />
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<footer>
 		<div class="ui inverted bottom fixed menu">
 			<div class="item">
 				<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
 			</div>
 			<div class="item">
-				<p>CSS provided by Fomantic-UI</p>
+				<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a></p>
 			</div>
 		</div>
 	</footer>
 
+	<script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
 	<script src="./scripts/anim.js"></script>
 	<script src="./scripts/script.js"></script>
 
 	<script>
-	// Call the function to fetch and update data when the page loads
-	window.onload = function () {
-		fetchBalance();
-		checkCart();
-	};
+		// Call the function to fetch and update data when the page loads
+		window.onload = function () {
+			fetchBalance();
+			checkCart();
+		};
 	</script>
 
 </html>
