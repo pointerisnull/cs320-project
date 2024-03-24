@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 return response.text();
             })
+            .then(data => {
+                loginUser(username, password);
+            })
             .catch(error => {
                 // Handle errors during the fetch operation
                 console.error('There was a problem with the fetch operation:', error);
@@ -92,6 +95,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Display a summary of the entered data to the user
             alert(`Email: ${email}\nUsername: ${username}\nPassword: ${password}\nAvatar: ${avatar}`);
+        });
+    }
+
+    // Function to automatically login the user after signup
+    function loginUser(username, password) {
+        // Send a POST request to the server with username and password
+        fetch('/html/login.html', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert('Incorrect username or password');
+            }
+        })
+        .then(data => {
+            console.log(data);
+            // Store the token in localStorage
+            localStorage.setItem('token', data.token);
+            console.log("Token put in local storage: ", data.token);
+            // Redirect to home page if login is successful
+            window.location.href = '/';
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
     }
 
