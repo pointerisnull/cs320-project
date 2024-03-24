@@ -46,8 +46,7 @@ a.link:hover {
 
 /* I added this to provide some animation to the home screen. This code's purpose is to slightly elevate each ui card when hovered over. */
 .ui.horizontal.equal.width.segments:hover {
-    border: 1px solid transparent;
-    /* Set a transparent border initially */
+    border: 1px solid transparent; /* Set a transparent border initially */
 }
 
 .ui.segment {
@@ -103,8 +102,7 @@ a.link:hover {
 
 /* Add styling for the coin icon and balance */
 #coin {
-    margin-right: 5px;
-    /* Adjust spacing between coin icon and balance */
+    margin-right: 5px; /* Adjust spacing between coin icon and balance */
 }
 
 /*ad space*/
@@ -179,8 +177,7 @@ button:hover {
 
 .button-container {
     display: flex;
-    justify-content: space-between;
-    /* Adjust as needed */
+    justify-content: space-between; /* Adjust as needed */
 }
 
 #forgot-password-btn {

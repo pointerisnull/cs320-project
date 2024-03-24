@@ -22,28 +22,33 @@
             <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
             <img src="html/Media/Store/coin.png" id="coin" width="20px">
             <p id="balanceTop" style="margin-right:10px"></p>
-            <img src="./html/Media/profile/account.png" width="50px">
+			<object id="accountImage" data="./html/Media/profile/account.png" width="40px" style="margin:0px" type="image/png" class="avatar-svg">
+				<img src="./html/Media/profile/account.png" width="40px" alt="Avatar 1"/>
+			</object>
             <div class="dropdown-content">
                 <a id="loginLink" href="./html/login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
                 <a id="signupLink" href="./html/signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
                 <a id="profileLink" href="./html/profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
                 <a id="storeLink" href="./html/store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
+				<a id="cartLink" href="./html/cart.html" style="display:none";>Cart</a> <!--Hidden when logged out, showing when logged in-->
                 <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
             </div>
         </div>
     </div>
 
 	<h1>Gamez Central</h1>
-	<div class="ui horizontal equal width segments" style=" width: 90%; text-align: center; margin: auto">
-		<div class="ui segment">
+	<div class="ui horizontal equal width segments" style="width: 90%; height: 60%; text-align: center; margin: auto;">
+		<div class="ui segment" style="overflow: hidden;">
 			<a class="link" href="./html/risk.html">Risk</a>
-			<img src="./html/Media/gamez/Risk.png" height="300px" class="ui centered rounded image" alt="Image of Risk board">
 			<p>The classic game of world domination and conquest</p>
+			<object type="text/html" data="./html/Media/gamez/riskMaps/riskSVGMap/RiskMapSVG.html" width="100%" height="100%">
+				Your browser does not support SVG
+			</object>
 		</div>
 		<div class="ui segment">
 			<a class="link" href="./html/chess.html">Chess</a>
-			<img src="html/Media/gamez/Chess.png" height="300px" class="ui centered rounded image" alt="Image of chess game">
 			<p>Conquer the board, command your pieces, and outwit your opponent</p>
+			<img src="html/Media/gamez/Chess.png" height="70%" class="ui centered rounded image" alt="Image of chess game">
 		</div>
 		<div class="ui segment" onmouseenter="anim()">
 			<a class="link" href="./html/tictactoe.html">Tic-Tac-Toe</a>
@@ -51,7 +56,7 @@
 				alt="Image of tic-tac-toe game">-->
 			<p>A timeless game of Xs and Os</p>
 			<!--future GIF-->
-			<svg class="ui centered rounded image" fill="#000000" height="300px" width="300px" version="1.1" id="Layer_1"
+			<svg class="ui centered rounded image" fill="#000000" height="70%" width="70%" version="1.1" id="Layer_1"
 				xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
 				xml:space="preserve">
 				<g>
@@ -154,7 +159,7 @@
 
 	// Call the function to fetch and update data when the page loads
 	window.onload = function() {
-		fetchBalance();
+		fetchBalanceAndAvatar();
 		checkCart();
 	};
 

@@ -26,18 +26,8 @@
                 </filter>
             </defs>
         </svg>
-        <div>
-            <svg width="800" height="533" xmlns="http://www.w3.org/2000/svg" id="worldMap">
-                <!-- Background Gradient -->
-                <defs>
-                    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#87CEEB; stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <!-- Rectangle for Background -->
-                <rect width="100%" height="100%" fill="url(#backgroundGradient)" stroke="#000" stroke-width="2"/>
-
+        <div id="mapContainer">
+            <svg viewBox="0 0 800 533" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg" id="worldMap" onmouseenter="handleMouseEnter();" onmouseleave="handleMouseLeave();">
                 <!-- North America -->
                 <g class="countryAndText">
                     <polygon points="68,56,53,52,45,47,31,50,28,53,28,58,19,56,25,68,13,66,11,69,14,76,23,76,23,80,12,80,7,84,8,92,13,103,22,110,15,114,16,120,37,107,46,103,48,98,53,103,61,104,63,110,70,112,76,128,82,117,78,114,78,101,75,94,68,93,66,70" class="North_America" id="Alaska"></polygon>
@@ -251,23 +241,7 @@
                     </text>
                 </g>
             </svg>
-
-            <div id="instructions">
-                <h2 id="instructions_head">Head</h2>
-                <p id="instructions_description">Paragraph</p>
-            </div>
         </div>
-        <div class="displayButtonsAndUserChoices">
-            <button id="confirmAttackerButton" style="display:none;"></button>
-            <p id="attackingCountryDisplay"></p>
-            <button id="confirmTargetButton" style="display:none;"></button>
-            <p id="targetedCountryDisplay"></p>
-            <p id="troopTypeDisplay"></p>
-            <p id="troopQuantityDisplay"></p>
-            <p id="winOrLoseDisplay"></p>
-        </div>
-
-        <svg id="victoryAnimation" width="800" height="533"></svg>
 
         <script src="script.js"></script>
     </body>
