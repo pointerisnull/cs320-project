@@ -272,8 +272,11 @@ async function fetchLeaderboardData() {
     data.forEach((user) => {
         const row = `<tr>
                         <td>${user.user_name}</td>
-                        <td>${user.email}</td>
+                        <td>${user._id}</td>
                         <td>${user.balance}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
                     </tr>`;
         tbody.innerHTML += row;
     });
