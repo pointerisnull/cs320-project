@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             const avatar = document.querySelector('input[name="avatar"]:checked').value;
-            console.log(avatar);
     
             if (password !== confirmPassword) {
                 alert("Passwords do not match!");
@@ -109,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartLink = document.getElementById('cartLink');
     const logoutLink = document.getElementById('logoutLink');
     const coinIcon = document.getElementById('coin');
+    const accountImage = document.getElementById('accountImage');
 
     if (token) {
         // User is logged in
@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
         cartLink.style.display = 'block';
         logoutLink.style.display = 'block';
         coinIcon.style.display = 'block';
-
 
         // Add event listener for logout
         logoutLink.addEventListener('click', function() {
@@ -139,13 +138,17 @@ document.addEventListener('DOMContentLoaded', function () {
         cartLink.style.display = 'none';
         logoutLink.style.display = 'none';
         coinIcon.style.display = 'none';
+        accountImage.src = './Media/profile/account.png';
+        accountImage.width = "40px";
+        accountImage.height = "40px";
+        accountImage.type = "image/svg+xml";
     }
 });
 
 // These functions below deal with fetching needed data. Whether that is for the leaderboard page or the profile page or whatever else. This was absolute hell trying to figure out...
 
 // Fetch balance based on user data and display on top ui (this function should be ran on all pages on window load)
-async function fetchBalance() {
+async function fetchBalanceAndAvatar() {
     try {
         // Retrieve token from local storage
         const token = localStorage.getItem('token');
@@ -172,6 +175,52 @@ async function fetchBalance() {
 
         // Add balance on top ui
         document.getElementById('balanceTop').textContent = data.balance;
+
+        // Update account avatar
+        if(data.avatar === "P0") {
+            if(!window.location.href.includes('/html/')) {
+                accountImage.data = './html/Media/profile/topUI/account-avatar-profile-user-3-svgrepo-com.svg';  
+            }
+            else {
+                accountImage.data = './Media/profile/topUI/account-avatar-profile-user-3-svgrepo-com.svg';
+            }
+            accountImage.width = "55px";
+            accountImage.height = "55px";
+            accountImage.type = "image/svg+xml";
+        }
+        else if(data.avatar === "P1") {
+            if(!window.location.href.includes('/html/')) {
+                accountImage.data = './html/Media/profile/topUI/account-avatar-profile-user-15-svgrepo-com.svg';
+            }
+            else {
+                accountImage.data = './Media/profile/topUI/account-avatar-profile-user-15-svgrepo-com.svg';
+            }
+            accountImage.width = "55px";
+            accountImage.height = "55px";
+            accountImage.type = "image/svg+xml";
+        }
+        else if(data.avatar === "P2") {
+            if(!window.location.href.includes('/html/')) {
+                accountImage.data = './html/Media/profile/topUI/account-avatar-profile-user-16-svgrepo-com.svg';
+            }
+            else {
+                accountImage.data = './Media/profile/topUI/account-avatar-profile-user-16-svgrepo-com.svg';
+            }
+            accountImage.width = "55px";
+            accountImage.height = "55px";
+            accountImage.type = "image/svg+xml";
+        }
+        else {
+            if(!window.location.href.includes('/html/')) {
+                accountImage.src = './html/Media/profile/account.png';
+            }
+            else {
+                accountImage.src = './Media/profile/account.png';
+            }
+            accountImage.width = "40px";
+            accountImage.height = "40px";
+            accountImage.type = "image/svg+xml";
+        }
     } catch (error) {
         // Log error if fetching balance fails
         console.error('Error fetching balance:', error);

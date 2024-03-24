@@ -22,7 +22,9 @@
             <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
             <img src="./Media/Store/coin.png" id="coin" width="20px">
             <p id="balanceTop" style="margin-right:10px"></p>
-            <img src="./Media/profile/account.png" width="50px">
+			<object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px" type="image/png" class="avatar-svg">
+				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1"/>
+			</object>
             <div class="dropdown-content">
                 <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
                 <a id="signupLink" href="./signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
@@ -109,7 +111,7 @@
 <script src="./scripts/script.js"></script>
 <script>
     window.onload = function () {
-        fetchBalance(); // Fetch the balance when the page loads
+        fetchBalanceAndAvatar(); // Fetch the balance when the page loads
         checkCart();
     };
 </script>
