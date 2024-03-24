@@ -37,26 +37,45 @@
 	</div>
 
 	<h1>Tic-Tac-Toe</h1>
-
+	<!--positioning will be fixed-->
 	<div class="ui segment">
-
-		<div id="game_container" >
-			<div id="TTT">
-				<img src="./Media/gamez/TTT_SVG/TTT.svg" class="ui centered rounded image"/>
+		<div class="ui equal width grid container">
+			<div class="column" style="width: min-content; height: min-content;">
+				<div class="ui vertical icon menu">
+					<span style="font-size: 20px;">
+						<a class="item">
+							<span style="color: tomato;">
+								<i class="fa-solid fa-volume-high"></i>
+							</span>
+						</a>
+						<a class="item">
+							<span style="color: goldenrod;">
+								<i class="fa-solid fa-trophy"></i>
+							</span>
+						</a>
+					</span>
+				</div>
+			</div>
+			<div class="column" style="width: max-content; height: max-content;">
+				<div class="ui fluid container" style=" border:1px dashed black;">
+					<img src="./Media/gamez/TTT_Maps/TTT.svg" class="ui centered rounded image" />
+				</div>
 			</div>
 		</div>
 	</div>
+
 	<footer>
 		<div class="ui inverted bottom fixed menu">
 			<div class="item">
 				<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
 			</div>
 			<div class="item">
-				<p>CSS provided by Fomantic-UI</p>
+				<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a></p>
 			</div>
 		</div>
 	</footer>
 
+	<script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
 	<script src="./scripts/anim.js"></script>
 	<script src="./scripts/script.js"></script>
 
