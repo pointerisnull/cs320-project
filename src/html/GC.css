@@ -46,7 +46,8 @@ a.link:hover {
 
 /* I added this to provide some animation to the home screen. This code's purpose is to slightly elevate each ui card when hovered over. */
 .ui.horizontal.equal.width.segments:hover {
-    border: 1px solid transparent; /* Set a transparent border initially */
+    border: 1px solid transparent;
+    /* Set a transparent border initially */
 }
 
 .ui.segment {
@@ -102,43 +103,18 @@ a.link:hover {
 
 /* Add styling for the coin icon and balance */
 #coin {
-    margin-right: 5px; /* Adjust spacing between coin icon and balance */
+    margin-right: 5px;
+    /* Adjust spacing between coin icon and balance */
 }
 
-/*ad space*/
-.ad-container {
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin: 5px;
-    border-radius: 5px;
-}
-
+/* ads */
 .ad {
-    margin-bottom: 5px;
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.ad1 {
-    width: auto;
-}
-
-.ad2 {
-    width: 25%;
-    height: auto;
-    position: absolute;
-}
-
-.ad3 {
-    width: 25%;
+    padding: 10px;
+    margin: 10px;
 }
 
 /*login page styles*/
-
 .login-container {
     max-width: 400px;
     margin: 100px auto;
@@ -177,7 +153,8 @@ button:hover {
 
 .button-container {
     display: flex;
-    justify-content: space-between; /* Adjust as needed */
+    justify-content: space-between;
+    /* Adjust as needed */
 }
 
 #forgot-password-btn {
@@ -390,13 +367,15 @@ input[type="password"] {
 
 /*container, Icons, & graphics placement for each game*/
 .ui.vertical.icon.menu {
-    width: min-content; /* Or any other desired width */
+    width: min-content;
+    /* Or any other desired width */
     display: inline-block;
     position: absolute;
 }
 
 .ui.fluid.container {
-    width: 100%; /* Or any other desired width */
+    width: 100%;
+    /* Or any other desired width */
     height: 100%;
     display: inline-block;
     position: relative;
@@ -419,21 +398,31 @@ input[type="password"] {
 
 .icon {
     position: absolute;
-    top: 10%; /* Adjust as needed */
-    left: 10%; /* Adjust as needed */
+    top: 10%;
+    /* Adjust as needed */
+    left: 10%;
+    /* Adjust as needed */
 }
 
 #animateProcessing {
-    position: fixed; /* Use fixed positioning */
-    top: 40%; /* Place the top edge at the vertical center of the viewport */
-    left: 50%; /* Place the left edge at the horizontal center of the viewport */
-    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
-    z-index: 2; /* Ensure the text is on top of the SVG */
-    background-color: rgba(206, 194, 194, 0.9); /* Add a semi-transparent background */
+    position: fixed;
+    /* Use fixed positioning */
+    top: 40%;
+    /* Place the top edge at the vertical center of the viewport */
+    left: 50%;
+    /* Place the left edge at the horizontal center of the viewport */
+    transform: translate(-50%, -50%);
+    /* Move the element back by half of its own width and height */
+    z-index: 2;
+    /* Ensure the text is on top of the SVG */
+    background-color: rgba(206, 194, 194, 0.9);
+    /* Add a semi-transparent background */
     padding: 20px;
     border-radius: 10px;
-    opacity: 0; /* Start with zero opacity */
-    animation: fadeInOut 10s ease-in-out forwards; /* Animation name, duration, timing function, and fill-mode */
+    opacity: 0;
+    /* Start with zero opacity */
+    animation: fadeInOut 10s ease-in-out forwards;
+    /* Animation name, duration, timing function, and fill-mode */
 }
 
 /* Keyframes for the fadeInOut animation */
@@ -441,27 +430,35 @@ input[type="password"] {
     0% {
         opacity: 0;
     }
+
     20% {
         opacity: 1;
     }
+
     30% {
         opacity: 0.75;
     }
+
     40% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.75;
     }
+
     60% {
         opacity: 1;
     }
+
     70% {
         opacity: 0.75;
     }
+
     80% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
     }
