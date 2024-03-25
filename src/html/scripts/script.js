@@ -256,7 +256,7 @@ async function fetchBalanceAndAvatar() {
         }
     } catch (error) {
         // Log error if fetching balance fails
-        console.error('Error fetching balance:', error);
+        console.error('Error fetching balance and/or avatar:', error);
     }
 }
 
@@ -312,6 +312,32 @@ async function fetchUserData() {
 
     } catch (error) {
         console.error('Error fetching user data:', error);
+    }
+}
+
+// Function to update user information
+async function updateUser(userId, updatedInfo) {
+    try {
+
+        const response = await fetch('/update-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                updatedInfo: updatedInfo
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update user information');
+        }
+
+        const data = await response.json();
+        console.log('User information updated successfully:', data);
+    } catch (error) {
+        console.error('Error updating user information:', error);
     }
 }
 
@@ -379,6 +405,11 @@ function addToCart(item) {
     checkCart();
 }
 
+const coinPackCosts = [0.99, 2.99, 5.99, 9.99, 19.99]; // These are the exact costs of each item in increasing order.
+const coinPackNames = ['Small Coin Pack (10 Coins)', 'Medium Coin Pack (40 Coins)', 'Large Coin Pack (100 Coins)', 'Extra Large Coin Pack (250 Coins)', 'Jumbo Coin Pack (500 Coins)'];
+const coinPackAmounts = [10, 40, 100, 250, 500];
+
+
 function loadCart() {
     // Get all keys from local storage
     const keys = Object.keys(localStorage);
@@ -393,9 +424,7 @@ function loadCart() {
             // Get the quantity of the coin pack from local storage
             const quantity = parseInt(localStorage.getItem(key));
             const coinPackNumber = key;
-            const coinPackCosts = [0.99, 2.99, 5.99, 9.99, 19.99]; // These are the exact costs of each item in increasing order.
-            const coinPackAmounts = ['Small Coin Pack (10 Coins)', 'Medium Coin Pack (40 Coins)', 'Large Coin Pack (100 Coins)', 'Extra Large Coin Pack (250 Coins)', 'Jumbo Coin Pack (500 Coins)'];
-
+        
             // Calculate index for cost and amount arrays
             const index = parseInt(coinPackNumber.match(/\d+/)[0]) - 1;
 
@@ -415,7 +444,7 @@ function loadCart() {
 
             // Display quantity and coin pack name
             const itemDetails = document.createElement('p');
-            itemDetails.textContent = `${quantity} ${coinPackAmounts[index]}`;
+            itemDetails.textContent = `${quantity} ${coinPackNames[index]}`;
             cartItem.appendChild(itemDetails);
 
             // Display cost
@@ -498,6 +527,85 @@ function emptyCart() {
     window.location.href = './cart.html';
 }
 
-function buyCart() {
+async function buyCart() {
+    
+    // Get all keys from local storage
+    const keys = Object.keys(localStorage);
+    let totalOfAllCost = 0;
+
+    // Iterate over each key
+    keys.forEach(key => {
+        // Check if the key represents a coin pack
+        if (key.startsWith('coinPack')) {
+            // Get the quantity of the coin pack from local storage
+            const quantity = parseInt(localStorage.getItem(key));
+            const coinPackNumber = key;
+        
+            // Calculate index for cost and amount arrays
+            const index = parseInt(coinPackNumber.match(/\d+/)[0]) - 1;
+
+            // Calculate total cost
+            const totalCost = quantity * coinPackAmounts[index];
+
+            totalOfAllCost += totalCost;
+        }
+    });
+
+    try {
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return;
+        }
+
+        // Fetch user data using token
+        const response = await fetch('/user-data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Check if response is successful
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        // Parse response data
+        const data = await response.json();
+
+        const updatedInfo = {
+            balance: totalOfAllCost + data.balance
+        };
+
+        console.log(data._id, updatedInfo, typeof updatedInfo);
+        updateUser(data._id, updatedInfo);
+
+        // For processing animation
+
+        const animateProcessing = document.getElementById('animateProcessing');
+        const animateProcessing_head = document.getElementById('animateProcessing_head');
+        const animateProcessing_description= document.getElementById('animateProcessing_description');
+        animateProcessing.style.display = 'block';
+        animateProcessing_head.innerText = 'Proccessing Order!';
+        animateProcessing_description.innerText = 'Your order is being processed...';
+        animateProcessing.style.animation = 'none';
+        animateProcessing.offsetHeight;
+        animateProcessing.style.animation = null;
+
+        // For processing animation
+
+        setTimeout(() => {
+            emptyCart();
+            animateProcessing.style.display = 'none';
+            window.location.href('./cart.html');
+        }, 9000)
+
+
+    } catch (error) {
+        // Log error if getting data fail
+        console.error('Error fetching data:', error);
+    }
     
 }

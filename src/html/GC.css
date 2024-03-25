@@ -422,3 +422,47 @@ input[type="password"] {
     top: 10%; /* Adjust as needed */
     left: 10%; /* Adjust as needed */
 }
+
+#animateProcessing {
+    position: fixed; /* Use fixed positioning */
+    top: 40%; /* Place the top edge at the vertical center of the viewport */
+    left: 50%; /* Place the left edge at the horizontal center of the viewport */
+    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
+    z-index: 2; /* Ensure the text is on top of the SVG */
+    background-color: rgba(206, 194, 194, 0.9); /* Add a semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    opacity: 0; /* Start with zero opacity */
+    animation: fadeInOut 10s ease-in-out forwards; /* Animation name, duration, timing function, and fill-mode */
+}
+
+/* Keyframes for the fadeInOut animation */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 0.75;
+    }
+    40% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.75;
+    }
+    60% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.75;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
