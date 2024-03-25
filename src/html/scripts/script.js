@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // This if block is executed when the login form is filled out and submitted. 
+    // It will take the filled out information and send it server-side to verify the information
+    // with what is in the database. Part of the data that is sent back client-side is a token. 
+    // This token (JWT) is what shows whether a user is logged in or not. These tokens are unique to every user.
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -56,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // This if block is executed when the signup form is filled out and submitted. 
+    // It will take the filled out information and send it server-side to be inserted into the database.
     if (signUpForm) {
         signUpForm.addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -98,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to automatically login the user after signup
+    // This function should only be called when a user first signup. This function automatically logins the user after signup.
     function loginUser(username, password) {
         // Send a POST request to the server with username and password
         fetch('/html/login.html', {
@@ -128,7 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // The stuff below deals with logging in and out.
+    // The stuff below deals with logging in and out. All of this is called on every page load to 
+    // ensure that the proper links, images, etc. are displayed based on whether or not a user is logged in or not.
 
     // Retrieve token from local storage
     const token = localStorage.getItem('token');
@@ -145,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (token) {
         // User is logged in
-        // Show logout button and hide login and signup links
+        // Show logout button and hide login and signup links and display other links
         loginLink.style.display = 'none';
         signupLink.style.display = 'none';
         profileLink.style.display = 'block';
@@ -158,12 +165,12 @@ document.addEventListener('DOMContentLoaded', function () {
         logoutLink.addEventListener('click', function() {
             // Clear token from localStorage
             localStorage.clear();
-            // Redirect user to logout route (which is just our home page (i.e., index.html or '/'))
+            // Redirect user to logout route (which is just our home page (i.e., /index.html or '/'))
             window.location.href = '/';
         });
     } else {
         // User is logged out
-        // Show login and signup links and hide logout button
+        // Show login and signup links and hide other links.
         loginLink.style.display = 'block';
         signupLink.style.display = 'block';
         profileLink.style.display = 'none';
@@ -180,7 +187,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // These functions below deal with fetching needed data. Whether that is for the leaderboard page or the profile page or whatever else. This was absolute hell trying to figure out...
 
-// Fetch balance based on user data and display on top ui (this function should be ran on all pages on window load)
+// This function should be called on every page load. This function 
+// fetches the balance and avatar based on user data and display it on the top ui.
 async function fetchBalanceAndAvatar() {
     try {
         // Retrieve token from local storage
@@ -206,10 +214,11 @@ async function fetchBalanceAndAvatar() {
         // Parse response data
         const data = await response.json();
 
-        // Add balance on top ui
+        // Add balance on top ui (the top right where the drop down menu is)
         document.getElementById('balanceTop').textContent = data.balance;
 
-        // Update account avatar
+        // This massive if/else block is what changes the data attribute (this is the src location for html objects) 
+        // of the account image on each page to whatever avatar the user selected on signup.
         if(data.avatar === "P0") {
             if(!window.location.href.includes('/html/')) {
                 accountImage.data = './html/Media/profile/topUI/account-avatar-profile-user-3-svgrepo-com.svg';  
@@ -256,11 +265,11 @@ async function fetchBalanceAndAvatar() {
         }
     } catch (error) {
         // Log error if fetching balance fails
-        console.error('Error fetching balance:', error);
+        console.error('Error fetching balance and/or avatar:', error);
     }
 }
 
-// Fetch leaderboard data and update the table
+// This function is called whenever the leaderboard.html page is loaded. It fetches leaderboard data and updates the table.
 async function fetchLeaderboardData() {
     const response = await fetch('/leaderboard-data');
     const data = await response.json();
@@ -269,6 +278,7 @@ async function fetchLeaderboardData() {
     const tbody = document.querySelector('#leaderboard-table tbody');
     tbody.innerHTML = ''; // Clear existing rows
 
+    // The win/loss/games played fields are zeroed out for now.
     data.forEach((user) => {
         const row = `<tr>
                         <td>${user.user_name}</td>
@@ -282,7 +292,7 @@ async function fetchLeaderboardData() {
     });
 }
 
-// Fetch user data and update profile page
+// This function is called whenever the profile.html page is loaded. It fetches the user data and updates profile page.
 async function fetchUserData() {
     try {
         const token = localStorage.getItem('token');
@@ -315,6 +325,36 @@ async function fetchUserData() {
     }
 }
 
+// This function is called whenever a user and/or there state needs to be updated. This function to update user information 
+// is completely generalized and can be used for any type of updated data as long as that data belongs to a field in the database.
+async function updateUser(userId, updatedInfo) {
+    try {
+
+        const response = await fetch('/update-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                updatedInfo: updatedInfo
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update user information');
+        }
+
+        const data = await response.json();
+        console.log('User information updated successfully:', data);
+    } catch (error) {
+        console.error('Error updating user information:', error);
+    }
+}
+
+// This function is called when the "Add to Cart" button is pressed on the store.html page. It takes the item that is being added as a parameter. 
+// If the item already exists in the local storage (i.e., one or more of that specific item is already in the cart), then the number of that item 
+// in the local storage increases by one. If the item does not exist yet, then a new key is created and put into local storage.
 function addToCart(item) {
     if(item === "coinPack1") {
         const numberOfItem = parseInt(localStorage.getItem('coinPack1'));
@@ -379,6 +419,12 @@ function addToCart(item) {
     checkCart();
 }
 
+// These three arrays are the exact costs of each item, the names of each item, and the number of coins in each item, all in increasing order.
+const coinPackCosts = [0.99, 2.99, 5.99, 9.99, 19.99];
+const coinPackNames = ['Small Coin Pack (10 Coins)', 'Medium Coin Pack (40 Coins)', 'Large Coin Pack (100 Coins)', 'Extra Large Coin Pack (250 Coins)', 'Jumbo Coin Pack (500 Coins)'];
+const coinPackAmounts = [10, 40, 100, 250, 500];
+
+
 function loadCart() {
     // Get all keys from local storage
     const keys = Object.keys(localStorage);
@@ -393,9 +439,7 @@ function loadCart() {
             // Get the quantity of the coin pack from local storage
             const quantity = parseInt(localStorage.getItem(key));
             const coinPackNumber = key;
-            const coinPackCosts = [0.99, 2.99, 5.99, 9.99, 19.99]; // These are the exact costs of each item in increasing order.
-            const coinPackAmounts = ['Small Coin Pack (10 Coins)', 'Medium Coin Pack (40 Coins)', 'Large Coin Pack (100 Coins)', 'Extra Large Coin Pack (250 Coins)', 'Jumbo Coin Pack (500 Coins)'];
-
+        
             // Calculate index for cost and amount arrays
             const index = parseInt(coinPackNumber.match(/\d+/)[0]) - 1;
 
@@ -415,7 +459,7 @@ function loadCart() {
 
             // Display quantity and coin pack name
             const itemDetails = document.createElement('p');
-            itemDetails.textContent = `${quantity} ${coinPackAmounts[index]}`;
+            itemDetails.textContent = `${quantity} ${coinPackNames[index]}`;
             cartItem.appendChild(itemDetails);
 
             // Display cost
@@ -432,7 +476,7 @@ function loadCart() {
         }
     });
     if(isEmpty) {
-        //If the cart is empty then the cart.html page will display the following...
+        // If the cart is empty then the cart.html page will display the following...
         const emptyCartMessage = document.createElement('p');
         emptyCartMessage.textContent = 'There is nothing in your cart right now!';
         emptyCartMessage.style.textAlign = 'center';
@@ -457,6 +501,8 @@ function loadCart() {
     }
 }
 
+// This function should be called on every page load. This function is what 
+// displays (or doesn't display) the cart icon and the number indicator in the top right dropdown area.
 function checkCart() {
     // Get all keys from local storage
     const keys = Object.keys(localStorage);
@@ -471,6 +517,7 @@ function checkCart() {
         }
     });
 
+    // Handles the two cases: cart is not empty or cart is empty.
     if(totalItems != 0) {
         document.getElementById('shoppingCart').style.display = 'block';
         if(totalItems < 10) {
@@ -487,6 +534,7 @@ function checkCart() {
     }
 }
 
+// This function is called when the "Empty Cart" button is pressed on the cart.html page or within the buyCart function.
 function emptyCart() {
     const keys = Object.keys(localStorage);
 
@@ -498,6 +546,88 @@ function emptyCart() {
     window.location.href = './cart.html';
 }
 
-function buyCart() {
+// This function is called when the "Buy" button is pressed on the cart.html page.
+async function buyCart() {
+    
+    // Get all keys from local storage
+    const keys = Object.keys(localStorage);
+    let totalOfAllCost = 0;
+
+    // Iterate over each key
+    keys.forEach(key => {
+        // Check if the key represents a coin pack
+        if (key.startsWith('coinPack')) {
+            // Get the quantity of the coin pack from local storage
+            const quantity = parseInt(localStorage.getItem(key));
+            const coinPackNumber = key;
+        
+            // Calculate index for cost and amount arrays
+            const index = parseInt(coinPackNumber.match(/\d+/)[0]) - 1;
+
+            // Calculate total cost
+            const totalCost = quantity * coinPackAmounts[index];
+
+            totalOfAllCost += totalCost;
+        }
+    });
+
+    try {
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return;
+        }
+
+        // Fetch user data using token
+        const response = await fetch('/user-data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Check if response is successful
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        // Parse response data
+        const data = await response.json();
+
+        // Setups up an object with the updated info to be passed between client and server. 
+        // The updated info needs to be sent as an object as that is the argument that is required when directly updating the database.
+        const updatedInfo = {
+            balance: totalOfAllCost + data.balance
+        };
+
+        console.log(data._id, updatedInfo, typeof updatedInfo);
+        updateUser(data._id, updatedInfo);
+
+        // For processing animation (below)
+        const animateProcessing = document.getElementById('animateProcessing');
+        const animateProcessing_head = document.getElementById('animateProcessing_head');
+        const animateProcessing_description= document.getElementById('animateProcessing_description');
+        animateProcessing.style.display = 'block';
+        animateProcessing_head.innerText = 'Proccessing Order!';
+        animateProcessing_description.innerText = 'Your order is being processed...';
+        animateProcessing.style.animation = 'none';
+        animateProcessing.offsetHeight;
+        animateProcessing.style.animation = null;
+        // For processing animation (above)
+
+        // Once the "Buy" button is clicked, this setTimeout block stops the cart from clearing and 
+        // the page refreshing. This gives the appearance that the order is being processed.
+        setTimeout(() => {
+            emptyCart();
+            animateProcessing.style.display = 'none';
+            window.location.href('./cart.html');
+        }, 9000)
+
+
+    } catch (error) {
+        // Log error if buying the cart fails
+        console.error('Error with cart:', error);
+    }
     
 }

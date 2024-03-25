@@ -1,22 +1,16 @@
-2/16
-
-X start node.js file // for website
-X start database file
-  start a simple input-output text game
-
-2/27 - Sprint 1
- X Live Website (localhost?)
+Sprint 1
+X  Live Website
 X  demonstrates access to the online database through logins and passwords
-  interface for 3 games
+X  interface for 3 games
 X  space for adverts
 X  credits page
 
-3/18 - Sprint 2
-  Ads - 10 w/ links displayed randomly
-  Monetary system - charge coins to play, reward users that win games/achievements
-  Game progress - development of features in all 3 games
+Sprint 2
+X Ads - 10 w/ links displayed randomly
+X  Monetary system - charge coins to play, reward users that win games/achievements
+~  Game progress - development of features in all 3 games
   Saving game - able to save game state in persistent layer
-  Leaderboard - Show accounts w/the most wins or achievements
+X  Leaderboard - Show accounts w/the most wins or achievements
   Sound/Music - basic sounds for user feedback(clicks) & background music
-  Graphics/Animation/Interaction - Graphic development for each game
-  Report - Template is 50% complete
+X  Graphics/Animation/Interaction - Graphic development for each game
+X  Report - Template is 50% complete

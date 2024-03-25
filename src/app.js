@@ -8,6 +8,7 @@ const { handleLeaderboardRequest } = require('./handlers/leaderBoardHandler');
 const { handleUserAuthentication } = require('./handlers/authenticateUserHandler');
 const { secretKey, generateToken, verifyToken } = require('./handlers/JWTTokenHandler');
 const { handleUserDataRequest } = require('./handlers/userDataHandler');
+const { updateUser } = require('./database-scripts/User/UserUpdate');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
@@ -117,6 +118,32 @@ const server = http.createServer((req, res) => {
         handleUserDataRequest(req, res, username);
         return; // End the request here to prevent further processing
     }
+
+    // Handles the user data update request
+if (req.method === 'POST' && req.url === '/update-user') {
+    let body = '';
+    req.on('data', chunk => {
+        body += chunk.toString();
+    });
+    req.on('end', async () => {
+        try {
+            const { userId, updatedInfo } = JSON.parse(body);
+            
+            // Call the updateUser function passing the user ID and updated information
+            await updateUser(userId, updatedInfo);
+            
+            // Send a success response
+            res.statusCode = 200;
+            res.end(JSON.stringify({ message: 'User information updated successfully' }));
+        } catch (error) {
+            // Handle errors
+            console.error('Error updating user information:', error);
+            res.statusCode = 500; // Internal Server Error
+            res.end(JSON.stringify({ error: 'Failed to update user information' }));
+        }
+    });
+    return; // End the request here to prevent further processing
+}
     
     // If the URL is '/', serve Home.html
     if (req.url === '/') {
