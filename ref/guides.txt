@@ -16,7 +16,18 @@ taskkill /PID <PID> /F ~ kill port number
 node <file> ~ compile/run js file
 
 Server:
-sudo ./restart.sh ~ restart server
+SSH: ssh (username)@207.246.81.16
+RRESTARTING THE SERVER: sudo ./restart.sh
+  -If this does not work, run: chmod +x restart.sh
+  -Run again
+UPDATING THE SERVER:
+  sudo ./shutdown.sh OR sudo forever stop app.js
+  rm -rf cs320-project
+  git clone https://github.com/pointerisnull/cs320-project/
+  cd /cs320-project/src
+  sudo npm install express ~ NEEDS TO BE REINSTALLED EVERYTIME, NOT SURE WHY
+  sudo node app.js IF THIS WORKS, THEN: sudo forever start app.js
+  ELSE DEBUG ACCORDINGLY
 
 MongoDB:
 mongosh ~ start mongo
