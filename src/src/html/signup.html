@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Gamez Central</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="./GC.css">
+</head>
+
+<body class="ln">
+    <div class="ui top fixed menu">
+        <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+            <a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
+        </div>
+        <a class="item page" href="./Risk.html">Risk</a>
+        <a class="item page" href="./Chess.html">Chess</a>
+        <a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
+        <a class="item page" href="./leaderboard.html">Leaderboard</a>
+        <a class="item page" href="./credits.html">Credits</a>
+        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
+            <img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px" style="margin-right: 10px; display:none;">
+            <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
+            <img src="./Media/Store/coin.png" id="coin" width="20px">
+            <p id="balanceTop" style="margin-right:10px"></p>
+			<object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px" type="image/png" class="avatar-svg">
+				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1"/>
+			</object>
+            <div class="dropdown-content">
+                <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="signupLink" href="./signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="storeLink" href="./store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
+                <a id="cartLink" href="./cart.html" style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
+                <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" action="./signup.html" method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <div id="avatar-label">Choose your avatar:</div>
+            <div class="avatar-options">
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P0" class="avatar-input" />
+                    <object data="./Media/profile/signUp/account-avatar-profile-user-3-svgrepo-com.svg" type="image/svg+xml" class="avatar-svg">
+                        <img src="./Media/profile/account.png" alt="Avatar 1"/>
+                    </object>
+                </label>
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P1" class="avatar-input" />
+                    <object data="./Media/profile/signUp/account-avatar-profile-user-15-svgrepo-com.svg" type="image/svg+xml" class="avatar-svg">
+                        <img src="./Media/profile/account.png" alt="Avatar 2"/>
+                    </object>
+                </label>
+                <label class="avatar-option">
+                    <input type="radio" name="avatar" value="P2" class="avatar-input" />
+                    <object data="./Media/profile/signUp/account-avatar-profile-user-16-svgrepo-com.svg" type="image/svg+xml" class="avatar-svg">
+                        <img src="./Media/profile/account.png" alt="Avatar 3"/>
+                    </object>
+                </label>
+                <!-- Add more avatar options as needed -->
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+</body>
+<footer>
+    <div class="ui inverted bottom fixed menu">
+        <div class="item">
+            <p>2024 © Copyright Gamez Central. All rights Reserved.</p>
+        </div>
+        <div class="item">
+            <p>CSS provided by Fomantic-UI</p>
+        </div>
+    </div>
+</footer>
+
+<script type="module" src="./scripts/script.js"></script>
+
+<script>
+
+    // Call the function to fetch and update data when the page loads
+    window.onload = function () {
+        fetchBalanceAndAvatar();
+        checkCart();
+    };
+
+</script>
+
+</html>
