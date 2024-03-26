@@ -74,7 +74,7 @@ a.link:hover {
     text-align: right !important;
 }
 
-/* Dropdown option */
+/* Dropdown option (change to fomantic styling?) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -365,31 +365,33 @@ input[type="password"] {
     background-color: #0056b3;
 }
 
-/*container, Icons, & graphics placement for each game*/
+/* game container, Icons, & graphics placement for each game*/
 .ui.vertical.icon.menu {
     width: min-content;
-    /* Or any other desired width */
     display: inline-block;
     position: absolute;
 }
 
-.ui.fluid.container {
-    width: 100%;
-    /* Or any other desired width */
-    height: 100%;
-    display: inline-block;
+ .ui.fluid.container {
+    height: 75%;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
     position: relative;
     padding: 1px;
-}
-
-.ui.segment {
-    height: 75%;
-    width: 100%;
     overflow: hidden;
-    /* Clearfix for floated elements */
 }
 
-/*chess board & pieces*/
+.group {
+    flex: 1; /* Each group takes up equal space */
+}
+
+.item.body { /*items in game container (not nav bar items)*/
+    width: max-content;
+    position: sticky;
+}
+
+
+/*chess board & pieces (will implement game styling)*/
 .chess {
     position: relative;
     align-content: center;
