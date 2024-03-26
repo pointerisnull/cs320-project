@@ -1,0 +1,48 @@
+text {
+    fill:black;
+    font-size:12px;
+    font-weight:bold;
+    font-family: 'Nunito';
+    font-variant: small-caps;
+}
+
+polygon {
+    filter:url(#darkerEdges);
+}
+
+/* Polygon hover and countryText hover went here originally. */
+
+.North_America {
+    fill: #cce5ff; /* Light blue */
+    stroke: #0066cc; /* Dark blue border */
+}
+
+.South_America {
+    fill: #d8e9b6; /* Light green */
+    stroke: #4d9900; /* Dark green border */
+}
+
+.Europe {
+    fill: #f0d6e1; /* Light pink */
+    stroke: #cc0066; /* Dark pink border */
+}
+
+.Africa {
+    fill: #fad8be; /* Light orange */
+    stroke: #ff6633; /* Dark orange border */
+}
+
+.Asia {
+    fill: #e2f0cb; /* Light yellow */
+    stroke: #99cc00; /* Dark yellow border */
+}
+
+.Australia {
+    fill: #85c1ff; /* Light blue */
+    stroke: #0077cc; /* Dark blue border */
+}
+
+#mapContainer {
+    overflow: hidden; /* Ensure that the map contnt doesn't overflow the container */
+    transition: transform 10s;
+}
