@@ -1,9 +1,9 @@
 // Array of ad images
-var adImages = [ // need to fix sources, only works locally right now
-    "C:/Users/nesze/CS320/cs320-project-nez/src/html/Media/Ads/Deans_Deli.jpg",
-    "C:/Users/nesze/CS320/cs320-project-nez/src/html/Media/Ads/spam.jpg",
-    "C:/Users/nesze/CS320/cs320-project-nez/src/html/Media/Ads/YCP_hackslogo.jpg"
-    // Add more image URLs her
+var adImages = [
+    "../html/Media/Ads/Deans_Deli.jpg",
+    "../html/Media/Ads/spam.jpg",
+    "../html/Media/Ads/YCP_hackslogo.jpg"
+    // Add more image URLs here
 ];
 
 // Function to display a random image ad
@@ -20,6 +20,7 @@ function displayRandomAd() {
 // Call the function to display a random image ad when the page loads
  displayRandomAd();
 
+ 
 // NOT DONE Function to make AJAX request to DALL-E 3 API https://platform.openai.com/docs/guides/images/usage?context=node&lang=node.js 
 function fetchDALLEResult() {
     // Replace 'YOUR_API_KEY' with your actual API key
