@@ -4,200 +4,353 @@
 <head>
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="../chess/chess.css">
 	<link rel="stylesheet" type="text/css" href="./GC.css">
 </head>
+
+
+<body class="ln">
 	<div class="ui top fixed menu">
-		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
-			<a href="../index.html" ><img src="./Media/logo.png" width="50px"></a >
+		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+			<a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
 		</div>
 		<a class="item page" href="./Risk.html">Risk</a>
-		<a class="item page" href="./Chess.html">Chess</a>
+		<a class="item page" href="#">Chess</a>
 		<a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
 		<a class="item page" href="./leaderboard.html">Leaderboard</a>
 		<a class="item page" href="./credits.html">Credits</a>
-        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px" >
-            <img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px" style="margin-right: 10px; display:none;">
-            <p id="cartItemCount" style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;"></p>
-            <img src="./Media/Store/coin.png" id="coin" width="20px">
-            <p id="balanceTop" style="margin-right:10px"></p>
-			<object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px" type="image/png" class="avatar-svg">
-				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1"/>
+		<div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
+			<img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px"
+				style="margin-right: 10px; display:none;">
+			<p id="cartItemCount"
+				style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;">
+			</p>
+			<img src="./Media/Store/coin.png" id="coin" width="20px">
+			<p id="balanceTop" style="margin-right:10px"></p>
+			<object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px"
+				type="image/png" class="avatar-svg">
+				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1" />
 			</object>
-            <div class="dropdown-content">
-                <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="signupLink" href="./signup.html">Sign Up</a> <!--Displayed when logged out, hidden when logged in -->
-                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="storeLink" href="./store.html" style="display:none;">Store</a> <!--Hidden when logged out, showing when logged in -->
-                <a id="cartLink" href="./cart.html" style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
-                <a id="logoutLink" href="#" style="display:none;">Logout</a> <!--Hidden when logged out, showing when logged in -->
-            </div>
-        </div>
+			<div class="dropdown-content">
+				<a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+				<a id="signupLink" href="./signup.html">Sign Up</a>
+				<!--Displayed when logged out, hidden when logged in -->
+				<a id="profileLink" href="./profile.html" style="display:none;">Profile</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="storeLink" href="./store.html" style="display:none;">Store</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="cartLink" href="./cart.html"
+					style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
+				<a id="logoutLink" href="#" style="display:none;">Logout</a>
+				<!--Hidden when logged out, showing when logged in -->
+			</div>
+		</div>
 	</div>
 
-<h1>Chess</h1>
+	<h1>Chess</h1>
+	<!-- game attempt-->
+	<div class="ui container">
+		<div class="item body">
+			<div class="ui vertical icon menu"> <!--game side bar menu-->
+				<span style="font-size: 20px;"> <!-- icon color / styling-->
+					<ul style="display: inherit; padding: inherit;">
+						<li class="dropdown" style="display: block;"><!-- ::marker fix-->
+							<a class="item"> <!-- volume control -->
+								<button id="toggleBtn" style="background-color: inherit;">
+									<span style="color: tomato;">
+										<i id="icon" class="fa-solid fa-volume-xmark"></i>
+									</span>
+								</button>
+								<div class="dropdown-content"> <!-- volume slider-->
+									<input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+								</div>
+							</a>
+						</li>
+					</ul>
+					<a class="item"> <!-- Achievements? -->
+						<span style="color: goldenrod;">
+							<i class="fa-solid fa-trophy"></i>
+						</span>
+					</a>
+				</span>
+			</div>
+		</div>
+		<div class="item body" style="margin: auto;">
+			<div class="chess_board">
+				<!--row 8-->
+				<div class="square white">
+					<div class="piece rook" color="black">
+						<img src="../chess/res/rook_black.svg">
+					</div>
+				</div>
+				<div class="square black">
+					<div class="piece knight" color="black">
+						<img src="../chess/res/knight_black.svg">
+					</div>
+				</div>
+				<div class="square white">
+					<div class="piece bishop" color="black">
+						<img src="../chess/res/bishop_black.svg">
+					</div>
+				</div>
+				<div class="square black">
+					<div class="piece queen" color="black">
+						<img src="../chess/res/queen_black.svg">
+					</div>
+				</div>
+				<div class="square white">
+					<div class="piece king" color="black">
+						<img src="../chess/res/king_black.svg">
+					</div>
+				</div>
+				<div class="square black">
+					<div class="piece bishop" color="black">
+						<img src="../chess/res/bishop_black.svg">
+					</div>
+				</div>
+				<div class="square white">
+					<div class="piece knight" color="black">
+						<img src="../chess/res/knight_black.svg">
+					</div>
+				</div>
+				<div class="square black">
+					<div class="piece rook" color="black">
+						<img src="../chess/res/rook_black.svg">
+					</div>
+				</div>
+				<!--row 7-->
+				<div class="square black">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-<div class="chess"> <!--image and icons--> <!--positioning will be fixed-->
-	<img src="./Media/gamez/ChessMap.jpg" width="600" usemap="#chess" class="ui centered rounded image">
-	<a class="icon"><i class="fa-regular fa-chess-bishop"></i></a>
-	<a class="icon" style="left: 20%;"><i class="fa-regular fa-chess-king"></i></a>
-</div>
-<map name="chess">
-	<div data-tooltip="White square: a8" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="30,30,97,97"></div>
-	<div data-tooltip="Black square: a7" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="30,97,97,165"></div>
-	<div data-tooltip="White square: a6" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="30,165,97,232"></div>
-	<div data-tooltip="Black square: a5" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="30,232,97,300"></div>
-	<div data-tooltip="White square: a4" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="30,300,97,367"></div>
-	<div data-tooltip="Black square: a3" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="30,367,97,435"></div>
-	<div data-tooltip="White square: a2" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="30,435,97,502"></div>
-	<div data-tooltip="Black square: a1" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="30,502,97,570"></div>
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="Black square: b8" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="97,30,165,97"></div>
-	<div data-tooltip="White square: b7" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="97,97,165,165"></div>
-	<div data-tooltip="Black square: b6" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="97,165,165,232"></div>
-	<div data-tooltip="White square: b5" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="97,232,165,300"></div>
-	<div data-tooltip="Black square: b4" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="97,300,165,367"></div>
-	<div data-tooltip="White square: b3" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="97,367,165,435"></div>
-	<div data-tooltip="Black square: b2" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="97,435,165,502"></div>
-	<div data-tooltip="White square: b1" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="97,502,165,570"></div>
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="White square: c8" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="165,30,232,97"></div>
-	<div data-tooltip="Black square: c7" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="165,97,232,165"></div>
-	<div data-tooltip="White square: c6" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="165,165,232,232"></div>
-	<div data-tooltip="Black square: c5" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="165,232,232,300"></div>
-	<div data-tooltip="White square: c4" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="165,300,232,367"></div>
-	<div data-tooltip="Black square: c3" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="165,367,232,435"></div>
-	<div data-tooltip="White square: c2" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="165,435,232,502"></div>
-	<div data-tooltip="Black square: c1" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="165,502,232,570"></div>
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="Black square: d8" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="232,30,300,97"></div>
-	<div data-tooltip="White square: d7" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="232,97,300,165"></div>
-	<div data-tooltip="Black square: d6" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="232,165,300,232"></div>
-	<div data-tooltip="White square: d5" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="232,232,300,300"></div>
-	<div data-tooltip="Black square: d4" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="232,300,300,367"></div>
-	<div data-tooltip="White square: d3" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="232,367,300,435"></div>
-	<div data-tooltip="Black square: d2" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="232,435,300,502"></div>
-	<div data-tooltip="White square: d1" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="232,502,300,570"></div>
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="White square: e8" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="300,30,367,97"></div>
-	<div data-tooltip="Black square: e7" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="300,97,367,165"></div>
-	<div data-tooltip="White square: e6" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="300,165,367,232"></div>
-	<div data-tooltip="Black square: e5" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="300,232,367,300"></div>
-	<div data-tooltip="White square: e4" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="300,300,367,367"></div>
-	<div data-tooltip="Black square: e3" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="300,367,367,435"></div>
-	<div data-tooltip="White square: e2" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="300,435,367,502"></div>
-	<div data-tooltip="Black square: e1" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="300,502,367,570"></div>
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="Black square: f8" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="367,30,435,97"></div>
-	<div data-tooltip="White square: f7" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="367,97,435,165"></div>
-	<div data-tooltip="Black square: f6" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="367,165,435,232"></div>
-	<div data-tooltip="White square: f5" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="367,232,435,300"></div>
-	<div data-tooltip="Black square: f4" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="367,300,435,367"></div>
-	<div data-tooltip="White square: f3" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="367,367,435,435"></div>
-	<div data-tooltip="Black square: f2" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="367,435,435,502"></div>
-	<div data-tooltip="White square: f1" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="367,502,435,570"></div>
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="black">
+						<img src="../chess/res/pawn_black.svg">
+					</div>
 
-	<div data-tooltip="White square: g8" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="435,30,502,97"></div>
-	<div data-tooltip="Black square: g7" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="435,97,502,165"></div>
-	<div data-tooltip="White square: g6" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="435,165,502,232"></div>
-	<div data-tooltip="Black square: g5" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="435,232,502,300"></div>
-	<div data-tooltip="White square: g4" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="435,300,502,367"></div>
-	<div data-tooltip="Black square: g3" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="435,367,502,435"></div>
-	<div data-tooltip="White square: g2" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="435,435,502,502"></div>
-	<div data-tooltip="Black square: g1" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="435,502,502,570"></div>
+				</div>
+				<!--row 6-->
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<!--row 5-->
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<!--row 4-->
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<!--row 3-->
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<div class="square black"></div>
+				<div class="square white"></div>
+				<!--row 2-->
+				<div class="square white">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
 
-	<div data-tooltip="Black square: h8" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="502,30,570,97"></div>
-	<div data-tooltip="White square: h7" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="502,97,570,165"></div>
-	<div data-tooltip="Black square: h6" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="502,165,570,232"></div>
-	<div data-tooltip="White square: h5" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="502,232,570,300"></div>
-	<div data-tooltip="Black square: h4" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="502,300,570,367"></div>
-	<div data-tooltip="White square: h3" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="502,367,570,435"></div>
-	<div data-tooltip="Black square: h2" data-position="top center" data-variation="basic" data-inverted=""><area
-			shape="rect" coords="502,435,570,502"></div>
-	<div data-tooltip="White square: h1" data-position="top center" data-variation="basic"><area shape="rect"
-			coords="502,502,570,570"></div>
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
 
-</map>
+
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece pawn" color="white">
+						<img src="../chess/res/pawn_white.svg">
+					</div>
+
+
+				</div>
+				<!--row 1-->
+				<div class="square black">
+					<div class="piece rook" color="white">
+						<img src="../chess/res/rook_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece knight" color="white">
+						<img src="../chess/res/knight_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece bishop" color="white">
+						<img src="../chess/res/bishop_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece queen" color="white">
+						<img src="../chess/res/queen_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece king" color="white">
+						<img src="../chess/res/king_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece bishop" color="white">
+						<img src="../chess/res/bishop_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square black">
+					<div class="piece knight" color="white">
+						<img src="../chess/res/knight_white.svg">
+					</div>
+
+
+				</div>
+				<div class="square white">
+					<div class="piece rook" color="white">
+						<img src="../chess/res/rook_white.svg">
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="ad-container"><!-- will change ad placment -->
+		<!-- hardcoded -->
+	</div>
+
+	<footer>
+		<div class="ui inverted bottom fixed menu">
+			<div class="item">
+				<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
+			</div>
+			<div class="item">
+				<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com"
+						target="_blank">SVG
+						Repo</a></p>
+			</div>
+		</div>
+	</footer>
+
 </body>
-<footer>
-	<div class="ui inverted bottom fixed menu">
-		<div class="item">
-			<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
-		</div>
-		<div class="item">
-			<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a></p>
-		</div>
-	</div>
-</footer>
+
+
 
 <script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
 <script src="./scripts/script.js"></script>
+<script type="text/javascript" src="../chess/chess.js"></script>
+<script src="./scripts/audio.js"></script>
+<script src="./scripts/anim.js"></script>
+<script src="./scripts/randAds.js"></script>
 
 <script>
 
 	// Call the function to fetch and update data when the page loads
-	window.onload = function() {
+	window.onload = function () {
 		fetchBalanceAndAvatar();
 		checkCart();
 	};
