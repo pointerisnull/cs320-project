@@ -75,6 +75,10 @@ a.link:hover {
 }
 
 /* Dropdown option (change to fomantic styling?) */
+.dropdown {
+    position: relative;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
