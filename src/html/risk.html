@@ -5,15 +5,84 @@
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="./GC.css">
+
+    <style>
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999; /* Ensure the loading screen is on top */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease; /* Smooth transition for opacity */
+        }
+
+        .loading-bar {
+            width: 80%;
+            max-width: 400px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #4caf50;
+            transition: width 2s ease; /* Smooth transition for width */
+        }
+
+                /* GIF container styles */
+                .gif-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998; /* Ensure the GIF container is below the loading screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+        }
+
+        /* Hide the GIF container initially */
+        .hidden {
+            display: none;
+        }
+
+    </style>
+
 </head>
 
+<audio id="audio" src="./Media/gamez/etc/audio/Monplaisir-Soundtrack.mp3"></audio>
+
 <body class="ln">
+
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-bar">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <!-- GIF container -->
+    <div class="gif-container hidden" id="gifContainer">
+        <!-- Insert your GIF embed code here -->
+        <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%"><a href="https://tenor.com/view/risk-game-board-game-gif-10565650">Risk Game GIF</a>from <a href="https://tenor.com/search/risk-gifs">Risk GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+
     <div class="ui top fixed menu">
         <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
             <a href="../index.html" ><img src="./Media/logo.png" width="50px"></a >
         </div>
-        <a class="item page" href="#">Risk</a>
-        <a class="item page" href="./chess.html">Chess</a>
+        <a class="item page" href="./risk.html">Risk</a>
+        <a class="item page" href="../chess/index.html">Chess</a>
         <a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
         <a class="item page" href="./leaderboard.html">Leaderboard</a>
         <a class="item page" href="./credits.html">Credits</a>
@@ -38,6 +107,51 @@
 
 	<h1>Risk</h1>
 
+    <div class="ui container">
+		<div class="item body">
+			<div class="ui vertical icon menu"> <!--game side bar menu-->
+				<span style="font-size: 20px;"> <!-- icon color / styling-->
+					<ul style="display: inherit; padding: inherit;">
+						<li class="dropdown" style="display: block;"><!-- ::marker fix-->
+							<a class="item"> <!-- volume control -->
+								<button id="toggleBtn" style="background-color: inherit;">
+									<span style="color: tomato;">
+										<i id="icon" class="fa-solid fa-volume-xmark"></i>
+									</span>
+								</button>
+								<div class="dropdown-content"> <!-- volume slider-->
+									<input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+								</div>
+							</a>
+						</li>
+					</ul>
+					<a class="item"> <!-- Achievements? -->
+						<span style="color: goldenrod;">
+							<i class="fa-solid fa-trophy"></i>
+						</span>
+					</a>
+				</span>
+			</div>
+		</div>
+		<div class="item body" style="margin: auto;"> <!-- game -->
+			<div class="ui fluid container" style=" border:1px dashed black; width:800px; height:560px;">
+                <object type="text/html" data="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%" height="100%">
+                    Your browser does not support SVG
+                </object>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="ad-container"><!-- will change ad placment -->
+		<!-- hardcoded -->
+	</div>
+
+
+	<div id="output">
+		<!-- AI generated-->
+	</div>
+
 </body>
 
 <footer>
@@ -51,7 +165,11 @@
 	</div>
 </footer>
 
+<script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
+<script src="./scripts/audio.js"></script>
+<script src="./scripts/anim.js"></script>
 <script src="./scripts/script.js"></script>
+<script src="./scripts/randAds.js"></script>
 
 <script>
 
@@ -61,6 +179,40 @@
         checkCart();
 	};
 
+</script>
+
+<!-- JavaScript to simulate loading progress and show/hide loading screen -->
+<script>
+    // Simulate loading progress
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const gifContainer = document.getElementById('gifContainer');
+
+    function simulateLoading() {
+        const interval = setInterval(() => {
+            progress += 10; // Increment progress
+            progressBar.style.width = progress + '%'; // Update progress bar width
+            if (progress >= 100) {
+                clearInterval(interval); // Stop the interval when progress reaches 100%
+                setTimeout(() => {
+                    loadingScreen.style.opacity = 0; // Fade out loading screen
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none'; // Hide loading screen
+                    }, 500); // After fade out animation
+                    setTimeout(() => {
+                        gifContainer.classList.add('hidden');
+                    }, 2130); // After fade out animation
+                }, 1000); // Wait for 1 second before fading out
+            }
+        }, 500); // Interval duration
+    }
+
+    // Show the GIF container initially, then start simulating loading
+    gifContainer.classList.remove('hidden');
+    setTimeout(() => {
+        simulateLoading();
+    }, 2000); // Show GIF container after 2 seconds
 </script>
 
 </html>
