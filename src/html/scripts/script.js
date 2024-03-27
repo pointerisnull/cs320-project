@@ -416,6 +416,9 @@ function addToCart(item) {
             console.log("There are ", updatedNumberOfItem, "coinPack5s in the cart.");
         }
     }
+
+    var sound = new Audio("./Media/gamez/etc/audio/addToCart.mp3");
+    sound.play();
     checkCart();
 }
 
