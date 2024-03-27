@@ -38,4 +38,5 @@ OpenAI key: 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 ~ PROTECT
 Graphics:
 https://gsap.com/resources/svg ~ animation
 https://www.svgrepo.com/
-fontawesome.com
+https://fontawesome.com/
+https://www.canva.com/create/gif-maker/
