@@ -395,21 +395,7 @@ input[type="password"] {
 }
 
 
-/*chess board & pieces (will implement game styling)*/
-.chess {
-    position: relative;
-    align-content: center;
-    display: inline-block;
-}
-
-.icon {
-    position: absolute;
-    top: 10%;
-    /* Adjust as needed */
-    left: 10%;
-    /* Adjust as needed */
-}
-
+/*chess board & pieces*/
 #animateProcessing {
     position: fixed;
     /* Use fixed positioning */
@@ -468,4 +454,30 @@ input[type="password"] {
     100% {
         opacity: 0;
     }
+}
+
+.container.ttt {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
 }
