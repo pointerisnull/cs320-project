@@ -1,7 +1,6 @@
 body {
     margin-top: 60px !important;
     background-color: #7da674;
-    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -55,6 +54,7 @@ body {
 }
 
 /*everything not chess related*/
+
 .ln {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
