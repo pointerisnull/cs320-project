@@ -1,3 +1,16 @@
+var links = [
+    "https://www.facebook.com/people/Deans-Deli/100057077305073/",
+    "https://www.spam.com/",
+    "https://ycphacks.io/",
+    "../html/risk.html",
+    "../html/store.html",
+    "https://www.cheese.com/",
+    "https://www.meatyourmaker.com/",
+    "https://www.disney.com/",
+    "https://www.snacks.com/",
+    "../html/chess.html"
+];
+
 // Array of ad images
 var adImages = [
     "../html/Media/Ads/Deans_Deli.jpg",
@@ -20,13 +33,15 @@ function displayRandomAd() {
     adElement.classList.add("ad"); // Add a class for styling
     adElement.alt = "ad";
     adElement.src = imageUrl; // Set the image source
-    document.getElementById("ad-container").appendChild(adElement); // Append the ad to the container
+    var link = document.createElement('a');
+    link.href = links[randomIndex];
+    link.appendChild(adElement);
+    document.getElementById("ad-container").appendChild(link); // Append the ad to the container
 }
 
 // Call the function to display a random image ad when the page loads
- displayRandomAd();
+displayRandomAd();
 
- 
 // NOT DONE Function to make AJAX request to DALL-E 3 API https://platform.openai.com/docs/guides/images/usage?context=node&lang=node.js 
 function fetchDALLEResult() {
     // Replace 'YOUR_API_KEY' with your actual API key
