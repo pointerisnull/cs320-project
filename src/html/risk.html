@@ -82,7 +82,7 @@
             <a href="../index.html" ><img src="./Media/logo.png" width="50px"></a >
         </div>
         <a class="item page" href="./risk.html">Risk</a>
-        <a class="item page" href="../chess/index.html">Chess</a>
+        <a class="item page" href="./chess.html">Chess</a>
         <a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
         <a class="item page" href="./leaderboard.html">Leaderboard</a>
         <a class="item page" href="./credits.html">Credits</a>
@@ -114,13 +114,13 @@
 					<ul style="display: inherit; padding: inherit;">
 						<li class="dropdown" style="display: block;"><!-- ::marker fix-->
 							<a class="item"> <!-- volume control -->
-								<button id="toggleBtn" style="background-color: inherit;">
+								<button id="toggleBtn" onclick="togglePlayPause()" style="background-color: inherit;">
 									<span style="color: tomato;">
 										<i id="icon" class="fa-solid fa-volume-xmark"></i>
 									</span>
 								</button>
 								<div class="dropdown-content"> <!-- volume slider-->
-									<input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+									<input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)">
 								</div>
 							</a>
 						</li>
