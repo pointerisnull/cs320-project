@@ -11,6 +11,6 @@ X  Monetary system - charge coins to play, reward users that win games/achieveme
 ~  Game progress - development of features in all 3 games
   Saving game - able to save game state in persistent layer
 X  Leaderboard - Show accounts w/the most wins or achievements
-  Sound/Music - basic sounds for user feedback(clicks) & background music
+X  Sound/Music - basic sounds for user feedback(clicks) & background music
 X  Graphics/Animation/Interaction - Graphic development for each game
 X  Report - Template is 50% complete
