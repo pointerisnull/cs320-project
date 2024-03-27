@@ -2,8 +2,14 @@
 var adImages = [
     "../html/Media/Ads/Deans_Deli.jpg",
     "../html/Media/Ads/spam.jpg",
-    "../html/Media/Ads/YCP_hackslogo.jpg"
-    // Add more image URLs here
+    "../html/Media/Ads/YCP_hackslogo.jpg",
+    "../html/Media/Ads/risk.jfif",
+    "../html/Media/Ads/store.jfif",
+    "../html/Media/Ads/cheese.jfif",
+    "../html/Media/Ads/meat.jfif",
+    "../html/Media/Ads/family.jfif",
+    "../html/Media/Ads/snacks.jfif",
+    "../html/Media/Ads/chess.jfif"
 ];
 
 // Function to display a random image ad
