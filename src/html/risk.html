@@ -61,8 +61,8 @@
             display: none;
         }
 
-        /* Start screen styles */
-        .start-screen {
+        /* Start screen styles (I called it "option-screen" to generalize it more). */
+        .option-screen {
             position: absolute;
             top: 0;
             left: 0;
@@ -78,7 +78,7 @@
             font-size: 24px;
         }
 
-        .start-screen button {
+        .option-screen button {
             padding: 10px 20px;
             background-color: #4caf50;
             border: none;
@@ -181,12 +181,18 @@
         </div>
         <div id="game-container" class="item body" style="margin: auto;"> <!-- game -->
             <div id="inside-game-container" class="ui fluid container" style=" border:1px dashed black; width:800px; height:560px;">
-                <div class="start-screen" id="startScreen">
+                <div class="option-screen" id="startScreen">
                     <h1>Welcome to Risk</h1>
                     <button onclick="startGame()">Play</button>
                     <button onclick="riskSettingsPage()">Settings</button>
                     <button onclick="riskHowTo()">How to Play</button>
                     <button onclick="openFullscreen()">Fullscreen</button>
+                </div>
+                <div class="option-screen" id="gameModeOptions" style="display:none">
+                    <h1>Select Game Mode</h1>
+                    <button onclick="riskOnlineGame()">Play - Online</button>
+                    <button onclick="riskComputerGame()">Play - Computer(s)</button>
+                    <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
                 <object type="text/html" data="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%"
                     height="100%">
@@ -265,17 +271,25 @@
         simulateLoading();
     }, 2000); // Show GIF container after 2 seconds
 
-    /* Get the element you want displayed in fullscreen mode (a video in this example): */
+    function startGame() {
+        var startScreen = document.getElementById("startScreen");
+        var gameModeOptions = document.getElementById("gameModeOptions");
+
+        startScreen.style.display = 'none';
+        gameModeOptions.style.display = 'flex';
+    }
+
+    /* Get the relevant elements to be displayed in fullscreen mode*/
     var gameContainer = document.getElementById("game-container");
     var insideGameContainer = document.getElementById('inside-game-container');
     var contentWidth = insideGameContainer.style.width;
     var contentHeight = insideGameContainer.style.height;
 
-    /* When the openFullscreen() function is executed.
-    Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+    /* This functions main goal is to call the reqeustFullscreen() method. The rest of the code in the function 
+    is just making sure the content in the full screen mode is scaled and placed properly.*/
     function openFullscreen() {
         if (gameContainer.requestFullscreen) {
-                gameContainer.requestFullscreen();
+            gameContainer.requestFullscreen();
 
             // Calculate the scaling factor based on the screen width. This is just to make sure the full screen mode fits most screens.
             var screenWidth = window.screen.width;
