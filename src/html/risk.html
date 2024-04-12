@@ -90,6 +90,10 @@
             width: 30%;
         }
 
+        #riskLocalMultiplayerGameSettings button {
+
+        }
+
     </style>
 
 </head>
@@ -194,6 +198,19 @@
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
+                <div class="option-screen" id="riskLocalMultiplayerGameScreen" style="display:none;justify-content:center;align-items:center;">
+                    <h1>Choose Settings</h1>
+                    <div id="riskLocalMultiplayerGameSettings">
+                        <h2>Number of Players</h2>
+                        <button onclick="decreasePlayer()">-</button>
+                        <span id="playerCount">1</span>
+                        <button onclick="increasePlayer()">+</button>
+                        <h2>Number of AI Opponents</h2>
+                        <button onclick="decreaseAI()">-</button>
+                        <span id="aiCount">1</span>
+                        <button onclick="increaseAI()">+</button>
+                    </div>
+                </div>
                 <object type="text/html" data="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%"
                     height="100%">
                     Your browser does not support SVG
@@ -284,6 +301,69 @@
     var insideGameContainer = document.getElementById('inside-game-container');
     var contentWidth = insideGameContainer.style.width;
     var contentHeight = insideGameContainer.style.height;
+
+    /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
+    function riskLocalMultiplayerGame() {
+        var gameModeOptions = document.getElementById("gameModeOptions");
+        var riskLocalMultiplayerGameScreen = document.getElementById("riskLocalMultiplayerGameScreen");
+
+        gameModeOptions.style.display = 'none';
+        riskLocalMultiplayerGameScreen.style.display = 'flex';
+    }
+
+    var playerCount = 1; // Initial number of total players
+
+    function increasePlayer() {
+        if (playerCount < 6) {
+            if(playerCount + aiCount >= 5 && aiCount > 0) {
+                aiCount--;
+            }
+            playerCount++;
+            if(playerCount === 1 && aiCount === 0) {
+                aiCount = 1;
+            }
+            document.getElementById("playerCount").textContent = playerCount;
+            document.getElementById("aiCount").textContent = aiCount;
+        }
+    }
+
+    function decreasePlayer() {
+        if (playerCount > 1) {
+            playerCount--;
+            if(playerCount === 1 && aiCount === 0) {
+                aiCount = 1;
+            }
+            document.getElementById("playerCount").textContent = playerCount;
+            document.getElementById("aiCount").textContent = aiCount;
+        }
+    }
+
+    var aiCount = 1; // Initial number of AI opponents
+
+    function increaseAI() {
+        if (aiCount < 5) {
+            if(aiCount + playerCount >= 5 && playerCount > 1) {
+                playerCount--;
+            }
+            aiCount++;
+            if(playerCount === 1 && aiCount === 0) {
+                aiCount = 1;
+            }
+            document.getElementById("playerCount").textContent = playerCount;
+            document.getElementById("aiCount").textContent = aiCount;
+        }
+    }
+
+    function decreaseAI() {
+        if (aiCount > 0) {
+            aiCount--;
+            if(playerCount === 1 && aiCount === 0) {
+                aiCount = 1;
+            }
+            document.getElementById("playerCount").textContent = playerCount;
+            document.getElementById("aiCount").textContent = aiCount;
+        }
+    }
 
     /* This functions main goal is to call the reqeustFullscreen() method. The rest of the code in the function 
     is just making sure the content in the full screen mode is scaled and placed properly.*/
