@@ -537,6 +537,38 @@ function checkCart() {
     }
 }
 
+async function getData() {
+    try {
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Token is missing');
+        }
+
+        // Fetch user data using token
+        const response = await fetch('/user-data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Check if response is successful
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+
+        // Parse response data
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        // Log error if buying the cart fails
+        console.error('Error with cart:', error);
+        throw error;
+    }
+}
+
 // This function is called when the "Empty Cart" button is pressed on the cart.html page or within the buyCart function.
 function emptyCart() {
     const keys = Object.keys(localStorage);
