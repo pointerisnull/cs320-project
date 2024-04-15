@@ -9,6 +9,8 @@ const { handleUserAuthentication } = require('./handlers/authenticateUserHandler
 const { secretKey, generateToken, verifyToken } = require('./handlers/JWTTokenHandler');
 const { handleUserDataRequest } = require('./handlers/userDataHandler');
 const { updateUser } = require('./database-scripts/User/UserUpdate');
+const { createRiskGame } = require('./database-scripts/Risk/RiskInsert');
+const { handleLocalRiskGameDataRequest } = require('./handlers/riskLocalGameDataHandler');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
@@ -120,30 +122,65 @@ const server = http.createServer((req, res) => {
     }
 
     // Handles the user data update request
-if (req.method === 'POST' && req.url === '/update-user') {
-    let body = '';
-    req.on('data', chunk => {
-        body += chunk.toString();
-    });
-    req.on('end', async () => {
-        try {
-            const { userId, updatedInfo } = JSON.parse(body);
-            
-            // Call the updateUser function passing the user ID and updated information
-            await updateUser(userId, updatedInfo);
-            
-            // Send a success response
-            res.statusCode = 200;
-            res.end(JSON.stringify({ message: 'User information updated successfully' }));
-        } catch (error) {
-            // Handle errors
-            console.error('Error updating user information:', error);
-            res.statusCode = 500; // Internal Server Error
-            res.end(JSON.stringify({ error: 'Failed to update user information' }));
-        }
-    });
-    return; // End the request here to prevent further processing
-}
+    if (req.method === 'POST' && req.url === '/update-user') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', async () => {
+            try {
+                const { userId, updatedInfo } = JSON.parse(body);
+                
+                // Call the updateUser function passing the user ID and updated information
+                await updateUser(userId, updatedInfo);
+                
+                // Send a success response
+                res.statusCode = 200;
+                res.end(JSON.stringify({ message: 'User information updated successfully' }));
+            } catch (error) {
+                // Handle errors
+                console.error('Error updating user information:', error);
+                res.statusCode = 500; // Internal Server Error
+                res.end(JSON.stringify({ error: 'Failed to update user information' }));
+            }
+        });
+        return; // End the request here to prevent further processing
+    }
+
+    // Handles the insertion of a local risk game
+    if (req.method === 'POST' && req.url === '/insert-riskLocalGame') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', async () => {
+            try {
+                const { userId, gameInfo } = JSON.parse(body);
+                
+                // Call the updateUser function passing the user ID and updated information
+                await createRiskGame(userId, gameInfo);
+                
+                // Send a success response
+                res.statusCode = 200;
+                res.end(JSON.stringify({ message: 'Risk game inserted successfully' }));
+            } catch (error) {
+                // Handle errors
+                console.error('Error inserting risk game:', error);
+                res.statusCode = 500; // Internal Server Error
+                res.end(JSON.stringify({ error: 'Failed insert risk game' }));
+            }
+        });
+        return; // End the request here to prevent further processing
+    }
+
+    // Handles the game data get request for local risk game
+    if (req.method === 'GET' && req.url === '/riskLocalGame-data') {
+        // Extract userId from request headers
+        const userId = req.headers.authorization.split(' ')[1];
+        // Process user data request
+        handleLocalRiskGameDataRequest(req, res, userId);
+        return; // End the request here to prevent further processing
+    }
     
     // If the URL is '/', serve Home.html
     if (req.url === '/') {

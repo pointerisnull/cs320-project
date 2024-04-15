@@ -11,7 +11,7 @@ function shuffleArray(array) {
 }
 
 // Function to create a new Risk game
-async function createRiskGame(playerIds) {
+async function createRiskGame(userId, gameInfo) {
   try {
     // Connect to MongoDB
     await connectToDatabase();
@@ -68,28 +68,42 @@ async function createRiskGame(playerIds) {
     // Shuffle the territories
     const shuffledTerritories = shuffleArray(territories);
 
-    // Create a new Risk game object
-    const newGame = {
-      _id: new ObjectId(), // MongoDB will generate a unique ObjectId which will act as the gameId
-      players: playerIds.map(playerId => ({ user_id: playerId })),
-      territories: shuffledTerritories,
-      player_turn: 0, // Index of the current player in the players array
-      winner: null,
-      reinforcements: {}, // Reinforcements for each player
-      game_phase: 'initial_placement', // Game phases: 'initial_placement', 'attack', 'fortify', etc.
-      created_at: new Date(),
-      updated_at: new Date()
-    };
+    if(gameInfo.gameMode === 'Local') {
+      // Create a new Risk game object
+      const newLocalGame = {
+        _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
+        playerNames: gameInfo.playerNames,
+        territories: shuffledTerritories,
+        player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
+        winner: null,
+        reinforcements: {}, // Reinforcements for each player
+        game_phase: 'initial_placement', // Game phases: 'initial_placement', 'attack', 'fortify', etc.
+        created_at: new Date(),
+        updated_at: new Date()
+      };
 
-    // Assign territories to players in order
-    newGame.players.forEach((player, index) => {
-      newGame.territories[index].owner = player.user_id.toString();
-    });
+      // Assign territories to players in order (the math on this was suprisingly difficult...)
+      let currentIndex = 0;
+      for(let i = 0; i < newLocalGame.playerNames.length; i++) {
+          for (let j = 0; j < Math.floor(newLocalGame.territories.length / newLocalGame.playerNames.length); j++) {
+              newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i].toString();
+              currentIndex++;
+          }
+      }
 
-    // Insert the new game document into the Risk collection
-    const result = await db.collection('Risk').insertOne(newGame);
+      // Remaining territories
+      const remainingTerritories = newLocalGame.territories.length % newLocalGame.playerNames.length;
+      for(let i = 0; i < remainingTerritories; i++) {
+          newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i % newLocalGame.playerNames.length].toString();
+          currentIndex++;
+      }
 
-    console.log(`Risk game created with ID: ${result.insertedId}`);
+
+      // Insert the new game document into the Risk collection
+      const result = await db.collection('Risk').insertOne(newLocalGame);
+
+      console.log(`Risk game created with ID: ${result.insertedId}`);
+    }
   } finally {
     await client.close();
   }
