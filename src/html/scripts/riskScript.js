@@ -227,24 +227,6 @@ function updateTerritoryColors(gameData) {
             }
         }
     });
-
-    // const countries = Array.from(document.querySelectorAll('polygon'));
-    // console.log("Territory data:", gameData.territories);
-    // console.log("Polygon data: ", countries);
-    // countries.forEach((country) => {
-    //     const territory = gameData.territories.find((t) => t.name === country.id);
-    //     console.log("CountryID: ", country.id);
-    //     console.log("Territory: ", territory);
-
-    //     if(territory) {
-    //         console.log("Territory Name: ", territory.name);
-    //         console.log("Territory Owner: ", territory.owner);
-    //         const index =  gameData.playerNames.indexOf(territory.owner);
-    //         console.log("Index: ", index);
-    //         document.getElementById(country.id).style.fill = colorsFill[index];
-    //         document.getElementById(country.id).style.stroke = colorsStroke[index];
-    //     }
-    // });
 }
 
 async function getLocalRiskGameData(userId) {
