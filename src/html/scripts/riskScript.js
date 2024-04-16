@@ -204,17 +204,28 @@ async function playLocalRiskGame() {
     updateTerritoryColors(gameData);
 }
 
+
+// This function takes the gameData object (which just has all the data about this specific local game of risk from the database) 
+// and uses that to set the fill and stroke of each polygon (i.e., country) in the svg (which is embedded as an iframe which is why 
+// we can't just do 'document.getElementById(...)'). As of right now, there is no way for a player to choose his/her own color, the 
+// colors are decided based on the order of the player array or, in other words, the order in which the user puts in the player names.
 function updateTerritoryColors(gameData) {
     const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
     const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
+
+    // This below is getting all the elements from the html file that has the svg in it. Being that this html file is embedded as an iframe 
+    // in the risk.html file, we have to reference that iframe first before accessing its elements.
     const polygons = document.getElementById("riskSVGMap").contentWindow.document.getElementsByTagName("polygon");
     const polygonIds = [];
 
+    // Getting each individual polygon id (e.g., 'Alaska', 'China', etc.) from the polygons array.
     for(i = 0; i < polygons.length; i++) {
         const polygonId = polygons[i].getAttribute("id");
         polygonIds.push(polygonId);
     }
 
+    // This iterates over the territories array and over every iteration also iterates over a for-loop which is trying to find what 
+    // polygon id from the polygonIds array matches with the current 'territory' object.
     gameData.territories.forEach((territory) => {
         for(i = 0; i < gameData.territories.length; i++) {
             if(territory.name === polygonIds[i]) {
