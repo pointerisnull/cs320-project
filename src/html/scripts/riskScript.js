@@ -200,8 +200,36 @@ async function newRiskLocalGame() {
 async function playLocalRiskGame() {
     const userData = await getData();
     const gameData = await getLocalRiskGameData(userData._id);
-    console.log("Local risk game data: ", gameData._id, "  ", gameData.playerNames);
+    console.log(gameData);
     updateTerritoryColors(gameData);
+    setBanner();
+    updateBanner(gameData);
+    nextTurn();
+    checkWin();
+}
+
+const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
+const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
+
+function setBanner() {
+    document.getElementById("banner").style.display = "flex";
+}
+
+function updateBanner(gameData) {
+    var banner = document.getElementById("banner");
+    var bannerText = document.getElementById("bannerText");
+    var phase = gameData.game_phase;
+    phase = phase.charAt(0).toUpperCase() + phase.substring(1, phase.length); // Capitalize first letter
+    phase = phase.replace(/_/g, " "); // Replace underscores with spaces
+    
+    // Capitalize letter after space
+    for(i = 0; i < phase.length; i++) {
+        if(phase[i] === " ") {
+            phase = phase.substring(0, i + 1) + phase.charAt(i + 1).toUpperCase() + phase.substring(i + 2);
+        }
+    }
+
+    bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
 }
 
 
@@ -210,9 +238,6 @@ async function playLocalRiskGame() {
 // we can't just do 'document.getElementById(...)'). As of right now, there is no way for a player to choose his/her own color, the 
 // colors are decided based on the order of the player array or, in other words, the order in which the user puts in the player names.
 function updateTerritoryColors(gameData) {
-    const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
-    const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
-
     // This below is getting all the elements from the html file that has the svg in it. Being that this html file is embedded as an iframe 
     // in the risk.html file, we have to reference that iframe first before accessing its elements.
     const polygons = document.getElementById("riskSVGMap").contentWindow.document.getElementsByTagName("polygon");
@@ -230,7 +255,6 @@ function updateTerritoryColors(gameData) {
         for(i = 0; i < gameData.territories.length; i++) {
             if(territory.name === polygonIds[i]) {
                 const country = document.getElementById("riskSVGMap").contentWindow.document.getElementById(polygonIds[i]);
-                console.log(country);
                 if(country) {
                     country.style.fill = colorsFill[gameData.playerNames.indexOf(territory.owner)];
                     country.style.stroke = colorsStroke[gameData.playerNames.indexOf(territory.owner)];
