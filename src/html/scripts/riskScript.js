@@ -202,9 +202,9 @@ async function playLocalRiskGame() {
     const gameData = await getLocalRiskGameData(userData._id);
     console.log(gameData);
     updateTerritoryColors(gameData);
-    setBanner();
+    updateTerritoryInfo(gameData);
     updateBanner(gameData);
-    nextTurn();
+    nextTurn(gameData);
     checkWin();
 }
 
@@ -221,7 +221,7 @@ function updateBanner(gameData) {
     var phase = gameData.game_phase;
     phase = phase.charAt(0).toUpperCase() + phase.substring(1, phase.length); // Capitalize first letter
     phase = phase.replace(/_/g, " "); // Replace underscores with spaces
-    
+
     // Capitalize letter after space
     for(i = 0; i < phase.length; i++) {
         if(phase[i] === " ") {
@@ -230,6 +230,10 @@ function updateBanner(gameData) {
     }
 
     bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
+}
+
+function nextTurn(gameData) {
+
 }
 
 
@@ -262,6 +266,38 @@ function updateTerritoryColors(gameData) {
             }
         }
     });
+}
+
+// Function to update each individual country and its info and set up the "info box" and hover events.
+function updateTerritoryInfo(gameData) {
+    const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
+    Array.from(polygons).forEach(polygon => {
+        polygon.addEventListener('mouseenter', (event) => handlePolygonHover(event, gameData));
+        polygon.addEventListener('mouseleave', () => {
+            document.getElementById('infoBox').style.display = 'none';
+        });
+    });
+}
+
+// Function to handle mouse hover over polygons
+function handlePolygonHover(event, gameData) {
+    const polygon = event.target;
+    const country = polygon.id;
+    console.log(polygon, "  ", country);
+    const infoBox = document.getElementById('infoBox');
+    gameData.territories.forEach((territory) => {
+        if (territory.name === country) {
+            infoBox.innerHTML = `
+                <div>Owner: ${territory.owner}</div>
+                <div>Troop Count: ${territory.armies}</div>
+            `;
+        }
+    });
+    infoBox.style.display = 'block';
+    // Position the info box near the hovered polygon
+    const rect = polygon.getBoundingClientRect();
+    infoBox.style.top = rect.top + 'px';
+    infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
 }
 
 async function getLocalRiskGameData(userId) {
