@@ -19,51 +19,51 @@ async function createRiskGame(userId, gameInfo) {
     // Create a new Risk game object
     const db = client.db();
 
-    // Define the game board and initial state
+    // Territories to be shuffled and assigned
     const territories = [
-        { name: 'Alaska', owner: null, armies: 3 },
-        { name: 'North West Territory', owner: null, armies: 2 },
-        { name: 'Alberta', owner: null, armies: 3 },
-        { name: 'Ontario', owner: null, armies: 2 },
-        { name: 'Quebec', owner: null, armies: 3 },
-        { name: 'Greenland', owner: null, armies: 2 },
-        { name: 'Western United States', owner: null, armies: 3 },
-        { name: 'Eastern United States', owner: null, armies: 2 },
-        { name: 'Central America', owner: null, armies: 3 },
-        { name: 'Venezuela', owner: null, armies: 2 },
-        { name: 'Brazil', owner: null, armies: 3 },
-        { name: 'Peru', owner: null, armies: 2 },
-        { name: 'Argentina', owner: null, armies: 3 },
-        { name: 'Iceland', owner: null, armies: 2 },
-        { name: 'Great Britain', owner: null, armies: 3 },
-        { name: 'Western Europe', owner: null, armies: 2 },
-        { name: 'Southern Europe', owner: null, armies: 3 },
-        { name: 'Northern Europe', owner: null, armies: 2 },
-        { name: 'Scandinavia', owner: null, armies: 3 },
-        { name: 'Ukraine', owner: null, armies: 2 },
-        { name: 'Ural', owner: null, armies: 3 },
-        { name: 'Serbia', owner: null, armies: 2 },
-        { name: 'Yakutsk', owner: null, armies: 3 },
-        { name: 'Kamchatka', owner: null, armies: 2 },
-        { name: 'Irkutsk', owner: null, armies: 3 },
-        { name: 'Mongolia', owner: null, armies: 2 },
-        { name: 'Afghanistan', owner: null, armies: 3 },
-        { name: 'China', owner: null, armies: 2 },
-        { name: 'India', owner: null, armies: 3 },
-        { name: 'Slam', owner: null, armies: 2 },
-        { name: 'Japan', owner: null, armies: 3 },
-        { name: 'Middle East', owner: null, armies: 2 },
-        { name: 'Egypt', owner: null, armies: 2 },
-        { name: 'East Africa', owner: null, armies: 3 },
-        { name: 'Congo', owner: null, armies: 2 },
-        { name: 'South Africa', owner: null, armies: 3 },
-        { name: 'North Africa', owner: null, armies: 2 },
-        { name: 'Madagascar', owner: null, armies: 3 },
-        { name: 'Indonesia', owner: null, armies: 2 },
-        { name: 'New Guinea', owner: null, armies: 3 },
-        { name: 'Western Australia', owner: null, armies: 2 },
-        { name: 'Eastern Australia', owner: null, armies: 2 }
-      ];
+      { name: 'Alaska', owner: null, armies: 3 },
+      { name: 'North West Territory', owner: null, armies: 2 },
+      { name: 'Alberta', owner: null, armies: 3 },
+      { name: 'Ontario', owner: null, armies: 2 },
+      { name: 'Quebec', owner: null, armies: 3 },
+      { name: 'Greenland', owner: null, armies: 2 },
+      { name: 'Western United States', owner: null, armies: 3 },
+      { name: 'Eastern United States', owner: null, armies: 2 },
+      { name: 'Central America', owner: null, armies: 3 },
+      { name: 'Venezuela', owner: null, armies: 2 },
+      { name: 'Brazil', owner: null, armies: 3 },
+      { name: 'Peru', owner: null, armies: 2 },
+      { name: 'Argentina', owner: null, armies: 3 },
+      { name: 'Iceland', owner: null, armies: 2 },
+      { name: 'Great Britain', owner: null, armies: 3 },
+      { name: 'Western Europe', owner: null, armies: 2 },
+      { name: 'Southern Europe', owner: null, armies: 3 },
+      { name: 'Northern Europe', owner: null, armies: 2 },
+      { name: 'Scandinavia', owner: null, armies: 3 },
+      { name: 'Ukraine', owner: null, armies: 2 },
+      { name: 'Ural', owner: null, armies: 3 },
+      { name: 'Serbia', owner: null, armies: 2 },
+      { name: 'Yakutsk', owner: null, armies: 3 },
+      { name: 'Kamchatka', owner: null, armies: 2 },
+      { name: 'Irkutsk', owner: null, armies: 3 },
+      { name: 'Mongolia', owner: null, armies: 2 },
+      { name: 'Afghanistan', owner: null, armies: 3 },
+      { name: 'China', owner: null, armies: 2 },
+      { name: 'India', owner: null, armies: 3 },
+      { name: 'Slam', owner: null, armies: 2 },
+      { name: 'Japan', owner: null, armies: 3 },
+      { name: 'Middle East', owner: null, armies: 2 },
+      { name: 'Egypt', owner: null, armies: 2 },
+      { name: 'East Africa', owner: null, armies: 3 },
+      { name: 'Congo', owner: null, armies: 2 },
+      { name: 'South Africa', owner: null, armies: 3 },
+      { name: 'North Africa', owner: null, armies: 2 },
+      { name: 'Madagascar', owner: null, armies: 3 },
+      { name: 'Indonesia', owner: null, armies: 2 },
+      { name: 'New Guinea', owner: null, armies: 3 },
+      { name: 'Western Australia', owner: null, armies: 2 },
+      { name: 'Eastern Australia', owner: null, armies: 2 }
+    ];
 
     // Shuffle the territories
     const shuffledTerritories = shuffleArray(territories);
@@ -77,7 +77,7 @@ async function createRiskGame(userId, gameInfo) {
         player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
         winner: null,
         reinforcements: {}, // Reinforcements for each player
-        game_phase: 'initial_placement', // Game phases: 'initial_placement', 'attack', 'fortify', etc.
+        game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
         created_at: new Date(),
         updated_at: new Date()
       };
@@ -98,7 +98,25 @@ async function createRiskGame(userId, gameInfo) {
         currentIndex++;
       }
 
-      // Assign troops to territories
+      // create a collection named 'regions' with documents representing polygon regions
+
+      // 1. Create a 2D geospatial index on the polygon coordinates
+      db.regions.createIndex({ "geometry.coordinates": "2dsphere" });
+
+      // 2. Query for adjacent regions based on a given region
+      const adjacentRegions = db.regions.find({
+        geometry: {
+          $geoIntersects: {
+            $geometry: {
+              type: "Polygon",
+              coordinates: [/* Coordinates of the given polygon */]
+            }
+          }
+        }
+      });
+
+      // Process the adjacentRegions result as needed
+
 
       // Insert the new game document into the Risk collection
       const result = await db.collection('Risk').insertOne(newLocalGame);
