@@ -16,7 +16,7 @@ async function createRiskGame(userId, gameInfo) {
     // Connect to MongoDB
     await connectToDatabase();
 
-    // Create a new Chess game object
+    // Create a new Risk game object
     const db = client.db();
 
     // Territories to be shuffled and assigned
@@ -68,7 +68,7 @@ async function createRiskGame(userId, gameInfo) {
     // Shuffle the territories
     const shuffledTerritories = shuffleArray(territories);
 
-    if(gameInfo.gameMode === 'Local') {
+    if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
       const newLocalGame = {
         _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
@@ -84,19 +84,38 @@ async function createRiskGame(userId, gameInfo) {
 
       // Assign territories to players in order (the math on this was suprisingly difficult...)
       let currentIndex = 0;
-      for(let i = 0; i < newLocalGame.playerNames.length; i++) {
-          for (let j = 0; j < Math.floor(newLocalGame.territories.length / newLocalGame.playerNames.length); j++) {
-              newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i].toString();
-              currentIndex++;
-          }
+      for (let i = 0; i < newLocalGame.playerNames.length; i++) {
+        for (let j = 0; j < Math.floor(newLocalGame.territories.length / newLocalGame.playerNames.length); j++) {
+          newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i].toString();
+          currentIndex++;
+        }
       }
 
       // Remaining territories
       const remainingTerritories = newLocalGame.territories.length % newLocalGame.playerNames.length;
-      for(let i = 0; i < remainingTerritories; i++) {
-          newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i % newLocalGame.playerNames.length].toString();
-          currentIndex++;
+      for (let i = 0; i < remainingTerritories; i++) {
+        newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i % newLocalGame.playerNames.length].toString();
+        currentIndex++;
       }
+
+      // create a collection named 'regions' with documents representing polygon regions
+
+      // 1. Create a 2D geospatial index on the polygon coordinates
+      db.regions.createIndex({ "geometry.coordinates": "2dsphere" });
+
+      // 2. Query for adjacent regions based on a given region
+      const adjacentRegions = db.regions.find({
+        geometry: {
+          $geoIntersects: {
+            $geometry: {
+              type: "Polygon",
+              coordinates: [/* Coordinates of the given polygon */]
+            }
+          }
+        }
+      });
+
+      // Process the adjacentRegions result as needed
 
 
       // Insert the new game document into the Risk collection
