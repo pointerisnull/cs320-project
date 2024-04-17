@@ -202,10 +202,11 @@ async function playLocalRiskGame() {
     const gameData = await getLocalRiskGameData(userData._id);
     console.log(gameData);
     updateTerritoryColors(gameData);
-    updateTerritoryInfo(gameData);
+    setInfoBox(gameData);
+    setBanner();
     updateBanner(gameData);
     nextTurn(gameData);
-    checkWin();
+    checkWin(gameData);
 }
 
 const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
@@ -216,7 +217,6 @@ function setBanner() {
 }
 
 function updateBanner(gameData) {
-    var banner = document.getElementById("banner");
     var bannerText = document.getElementById("bannerText");
     var phase = gameData.game_phase;
     phase = phase.charAt(0).toUpperCase() + phase.substring(1, phase.length); // Capitalize first letter
@@ -232,7 +232,31 @@ function updateBanner(gameData) {
     bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
 }
 
+// The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn(gameData) {
+    reinforcementPhase(gameData);
+}
+
+function reinforcementPhase(gameData) {
+    var bannerText = document.getElementById("bannerText");
+    const currentPlayer = gameData.player_turn;
+    var numberOfTerritories = 0;
+    gameData.territories.forEach((territory) => {
+        if(territory.owner === currentPlayer) {
+            numberOfTerritories++;
+        }
+    })
+    var numberOfReinforcements = Math.max(Math.floor(numberOfTerritories / 3), 3);
+    gameData.reinforcements = numberOfReinforcements;
+    bannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
+
+    const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
+    Array.from(polygons).forEach(polygon => {
+        polygon.addEventListener('click', (event) => handlePolygonClick(event, gameData));
+    });
+}
+
+function checkWin(gameData) {
 
 }
 
@@ -269,7 +293,7 @@ function updateTerritoryColors(gameData) {
 }
 
 // Function to update each individual country and its info and set up the "info box" and hover events.
-function updateTerritoryInfo(gameData) {
+function setInfoBox(gameData) {
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
         polygon.addEventListener('mouseenter', (event) => handlePolygonHover(event, gameData));
@@ -283,7 +307,6 @@ function updateTerritoryInfo(gameData) {
 function handlePolygonHover(event, gameData) {
     const polygon = event.target;
     const country = polygon.id;
-    console.log(polygon, "  ", country);
     const infoBox = document.getElementById('infoBox');
     gameData.territories.forEach((territory) => {
         if (territory.name === country) {
@@ -296,8 +319,36 @@ function handlePolygonHover(event, gameData) {
     infoBox.style.display = 'block';
     // Position the info box near the hovered polygon
     const rect = polygon.getBoundingClientRect();
-    infoBox.style.top = rect.top + 'px';
-    infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
+    if(rect.right >= 600) {
+        infoBox.style.top = rect.top + 'px';
+        infoBox.style.left = rect.left - 100 + 'px'; // Position it to the right of the polygon
+    }
+    else {
+        infoBox.style.top = rect.top + 'px';
+        infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
+    }
+}
+
+function handlePolygonClick(event, gameData) {
+    const polygon = event.target;
+    const country = polygon.id;
+    var bannerText = document.getElementById("bannerText");
+    if(gameData.reinforcements > 0) {
+        gameData.territories.forEach((territory) => {
+            if(territory.name === country) {
+                if(gameData.player_turn === territory.owner) {
+                    gameData.reinforcements--;
+                    territory.armies += 1;
+                    updateBanner(gameData);
+                    bannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
+                }
+            }
+        });
+    }
+    else {
+        console.log("Reinforcement phase over...");
+        gameData.reinforcements = -1;
+    }
 }
 
 async function getLocalRiskGameData(userId) {

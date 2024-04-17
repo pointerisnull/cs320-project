@@ -77,7 +77,7 @@ async function createRiskGame(userId, gameInfo) {
         player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
         winner: null,
         reinforcements: {}, // Reinforcements for each player
-        game_phase: 'initial_placement', // Game phases: 'initial_placement', 'attack', 'fortify', etc.
+        game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
         created_at: new Date(),
         updated_at: new Date()
       };
