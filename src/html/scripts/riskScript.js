@@ -29,12 +29,14 @@
 //     simulateLoading();
 // }, 2000); // Show GIF container after 2 seconds
 
+
+// This function is called when the "Play Game" button is pushed on the start screen.
 function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
-    var gameModeOptions = document.getElementById("gameModeOptions");
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
 
     startScreen.style.display = 'none';
-    gameModeOptions.style.display = 'flex';
+    gameModeOptionsScreen.style.display = 'flex';
 }
 
 /* Get the relevant elements to be displayed in fullscreen mode*/
@@ -45,10 +47,10 @@ var contentHeight = insideGameContainer.style.height;
 
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
-    var gameModeOptions = document.getElementById("gameModeOptions");
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     var riskLocalMultiplayerGameSettings = document.getElementById("riskLocalMultiplayerGameSettings");
 
-    gameModeOptions.style.display = 'none';
+    gameModeOptionsScreen.style.display = 'none';
     riskLocalMultiplayerGameSettings.style.display = 'flex';
 }
 
@@ -145,7 +147,7 @@ var playerNames = [];
         if (playerIndex < playerCount - 1) {
             generatePlayerNameInput(playerIndex + 1);
         } else {
-            // If all players have entered their names, do something (e.g., start the game)
+            // If all players have entered their names, this block of code is ran which will involve a call to the newRiskLocalGame() function.
             console.log("All player names submitted:", playerNames);
             playersNamesDiv.style.display = 'none';
             risklocalMultiplayerGameSettingsScreen.style.display = 'none';
@@ -155,6 +157,8 @@ var playerNames = [];
     playersNamesDiv.appendChild(submitButton);
 }
 
+// This function takes all the game info listed out above (i.e., number of players, number of ai, etc.) and uses a post request to send it server-side, 
+// which it will then be sent as a parameter to the RiskInsert.js file and then used to create a new document in the Risk collection in our database.
 async function newRiskLocalGame() {
     if(aiCount > 0) {
         for(i = 1; i <= aiCount; i++) {
@@ -196,7 +200,8 @@ async function newRiskLocalGame() {
 }
 
 // Originally I had two functions: startRiskLocalGame() and resumeRiskLocalGame(), I decided to combine them and 
-// generalize them for simplification purposes. Anyway, this function gets the userData to then get the game info.
+// generalize them for simplification purposes. Anyway, this function gets the userData to then get the game data 
+// and calls the neccessary starting functions to setup the game screen.
 async function playLocalRiskGame() {
     const userData = await getData();
     const gameData = await getLocalRiskGameData(userData._id);
@@ -212,6 +217,8 @@ async function playLocalRiskGame() {
 const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
 const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
 
+// These next two functions (setBanner() and updateBanner()) displays and updates the banner that shows on the top of 
+// the game container. The banner displays relevant information (i.e., whose turn it is and their color, phase, phase information, etc.).
 function setBanner() {
     document.getElementById("banner").style.display = "flex";
 }
@@ -232,11 +239,14 @@ function updateBanner(gameData) {
     bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
 }
 
+// This function is called when the next turn is ready to be played. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn(gameData) {
     reinforcementPhase(gameData);
 }
 
+// This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
+// the game data, and sets the ability to click on polygons (which is used to divvy out reinforcements by the user).
 function reinforcementPhase(gameData) {
     console.log("Reinforcement phase starting...")
     var bannerText = document.getElementById("bannerText");
@@ -257,6 +267,7 @@ function reinforcementPhase(gameData) {
     });
 }
 
+// This function encompasses the entire attack phase. It updates the banner (I will finish the comment when I finish this function)...
 function attackPhase(gameData) {
     console.log("Attack phase starting...")
     gameData.game_phase = 'attack';
@@ -270,6 +281,7 @@ function attackPhase(gameData) {
 
 }
 
+// This function is called at the end of every turn to check if a player has won or not.
 function checkWin(gameData) {
 
 }
@@ -343,6 +355,7 @@ function handlePolygonHover(event, gameData) {
     }
 }
 
+// Function to handle mouse click on polygons
 function handlePolygonClick(event, gameData) {
     const polygon = event.target;
     const country = polygon.id;
@@ -376,6 +389,7 @@ function handlePolygonClick(event, gameData) {
     }
 }
 
+// This function is used to fetch the game data of a local game of risk from the database using a get request to the server.
 async function getLocalRiskGameData(userId) {
     try {
         // Fetch user data using token
