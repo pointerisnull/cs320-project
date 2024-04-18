@@ -98,24 +98,24 @@ async function createRiskGame(userId, gameInfo) {
         currentIndex++;
       }
 
-      // create a collection named 'regions' with documents representing polygon regions
+      // // create a collection named 'regions' with documents representing polygon regions
 
-      // 1. Create a 2D geospatial index on the polygon coordinates
-      db.regions.createIndex({ "geometry.coordinates": "2dsphere" });
+      // // 1. Create a 2D geospatial index on the polygon coordinates
+      // db.regions.createIndex({ "geometry.coordinates": "2dsphere" });
 
-      // 2. Query for adjacent regions based on a given region
-      const adjacentRegions = db.regions.find({
-        geometry: {
-          $geoIntersects: {
-            $geometry: {
-              type: "Polygon",
-              coordinates: [/* Coordinates of the given polygon */]
-            }
-          }
-        }
-      });
+      // // 2. Query for adjacent regions based on a given region
+      // const adjacentRegions = db.regions.find({
+      //   geometry: {
+      //     $geoIntersects: {
+      //       $geometry: {
+      //         type: "Polygon",
+      //         coordinates: [/* Coordinates of the given polygon */]
+      //       }
+      //     }
+      //   }
+      // });
 
-      // Process the adjacentRegions result as needed
+      // // Process the adjacentRegions result as needed
 
 
       // Insert the new game document into the Risk collection

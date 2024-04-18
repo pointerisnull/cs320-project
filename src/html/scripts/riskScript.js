@@ -1,33 +1,33 @@
-// Simulate loading progress
-let progress = 0;
-const progressBar = document.getElementById('progressBar');
-const loadingScreen = document.getElementById('loadingScreen');
-const gifContainer = document.getElementById('gifContainer');
+// // Simulate loading progress
+// let progress = 0;
+// const progressBar = document.getElementById('progressBar');
+// const loadingScreen = document.getElementById('loadingScreen');
+// const gifContainer = document.getElementById('gifContainer');
 
-function simulateLoading() {
-    const interval = setInterval(() => {
-        progress += 10; // Increment progress
-        progressBar.style.width = progress + '%'; // Update progress bar width
-        if (progress >= 100) {
-            clearInterval(interval); // Stop the interval when progress reaches 100%
-            setTimeout(() => {
-                loadingScreen.style.opacity = 0; // Fade out loading screen
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none'; // Hide loading screen
-                }, 500); // After fade out animation
-                setTimeout(() => {
-                    gifContainer.classList.add('hidden');
-                }, 2130); // After fade out animation
-            }, 1000); // Wait for 1 second before fading out
-        }
-    }, 500); // Interval duration
-}
+// function simulateLoading() {
+//     const interval = setInterval(() => {
+//         progress += 10; // Increment progress
+//         progressBar.style.width = progress + '%'; // Update progress bar width
+//         if (progress >= 100) {
+//             clearInterval(interval); // Stop the interval when progress reaches 100%
+//             setTimeout(() => {
+//                 loadingScreen.style.opacity = 0; // Fade out loading screen
+//                 setTimeout(() => {
+//                     loadingScreen.style.display = 'none'; // Hide loading screen
+//                 }, 500); // After fade out animation
+//                 setTimeout(() => {
+//                     gifContainer.classList.add('hidden');
+//                 }, 2130); // After fade out animation
+//             }, 1000); // Wait for 1 second before fading out
+//         }
+//     }, 500); // Interval duration
+// }
 
-// Show the GIF container initially, then start simulating loading
-gifContainer.classList.remove('hidden');
-setTimeout(() => {
-    simulateLoading();
-}, 2000); // Show GIF container after 2 seconds
+// // Show the GIF container initially, then start simulating loading
+// gifContainer.classList.remove('hidden');
+// setTimeout(() => {
+//     simulateLoading();
+// }, 2000); // Show GIF container after 2 seconds
 
 function startGame() {
     var startScreen = document.getElementById("startScreen");
@@ -238,6 +238,7 @@ function nextTurn(gameData) {
 }
 
 function reinforcementPhase(gameData) {
+    console.log("Reinforcement phase starting...")
     var bannerText = document.getElementById("bannerText");
     const currentPlayer = gameData.player_turn;
     var numberOfTerritories = 0;
@@ -254,6 +255,19 @@ function reinforcementPhase(gameData) {
     Array.from(polygons).forEach(polygon => {
         polygon.addEventListener('click', (event) => handlePolygonClick(event, gameData));
     });
+}
+
+function attackPhase(gameData) {
+    console.log("Attack phase starting...")
+    gameData.game_phase = 'attack';
+    updateBanner(gameData);
+
+    const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
+    Array.from(polygons).forEach(polygon => {
+        polygon.addEventListener('click', (event) => handlePolygonClick(event, gameData));
+    });
+
+
 }
 
 function checkWin(gameData) {
@@ -333,7 +347,8 @@ function handlePolygonClick(event, gameData) {
     const polygon = event.target;
     const country = polygon.id;
     var bannerText = document.getElementById("bannerText");
-    if(gameData.reinforcements > 0) {
+    
+    if(gameData.reinforcements > 0 && gameData.game_phase === 'reinforcement') {
         gameData.territories.forEach((territory) => {
             if(territory.name === country) {
                 if(gameData.player_turn === territory.owner) {
@@ -341,13 +356,23 @@ function handlePolygonClick(event, gameData) {
                     territory.armies += 1;
                     updateBanner(gameData);
                     bannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
+                    if(gameData.reinforcements === 0) {
+                        console.log("Reinforcement phase over...");
+                        attackPhase(gameData);
+                    }
                 }
             }
         });
     }
-    else {
-        console.log("Reinforcement phase over...");
-        gameData.reinforcements = -1;
+
+    if(gameData.game_phase === 'attack') {
+        gameData.territories.forEach((territory) => {
+            if(territory.name === country) {
+                if(gameData.player_turn === territory.owner) {
+
+                }
+            }
+        });
     }
 }
 
