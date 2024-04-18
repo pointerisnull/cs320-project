@@ -29,7 +29,7 @@
 //     simulateLoading();
 // }, 2000); // Show GIF container after 2 seconds
 
-function startGame() {
+function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
     var gameModeOptions = document.getElementById("gameModeOptions");
 
@@ -56,7 +56,7 @@ var playerCount = 1; // Initial number of total players
 
 function increasePlayer() {
     if (playerCount < 6) {
-        if(playerCount + aiCount >= 5 && aiCount > 0) {
+        if(playerCount + aiCount >= 6 && aiCount > 0) {
             aiCount--;
         }
         playerCount++;
@@ -83,7 +83,7 @@ var aiCount = 1; // Initial number of AI opponents
 
 function increaseAI() {
     if (aiCount < 5) {
-        if(aiCount + playerCount >= 5 && playerCount > 1) {
+        if(aiCount + playerCount >= 6 && playerCount > 1) {
             playerCount--;
         }
         aiCount++;
