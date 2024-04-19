@@ -103,20 +103,20 @@
 <body class="ln">
 
     <!-- Loading screen -->
-    <div class="loading-screen" id="loadingScreen">
+    <!-- <div class="loading-screen" id="loadingScreen">
         <div class="loading-bar">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-    </div>
+    </div> -->
 
     <!-- GIF container -->
-    <div class="gif-container hidden" id="gifContainer">
-        <!-- Insert your GIF embed code here -->
-        <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778"
+    <!-- <div class="gif-container hidden" id="gifContainer"> -->
+        <!-- GIF embed code -->
+        <!-- <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778"
             data-width="100%"><a href="https://tenor.com/view/risk-game-board-game-gif-10565650">Risk Game GIF</a>from
             <a href="https://tenor.com/search/risk-gifs">Risk GIFs</a></div>
         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
+    </div> -->
 
     <div class="ui top fixed menu">
         <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
@@ -187,12 +187,12 @@
             <div id="inside-game-container" class="ui fluid container" style=" border:1px dashed black; width:800px; height:560px;">
                 <div class="option-screen" id="startScreen">
                     <h1>Welcome to Risk</h1>
-                    <button onclick="startGame()">Play</button>
-                    <button onclick="riskSettingsPage()">Settings</button>
+                    <button onclick="selectGameModeScreen()">Play</button>
+                    <button onclick="riskSettingsScreen()">Settings</button>
                     <button onclick="riskHowTo()">How to Play</button>
                     <button onclick="openFullscreen()">Fullscreen</button>
                 </div>
-                <div class="option-screen" id="gameModeOptions" style="display:none">
+                <div class="option-screen" id="gameModeOptionsScreen" style="display:none">
                     <h1>Select Game Mode</h1>
                     <button onclick="riskOnlineGame()">Play - Online</button>
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
@@ -250,11 +250,17 @@
 </footer>
 
 <script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
-<script src="./scripts/audio.js"></script>
-<script src="./scripts/anim.js"></script>
-<script src="./scripts/script.js"></script>
-<script src="./scripts/randAds.js"></script>
-<script src="./scripts/riskScript.js"></script>
+<script src="./scripts/store/cart.js"></script>
+<script src="./scripts/gamez/audio.js"></script>
+<script src="./scripts/gamez/Risk/Risk_initiate.js"></script>
+<script src="./scripts/gamez/Risk/Risk_rules.js"></script>
+<script src="./scripts/gamez/Risk/Risk_GUI.js"></script>
+
+<script src="./scripts/User/signUp_Login.js"></script>
+<script src="./scripts/Ads/randAds.js"></script>
+
+<script src="./scripts/gamez/fullScreen.js"></script>
+<script src="./scripts/gamez/load.js"></script>
 
 <script>
 
