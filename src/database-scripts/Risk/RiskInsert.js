@@ -42,7 +42,7 @@ async function createRiskGame(userId, gameInfo) {
       { name: 'Scandinavia', owner: null, armies: 3 },
       { name: 'Ukraine', owner: null, armies: 2 },
       { name: 'Ural', owner: null, armies: 3 },
-      { name: 'Serbia', owner: null, armies: 2 },
+      { name: 'Siberia', owner: null, armies: 2 },
       { name: 'Yakutsk', owner: null, armies: 3 },
       { name: 'Kamchatka', owner: null, armies: 2 },
       { name: 'Irkutsk', owner: null, armies: 3 },
@@ -50,7 +50,7 @@ async function createRiskGame(userId, gameInfo) {
       { name: 'Afghanistan', owner: null, armies: 3 },
       { name: 'China', owner: null, armies: 2 },
       { name: 'India', owner: null, armies: 3 },
-      { name: 'Slam', owner: null, armies: 2 },
+      { name: 'Siam', owner: null, armies: 2 },
       { name: 'Japan', owner: null, armies: 3 },
       { name: 'Middle East', owner: null, armies: 2 },
       { name: 'Egypt', owner: null, armies: 2 },
@@ -82,20 +82,10 @@ async function createRiskGame(userId, gameInfo) {
         updated_at: new Date()
       };
 
-      // Assign territories to players in order (the math on this was suprisingly difficult...)
-      let currentIndex = 0;
-      for (let i = 0; i < newLocalGame.playerNames.length; i++) {
-        for (let j = 0; j < Math.floor(newLocalGame.territories.length / newLocalGame.playerNames.length); j++) {
-          newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i].toString();
-          currentIndex++;
-        }
-      }
-
-      // Remaining territories
-      const remainingTerritories = newLocalGame.territories.length % newLocalGame.playerNames.length;
-      for (let i = 0; i < remainingTerritories; i++) {
-        newLocalGame.territories[currentIndex].owner = newLocalGame.playerNames[i % newLocalGame.playerNames.length].toString();
-        currentIndex++;
+      // Assign territories to players in order
+      for (let i = 0; i < newLocalGame.territories.length; i++) {
+        const playerIndex = i % newLocalGame.playerNames.length;
+        newLocalGame.territories[i].owner = newLocalGame.playerNames[playerIndex].toString();
       }
 
       // // create a collection named 'regions' with documents representing polygon regions

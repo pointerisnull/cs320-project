@@ -59,37 +59,3 @@ function handlePolygonHover(event, gameData) {
         infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
     }
 }
-
-// Function to handle mouse click on polygons
-function handlePolygonClick(event, gameData) {
-    const polygon = event.target;
-    const country = polygon.id;
-    var bannerText = document.getElementById("bannerText");
-    
-    if(gameData.reinforcements > 0 && gameData.game_phase === 'reinforcement') {
-        gameData.territories.forEach((territory) => {
-            if(territory.name === country) {
-                if(gameData.player_turn === territory.owner) {
-                    gameData.reinforcements--;
-                    territory.armies += 1;
-                    updateBanner(gameData);
-                    bannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
-                    if(gameData.reinforcements === 0) {
-                        console.log("Reinforcement phase over...");
-                        attackPhase(gameData);
-                    }
-                }
-            }
-        });
-    }
-
-    if(gameData.game_phase === 'attack') {
-        gameData.territories.forEach((territory) => {
-            if(territory.name === country) {
-                if(gameData.player_turn === territory.owner) {
-
-                }
-            }
-        });
-    }
-}
