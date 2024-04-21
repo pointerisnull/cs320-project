@@ -59,3 +59,21 @@ function handlePolygonHover(event, gameData) {
         infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
     }
 }
+
+function displayAttackSelectScreen(attackerId, targetId, gameData) {
+    const attackSelectScreen = document.getElementById('attackSelectScreen');
+    if(findTerritoryByPolygonId(gameData.territories, attacker).armies < 3) {
+        troopsAttackingCount = 0;
+    }
+    attackSelectScreen.innerHTML = `
+    <div>Attacker: ${attackerId}; Troop Count: ${findTerritoryByPolygonId(gameData.territories, attackerId).armies}</div>
+    <div>Target: ${targetId}; Troop Count: ${findTerritoryByPolygonId(gameData.territories, targetId).armies}</div>
+    <div>How many troops do you want to send into battle: </div>
+    <button onclick="decreaseAttackingTroops()" style="width:10%">-</button>
+    <span id="troopsAttackingCount">1</span>
+    <button onclick="increaseAttackingTroops()" style="width:10%">+</button>
+    <br></br>
+    <button onclick="startAttack()">Attack!</button>
+    `;
+    attackSelectScreen.style.display = 'block';
+}

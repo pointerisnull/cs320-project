@@ -106,6 +106,7 @@ function handlePolygonClick(event, gameData) {
 }
 
 let attacker = null; // Variable to store the attacking country
+let target = null;
 
 // Function to handle the first click (selecting the attacker)
 function handleFirstClick(event, gameData) {
@@ -115,7 +116,7 @@ function handleFirstClick(event, gameData) {
 
     if(attacker === null) {
         // Check if the clicked country belongs to the current player
-        if (findTerritoryByPolygonId(gameData.territories, clickedPolygon.id).owner === currentPlayer) {
+        if (findTerritoryByPolygonId(gameData.territories, clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(gameData.territories, clickedPolygon.id).armies > 2) {
             attacker = clickedPolygon.id;
             console.log(`Attacker selected: ${attacker}`);
             // Add click event listeners to all countries for selecting defender.
@@ -141,9 +142,9 @@ function handleSecondClick(event, gameData) {
     // Check if the clicked country is adjacent to the attacker
     if(attacker) {
         if (isAdjacent(attacker, clickedPolygon.id)) {
-            const defender = clickedPolygon.id;
-            console.log(`Defender selected: ${defender}`);
-            attacker = null;
+            target = clickedPolygon.id;
+            console.log(`Defender selected: ${target}`);
+            displayAttackSelectScreen(attacker, target, gameData);
             polygons.forEach(polygon => {
                 polygon.removeEventListener('click', (event) => handleSecondClick(event, gameData));
             })
@@ -154,4 +155,51 @@ function handleSecondClick(event, gameData) {
             console.log("You can only attack adjacent territories.");
         }
     }
+}
+
+function startAttack() {
+    document.getElementById('attackSelectScreen').style.display = 'none';
+    var attackerLostTroops = 0;
+    var targetLostTroops = 0;
+    var attackerCurrentTroops = findTerritoryByPolygonId(gameData.territories, attacker).armies;
+    var targetCurrentTroops = findTerritoryByPolygonId(gameData.territories, target).armies;
+    var randomValue = 0;
+    var winner = null;
+    var loser = null;
+
+    while(attackerCurrentTroops > 0 && targetCurrentTroops > 0) {
+        randomValue = Math.random();
+        if(randomValue < 0.5) {
+            targetLostTroops++;
+            targetCurrentTroops--;
+        }
+        else {
+            attackerLostTroops++;
+            attackerCurrentTroops--;
+        }
+        console.log(attacker, ": ", attackerCurrentTroops);
+        console.log(target, ": ", targetCurrentTroops);
+    }
+
+    if(attackerCurrentTroops) {
+        winner = attacker;
+        loser = target;
+    }
+    else {
+        winner = target;
+        loser = attacker;
+    }
+
+    const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+    attackSummaryScreen.innerHTML = `
+    <div>${attacker} lost ${attackerLostTroops}</div>
+    <div>${target} lost ${targetLostTroops}</div>
+    <div></div>
+    <br></br>
+    <button onclick="startAttack()">Ok</button>
+    `;
+    attackSummaryScreen.style.display = 'block';
+
+    attacker = null;
+    target = null;
 }

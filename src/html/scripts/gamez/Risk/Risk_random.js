@@ -17,9 +17,26 @@ function isAdjacent(attackerPolygonId, targetPolygonId) {
     const distance = calculateDistance(attackerPolygonBounds.left, attackerPolygonBounds.top, targetPolygonBounds.left, targetPolygonBounds.top);
 
     // Check if the distance is below a threshold to consider them adjacent
-    if (distance < 100 && attackerPolygon !== targetPolygon) {
+    if (distance < 150 && attackerPolygon !== targetPolygon) {
         return true;
     } else {
         return false;
     }
 }
+
+var troopsAttackingCount = 1;
+
+function increaseAttackingTroops() {
+    if(troopsAttackingCount < findTerritoryByPolygonId(gameData.territories, attacker).armies - 2 && findTerritoryByPolygonId(gameData.territories, attacker).armies > 3) {
+        troopsAttackingCount++;
+    }
+    document.getElementById('troopsAttackingCount').textContent = troopsAttackingCount;
+}
+
+function decreaseAttackingTroops() {
+    if(troopsAttackingCount > 1) {
+        troopsAttackingCount--;
+    }
+    document.getElementById('troopsAttackingCount').textContent = troopsAttackingCount;
+}
+

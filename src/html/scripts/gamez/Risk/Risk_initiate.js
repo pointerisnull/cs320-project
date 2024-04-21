@@ -167,12 +167,14 @@ async function newRiskLocalGame() {
     }
 }
 
+var gameData = null;
+
 // Originally I had two functions: startRiskLocalGame() and resumeRiskLocalGame(), I decided to combine them and 
 // generalize them for simplification purposes. Anyway, this function gets the userData to then get the game data 
 // and calls the neccessary starting functions to setup the game screen.
 async function playLocalRiskGame() {
     const userData = await getData();
-    const gameData = await getLocalRiskGameData(userData._id);
+    gameData = await getLocalRiskGameData(userData._id);
     console.log(gameData);
     updateTerritoryColors(gameData);
     setInfoBox(gameData);
