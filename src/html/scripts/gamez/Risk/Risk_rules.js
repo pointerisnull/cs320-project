@@ -1,12 +1,12 @@
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
-function nextTurn(gameData) {
-    reinforcementPhase(gameData);
+function nextTurn() {
+    reinforcementPhase();
 }
 
 // This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
 // the game data, and sets the ability to click on polygons (which is used to divvy out reinforcements by the user).
-function reinforcementPhase(gameData) {
+function reinforcementPhase() {
     console.log("Reinforcement phase starting...")
     var bannerText = document.getElementById("bannerText");
     const currentPlayer = gameData.player_turn;
@@ -22,28 +22,28 @@ function reinforcementPhase(gameData) {
 
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
-        polygon.addEventListener('click', (event) => handlePolygonClick(event, gameData));
+        polygon.addEventListener('click', handlePolygonClick);
     });
 }
 
 // Function to initialize attack phase
-function attackPhase(gameData) {
+function attackPhase() {
     console.log("Attack phase starting...")
     gameData.game_phase = 'attack';
-    updateBanner(gameData);
+    updateBanner();
 
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
     // Add click event listeners to all countries for selecting attacker
     if(!attacker) {
         polygons.forEach(polygon => {
-            polygon.addEventListener('click', (event) => handleFirstClick(event, gameData));
+            polygon.addEventListener('click', handleFirstClick);
         });
     }
 }
 
 // This function is called at the end of every turn to check if a player has won or not.
-function checkWin(gameData) {
+function checkWin() {
 
 }
 
@@ -52,7 +52,7 @@ function checkWin(gameData) {
 // and uses that to set the fill and stroke of each polygon (i.e., country) in the svg (which is embedded as an iframe which is why 
 // we can't just do 'document.getElementById(...)'). As of right now, there is no way for a player to choose his/her own color, the 
 // colors are decided based on the order of the player array or, in other words, the order in which the user puts in the player names.
-function updateTerritoryColors(gameData) {
+function updateTerritoryColors() {
     // This below is getting all the elements from the html file that has the svg in it. Being that this html file is embedded as an iframe 
     // in the risk.html file, we have to reference that iframe first before accessing its elements.
     const polygons = document.getElementById("riskSVGMap").contentWindow.document.getElementsByTagName("polygon");
@@ -82,7 +82,7 @@ function updateTerritoryColors(gameData) {
 // These last few functions deal with handling click and hover events.
 
 // Function to handle mouse click on polygons
-function handlePolygonClick(event, gameData) {
+function handlePolygonClick(event) {
     const polygon = event.target;
     const country = polygon.id;
     var bannerText = document.getElementById("bannerText");
@@ -93,11 +93,11 @@ function handlePolygonClick(event, gameData) {
                 if(gameData.player_turn === territory.owner) {
                     gameData.reinforcements--;
                     territory.armies += 1;
-                    updateBanner(gameData);
+                    updateBanner();
                     bannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
                     if(gameData.reinforcements === 0) {
                         console.log("Reinforcement phase over...");
-                        attackPhase(gameData);
+                        attackPhase();
                     }
                 }
             }
@@ -106,26 +106,26 @@ function handlePolygonClick(event, gameData) {
 }
 
 let attacker = null; // Variable to store the attacking country
-let target = null;
+let defender = null;
 
 // Function to handle the first click (selecting the attacker)
-function handleFirstClick(event, gameData) {
+function handleFirstClick(event) {
     const clickedPolygon = event.target;
     const currentPlayer = gameData.player_turn;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
     if(attacker === null) {
         // Check if the clicked country belongs to the current player
-        if (findTerritoryByPolygonId(gameData.territories, clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(gameData.territories, clickedPolygon.id).armies > 2) {
+        if (findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies > 2) {
             attacker = clickedPolygon.id;
             console.log(`Attacker selected: ${attacker}`);
             // Add click event listeners to all countries for selecting defender.
             if(attacker) {
                 polygons.forEach(polygon => {
-                    polygon.removeEventListener('click', (event) => handleFirstClick(event, gameData));
+                    polygon.removeEventListener('click', handleFirstClick);
                 })
                 polygons.forEach(polygon => {
-                    polygon.addEventListener('click', (event) => handleSecondClick(event, gameData));
+                    polygon.addEventListener('click', handleSecondClick);
                 });
             }
         } else {
@@ -135,24 +135,27 @@ function handleFirstClick(event, gameData) {
 }
 
 // Function to handle the second click (selecting the defender)
-function handleSecondClick(event, gameData) {
+function handleSecondClick(event) {
     const clickedPolygon = event.target;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
     // Check if the clicked country is adjacent to the attacker
     if(attacker) {
-        if (isAdjacent(attacker, clickedPolygon.id)) {
-            target = clickedPolygon.id;
-            console.log(`Defender selected: ${target}`);
-            displayAttackSelectScreen(attacker, target, gameData);
+        if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
+            console.log("You can't attack your own countries!");
+        }
+        else if (isAdjacent(attacker, clickedPolygon.id)) {
+            defender = clickedPolygon.id;
+            console.log(`Target selected: ${defender}`);
+            displayAttackSelectScreen(attacker, defender);
             polygons.forEach(polygon => {
-                polygon.removeEventListener('click', (event) => handleSecondClick(event, gameData));
+                polygon.removeEventListener('click', handleSecondClick);
             })
             polygons.forEach(polygon => {
-                polygon.addEventListener('click', (event) => handleFirstClick(event, gameData));
+                polygon.addEventListener('click', handleFirstClick);
             });
         } else {
-            console.log("You can only attack adjacent territories.");
+            console.log("You can only attack adjacent territories!");
         }
     }
 }
@@ -160,46 +163,49 @@ function handleSecondClick(event, gameData) {
 function startAttack() {
     document.getElementById('attackSelectScreen').style.display = 'none';
     var attackerLostTroops = 0;
-    var targetLostTroops = 0;
-    var attackerCurrentTroops = findTerritoryByPolygonId(gameData.territories, attacker).armies;
-    var targetCurrentTroops = findTerritoryByPolygonId(gameData.territories, target).armies;
+    var defenderLostTroops = 0;
+    var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
+    var defenderCurrentTroops = findTerritoryByPolygonId(defender).armies;
     var randomValue = 0;
     var winner = null;
     var loser = null;
 
-    while(attackerCurrentTroops > 0 && targetCurrentTroops > 0) {
+    while(attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
         if(randomValue < 0.5) {
-            targetLostTroops++;
-            targetCurrentTroops--;
+            defenderLostTroops++;
+            defenderCurrentTroops--;
         }
         else {
             attackerLostTroops++;
             attackerCurrentTroops--;
         }
         console.log(attacker, ": ", attackerCurrentTroops);
-        console.log(target, ": ", targetCurrentTroops);
+        console.log(defender, ": ", defenderCurrentTroops);
     }
 
     if(attackerCurrentTroops) {
         winner = attacker;
-        loser = target;
+        loser = defender;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].owner = findTerritoryByPolygonId(attacker).owner;
+        updateTerritoryColors();
     }
     else {
-        winner = target;
+        winner = defender;
         loser = attacker;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops;
     }
 
     const attackSummaryScreen = document.getElementById('attackSummaryScreen');
     attackSummaryScreen.innerHTML = `
     <div>${attacker} lost ${attackerLostTroops}</div>
-    <div>${target} lost ${targetLostTroops}</div>
-    <div></div>
+    <div>${defender} lost ${defenderLostTroops}</div>
+    <div>${winner} beat ${loser}</div>
     <br></br>
-    <button onclick="startAttack()">Ok</button>
+    <button onclick="hideAttackSummaryScreen()">Ok</button>
     `;
     attackSummaryScreen.style.display = 'block';
-
-    attacker = null;
-    target = null;
 }

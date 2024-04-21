@@ -7,7 +7,7 @@ function setBanner() {
     document.getElementById("banner").style.display = "flex";
 }
 
-function updateBanner(gameData) {
+function updateBanner() {
     var bannerText = document.getElementById("bannerText");
     var phase = gameData.game_phase;
     phase = phase.charAt(0).toUpperCase() + phase.substring(1, phase.length); // Capitalize first letter
@@ -24,10 +24,10 @@ function updateBanner(gameData) {
 }
 
 // Function to update each individual country and its info and set up the "info box" and hover events.
-function setInfoBox(gameData) {
+function setInfoBox() {
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
-        polygon.addEventListener('mouseenter', (event) => handlePolygonHover(event, gameData));
+        polygon.addEventListener('mouseenter', handlePolygonHover);
         polygon.addEventListener('mouseleave', () => {
             document.getElementById('infoBox').style.display = 'none';
         });
@@ -35,7 +35,7 @@ function setInfoBox(gameData) {
 }
 
 // Function to handle mouse hover over polygons
-function handlePolygonHover(event, gameData) {
+function handlePolygonHover(event) {
     const polygon = event.target;
     const country = polygon.id;
     const infoBox = document.getElementById('infoBox');
@@ -60,14 +60,14 @@ function handlePolygonHover(event, gameData) {
     }
 }
 
-function displayAttackSelectScreen(attackerId, targetId, gameData) {
+function displayAttackSelectScreen(attackerId, targetId) {
     const attackSelectScreen = document.getElementById('attackSelectScreen');
-    if(findTerritoryByPolygonId(gameData.territories, attacker).armies < 3) {
+    if(findTerritoryByPolygonId(attacker).armies < 3) {
         troopsAttackingCount = 0;
     }
     attackSelectScreen.innerHTML = `
-    <div>Attacker: ${attackerId}; Troop Count: ${findTerritoryByPolygonId(gameData.territories, attackerId).armies}</div>
-    <div>Target: ${targetId}; Troop Count: ${findTerritoryByPolygonId(gameData.territories, targetId).armies}</div>
+    <div>Attacker: ${attackerId}; Troop Count: ${findTerritoryByPolygonId(attackerId).armies}</div>
+    <div>Target: ${targetId}; Troop Count: ${findTerritoryByPolygonId(targetId).armies}</div>
     <div>How many troops do you want to send into battle: </div>
     <button onclick="decreaseAttackingTroops()" style="width:10%">-</button>
     <span id="troopsAttackingCount">1</span>
@@ -76,4 +76,31 @@ function displayAttackSelectScreen(attackerId, targetId, gameData) {
     <button onclick="startAttack()">Attack!</button>
     `;
     attackSelectScreen.style.display = 'block';
+}
+
+function hideAttackSummaryScreen() {
+    const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+    attackSummaryScreen.style.display = 'none';
+    displayTroopSendScreen();
+}
+
+function displayTroopSendScreen() {
+    const troopSendScreen = document.getElementById('troopSendScreen');
+    troopSendScreen.innerHTML = `
+    <div>Number of troops to send from ${attacker} to ${defender}: <span id="troopsToSendCount">1</span></div>
+    <button onclick="decreaseTroopsToSend()" style="width:10%">-</button>
+    <button onclick="increaseTroopsToSend()" style="width:10%">+</button>
+    <br></br>
+    <button onclick="hideTroopSendScreen()">Ok</button>
+    `;
+    troopSendScreen.style.display = 'block';
+}
+
+function hideTroopSendScreen() {
+    const troopSendScreen = document.getElementById("troopSendScreen");
+    troopSendScreen.style.display = 'none';
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = troopsToSendCount + 1;
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies -= troopsToSendCount;
+    attacker = null;
+    defender = null;
 }

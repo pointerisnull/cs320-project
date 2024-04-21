@@ -175,13 +175,15 @@ var gameData = null;
 async function playLocalRiskGame() {
     const userData = await getData();
     gameData = await getLocalRiskGameData(userData._id);
-    console.log(gameData);
-    updateTerritoryColors(gameData);
-    setInfoBox(gameData);
-    setBanner();
-    updateBanner(gameData);
-    nextTurn(gameData);
-    checkWin(gameData);
+    if(gameData) {
+        console.log(gameData);
+        updateTerritoryColors();
+        setInfoBox();
+        setBanner();
+        updateBanner();
+        nextTurn();
+        checkWin();
+    }
 }
 
 // This function is used to fetch the game data of a local game of risk from the database using a get request to the server.
