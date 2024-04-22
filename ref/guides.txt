@@ -23,7 +23,7 @@ UPDATING THE SERVER:
   sudo node app.js IF THIS WORKS, THEN: sudo forever start app.js
   ELSE DEBUG ACCORDINGLY
 
-MongoDB:
+MongoDB: https://www.mongodb.com/docs/mongodb-shell/install/#std-label-mdb-shell-install
 mongosh ~ start mongo
 cls ~ clear screen
 exit 
