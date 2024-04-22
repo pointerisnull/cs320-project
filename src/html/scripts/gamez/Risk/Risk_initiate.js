@@ -179,8 +179,8 @@ async function playLocalRiskGame() {
         console.log(gameData);
         updateTerritoryColors();
         setInfoBox();
-        setBanner();
-        updateBanner();
+        setBanners();
+        updateTopBanner();
         nextTurn();
         checkWin();
     }

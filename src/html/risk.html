@@ -217,13 +217,22 @@
                         </div>
                     </div>
                 </div>
-                <!-- Banner -->
-                <div id="banner" style="position: absolute; top: 0; left: 0; width: 100%; height: 50px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
-                    <span id="bannerText"></span>
+                <!-- Top Banner -->
+                <div id="topBanner" style="position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <span id="topBannerText"></span>
+                </div>
+                <!-- Bottom Banner -->
+                <div id="bottomBanner" style="position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <span id="bottomBannerText"></span>
                 </div>
                 <div id="attackSelectScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="attackSummaryScreen" style="position: absolute;top: 40%; left: 40%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="troopSendScreen" style="position: absolute;top: 40%; left: 40%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="attackSummaryScreen" style="position: absolute;top: 30%; left: 25%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="troopSendScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="attackPhaseContinueOrOverScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;">
+                    <p>Select another attacker or continue on and fortify.</p>
+                    <button onclick="attackPhase()">Attack again</button>
+                    <button onclick="fortificationPhase()">Continue</button>    
+                <div>
                 <!-- Info box -->
                 <div id="infoBox" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                 <!-- SVG Map -->

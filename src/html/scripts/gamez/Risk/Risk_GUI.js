@@ -1,14 +1,15 @@
 const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
 const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
 
-// These next two functions (setBanner() and updateBanner()) displays and updates the banner that shows on the top of 
+// These next two functions (setBanners() and updateBanner()) displays and updates the banner that shows on the top of 
 // the game container. The banner displays relevant information (i.e., whose turn it is and their color, phase, phase information, etc.).
-function setBanner() {
-    document.getElementById("banner").style.display = "flex";
+function setBanners() {
+    document.getElementById("topBanner").style.display = "flex";
+    document.getElementById("bottomBanner").style.display = "flex";
 }
 
-function updateBanner() {
-    var bannerText = document.getElementById("bannerText");
+function updateTopBanner() {
+    var bannerText = document.getElementById("topBannerText");
     var phase = gameData.game_phase;
     phase = phase.charAt(0).toUpperCase() + phase.substring(1, phase.length); // Capitalize first letter
     phase = phase.replace(/_/g, " "); // Replace underscores with spaces
@@ -21,6 +22,10 @@ function updateBanner() {
     }
 
     bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
+}
+
+function updateBottomBanner() {
+
 }
 
 // Function to update each individual country and its info and set up the "info box" and hover events.
@@ -98,9 +103,16 @@ function displayTroopSendScreen() {
 
 function hideTroopSendScreen() {
     const troopSendScreen = document.getElementById("troopSendScreen");
+    var bottomBannerText = document.getElementById("bottomBannerText");
     troopSendScreen.style.display = 'none';
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = troopsToSendCount + 1;
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies -= troopsToSendCount;
     attacker = null;
     defender = null;
+    bottomBannerText.innerHTML = "Choose another attacker or move on to the defense phase...";
+}
+
+function displayAttackPhaseContinueOrOverScreen() {
+    const attackContinueOrOverScreen = document.getElementById("attackContinueOrOverScreen");
+    attackContinueOrOverScreen.style.display = 'block';
 }
