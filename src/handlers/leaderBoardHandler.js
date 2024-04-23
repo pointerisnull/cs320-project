@@ -1,14 +1,15 @@
-const { connectToDatabase } = require('../mongoConnection');
-
-
 // This file is meant to handle a request for leaderboard data by connecting to the database,
 // fetching user information from the 'UserInformation' collection,
 // and responding to the client with the leaderboard data in JSON format.
 // This function is called in app.js.
 
+const { connectToDatabase } = require('../mongoConnection');
+
+// Function to handle leaderboard request
 async function handleLeaderboardRequest(req, res) {
     console.log('Handling leaderboard request...');
     try {
+        // Connect to the database
         const db = await connectToDatabase();
         const userInformationCollection = db.collection('UserInformation');
 

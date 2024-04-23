@@ -2,37 +2,288 @@
 <html>
 
 <head>
-	<title>Gamez Central</title>
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="GC.css">
+    <title>Gamez Central</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="./GC.css">
+
+    <style>
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            /* Ensure the loading screen is on top */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+            /* Smooth transition for opacity */
+        }
+
+        .loading-bar {
+            width: 80%;
+            max-width: 400px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #4caf50;
+            transition: width 2s ease;
+            /* Smooth transition for width */
+        }
+
+        /* GIF container styles */
+        .gif-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+            /* Ensure the GIF container is below the loading screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Semi-transparent background */
+        }
+
+        /* Hide the GIF container initially */
+        .hidden {
+            display: none;
+        }
+
+        /* Start screen styles (I called it "option-screen" to generalize it more). */
+        .option-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-size: 24px;
+        }
+
+        .option-screen button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 30%;
+        }
+
+        #riskLocalMultiplayerGameSettings button {
+
+        }
+
+    </style>
+
 </head>
+
+<audio id="audio" src="./Media/gamez/etc/audio/BattleMusic.mp3"></audio>
 
 <body class="ln">
 
-	<div class="ui top fixed menu">
-		<div class="item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px" >
-			<a class="dropbtn" href="../index.html"><img src="./Media/logo.png" width="50px"></a >
-	</div>
-		<!-- link to html file ex. href="./Risk.html"-->
-		<a class="item page" href="risk.html">Risk</a>
-		<a class="item page" href="chess.html">Chess</a>
-		<a class="item page" href="tictactoe.html">Tic-Tac-Toe</a>
-		<img class="ui avatar image login" src="./Media/logo.png">
-	</div>
+    <!-- Loading screen -->
+    <!-- <div class="loading-screen" id="loadingScreen">
+        <div class="loading-bar">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div> -->
 
-	<h1>Risk</h1>
+    <!-- GIF container -->
+    <!-- <div class="gif-container hidden" id="gifContainer"> -->
+        <!-- GIF embed code -->
+        <!-- <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778"
+            data-width="100%"><a href="https://tenor.com/view/risk-game-board-game-gif-10565650">Risk Game GIF</a>from
+            <a href="https://tenor.com/search/risk-gifs">Risk GIFs</a></div>
+        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div> -->
+
+    <div class="ui top fixed menu">
+        <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+            <a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
+        </div>
+        <a class="item page" href="./risk.html">Risk</a>
+        <a class="item page" href="./chess.html">Chess</a>
+        <a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
+        <a class="item page" href="./leaderboard.html">Leaderboard</a>
+        <a class="item page" href="./credits.html">Credits</a>
+        <div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
+            <img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px"
+                style="margin-right: 10px; display:none;">
+            <p id="cartItemCount"
+                style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;">
+            </p>
+            <img src="./Media/Store/coin.png" id="coin" width="20px">
+            <p id="balanceTop" style="margin-right:10px"></p>
+            <object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px"
+                type="image/png" class="avatar-svg">
+                <img src="./Media/profile/account.png" width="40px" alt="Avatar 1" />
+            </object>
+            <div class="dropdown-content">
+                <a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+                <a id="signupLink" href="./signup.html">Sign Up</a>
+                <!--Displayed when logged out, hidden when logged in -->
+                <a id="profileLink" href="./profile.html" style="display:none;">Profile</a>
+                <!--Hidden when logged out, showing when logged in -->
+                <a id="storeLink" href="./store.html" style="display:none;">Store</a>
+                <!--Hidden when logged out, showing when logged in -->
+                <a id="cartLink" href="./cart.html" style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
+                <a id="logoutLink" href="#" style="display:none;">Logout</a>
+                <!--Hidden when logged out, showing when logged in -->
+            </div>
+        </div>
+    </div>
+
+    <h1>Risk</h1>
+
+    <div class="ui container">
+        <div class="item body">
+            <div class="ui vertical icon menu"> <!--game side bar menu-->
+                <span style="font-size: 20px;"> <!-- icon color / styling-->
+                    <ul style="display: inherit; padding: inherit;">
+                        <li class="dropdown" style="display: block;"><!-- ::marker fix-->
+                            <a class="item"> <!-- volume control -->
+                                <button id="toggleBtn" onclick="togglePlayPause()" style="background-color: inherit;">
+                                    <span style="color: tomato;">
+                                        <i id="icon" class="fa-solid fa-volume-xmark"></i>
+                                    </span>
+                                </button>
+                                <div class="dropdown-content"> <!-- volume slider-->
+                                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1"
+                                        onchange="setVolume(this.value)">
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <a class="item"> <!-- Achievements? -->
+                        <span style="color: goldenrod;">
+                            <i class="fa-solid fa-trophy"></i>
+                        </span>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div id="game-container" class="item body" style="margin: auto;"> <!-- game -->
+            <div id="inside-game-container" class="ui fluid container" style="border:1px dashed black; width:800px; height:560px;">
+                <div class="option-screen" id="startScreen">
+                    <h1>Welcome to Risk</h1>
+                    <button onclick="selectGameModeScreen()">Play</button>
+                    <button onclick="riskSettingsScreen()">Settings</button>
+                    <button onclick="riskHowTo()">How to Play</button>
+                    <button onclick="openFullscreen()">Fullscreen</button>
+                </div>
+                <div class="option-screen" id="gameModeOptionsScreen" style="display:none">
+                    <h1>Select Game Mode</h1>
+                    <button onclick="riskOnlineGame()">Play - Online</button>
+                    <button onclick="riskComputerGame()">Play - Computer(s)</button>
+                    <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
+                </div>
+                <div id="riskLocalMultiplayerGameScreen">
+                    <div class="option-screen" id="riskLocalMultiplayerGameSettings" style="display:none">
+                        <h1>Choose Settings</h1>
+                        <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers">
+                            <h2>Number of Players</h2>
+                            <button onclick="decreasePlayer()">-</button>
+                            <span id="playerCount">1</span>
+                            <button onclick="increasePlayer()">+</button>
+                            <h2>Number of AI Opponents</h2>
+                            <button onclick="decreaseAI()">-</button>
+                            <span id="aiCount">1</span>
+                            <button onclick="increaseAI()">+</button>
+                            <button onclick="generatePlayerNameInput(0)">Next</button>
+                        </div>
+                        <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
+                            <h1>Choose Player Names</h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Banner -->
+                <div id="topBanner" style="position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <span id="topBannerText"></span>
+                </div>
+                <!-- Bottom Banner -->
+                <div id="bottomBanner" style="position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <span id="bottomBannerText"></span>
+                </div>
+                <div id="attackSelectScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="attackSummaryScreen" style="position: absolute;top: 30%; left: 25%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="troopSendScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <div id="attackPhaseContinueOrOverScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;">
+                    <p>Select another attacker or continue on and fortify.</p>
+                    <button onclick="attackPhase()">Attack again</button>
+                    <button onclick="fortificationPhase()">Continue</button>    
+                </div>
+                <div id="fortifySelectionScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <!-- Info box -->
+                <div id="infoBox" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                <!-- SVG Map -->
+                <iframe id="riskSVGMap" src="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%" height="100%" style="border:none;"></iframe>
+            </div>
+        </div>
+        <div id="ad-container"><!-- will change ad placment -->
+            <!-- hardcoded -->
+        </div>
+    </div>
+
+    <div id="output">
+        <!-- AI generated-->
+    </div>
 
 </body>
 
 <footer>
-	<div class="ui inverted bottom fixed menu">
-		<div class="item">
-			<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
-		</div>
-		<div class="item">
-			<p>CSS provided by Fomantic-UI</p>
-		</div>
-	</div>
+    <div class="ui inverted bottom fixed menu">
+        <div class="item">
+            <p>2024 © Copyright Gamez Central. All rights Reserved.</p>
+        </div>
+        <div class="item">
+            <p>CSS provided by Fomantic-UI</p>
+        </div>
+    </div>
 </footer>
+
+<script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
+<script src="./scripts/store/cart.js"></script>
+<script src="./scripts/gamez/audio.js"></script>
+<script src="./scripts/gamez/Risk/Risk_initiate.js"></script>
+<script src="./scripts/gamez/Risk/Risk_rules.js"></script>
+<script src="./scripts/gamez/Risk/Risk_GUI.js"></script>
+<script src="./scripts/gamez/Risk/Risk_random.js"></script>
+
+<script src="./scripts/User/signUp_Login.js"></script>
+<script src="./scripts/Ads/randAds.js"></script>
+
+<script src="./scripts/gamez/fullScreen.js"></script>
+<script src="./scripts/gamez/load.js"></script>
+
+<script>
+
+    // Call the function to fetch and update data when the page loads
+    window.onload = function () {
+        fetchBalanceAndAvatar();
+        checkCart();
+    };
+
+</script>
 
 </html>

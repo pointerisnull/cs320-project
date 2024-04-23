@@ -4,50 +4,138 @@
 <head>
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="GC.css">
+	<link rel="stylesheet" type="text/css" href="./GC.css">
 </head>
 
-<body class="ln">
+<audio id="audio" src="./Media/gamez/etc/audio/Monplaisir-Soundtrack.mp3"></audio>
 
+<body class="ln">
 	<div class="ui top fixed menu">
-		<div class="item dropdown" style="margin: 0px; padding: 5px 0px 0px 5px" >
-			<a class="dropbtn" href="../index.html"><img src="./Media/logo.png" width="50px"></a >
+		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
+			<a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
 		</div>
-		<!-- link to html file ex. href="./Risk.html"-->
-		<a class="item page" href="risk.html">Risk</a>
-		<a class="item page" href="chess.html">Chess</a>
-		<a class="item page" href="tictactoe.html">Tic-Tac-Toe</a>
-		<img class="ui avatar image login" src="./Media/logo.png">
+		<a class="item page" href="./risk.html">Risk</a>
+		<a class="item page" href="./chess.html">Chess</a>
+		<a class="item page" href="#">Tic-Tac-Toe</a>
+		<a class="item page" href="./leaderboard.html">Leaderboard</a>
+		<a class="item page" href="./credits.html">Credits</a>
+		<div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
+			<img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px"
+				style="margin-right: 10px; display:none;">
+			<p id="cartItemCount"
+				style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;">
+			</p>
+			<img src="./Media/Store/coin.png" id="coin" width="20px">
+			<p id="balanceTop" style="margin-right:10px"></p>
+			<object id="accountImage" alt="P_Pic" data="./Media/profile/account.png" width="40px" style="margin:0px"
+				type="image/png" class="avatar-svg">
+				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1" />
+			</object>
+			<div class="dropdown-content">
+				<a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
+				<a id="signupLink" href="./signup.html">Sign Up</a>
+				<!--Displayed when logged out, hidden when logged in -->
+				<a id="profileLink" href="./profile.html" style="display:none;">Profile</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="storeLink" href="./store.html" style="display:none;">Store</a>
+				<!--Hidden when logged out, showing when logged in -->
+				<a id="cartLink" href="./cart.html"
+					style="display:none;">Cart</a><!--Hidden when logged out, showing when logged in -->
+				<a id="logoutLink" href="#" style="display:none;">Logout</a>
+				<!--Hidden when logged out, showing when logged in -->
+			</div>
+		</div>
 	</div>
 
 	<h1>Tic-Tac-Toe</h1>
 
-	<div class="ad-container ad2">
-		<div class="ad">
-			<a href=""><img src="./Media/YCP_hackslogo.JPG" width="266px" height="357px"></a>
+	<div class="ui container">
+		<div class="item body">
+			<div class="ui vertical icon menu"> <!--game side bar menu-->
+				<span style="font-size: 20px;"> <!-- icon color / styling-->
+					<ul style="display: inherit; padding: inherit;">
+						<li class="dropdown" style="display: block;"><!-- ::marker fix-->
+							<a class="item"> <!-- volume control -->
+								<button id="toggleBtn" onclick="togglePlayPause()" style="background-color: inherit;">
+									<span style="color: tomato;">
+										<i id="icon" class="fa-solid fa-volume-xmark"></i>
+									</span>
+								</button>
+								<div class="dropdown-content"> <!-- volume slider-->
+									<input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1"
+										onchange="setVolume(this.value)">
+								</div>
+							</a>
+						</li>
+					</ul>
+					<a class="item"> <!-- Achievements? -->
+						<span style="color: goldenrod;">
+							<i class="fa-solid fa-trophy"></i>
+						</span>
+					</a>
+				</span>
+			</div>
+		</div>
+		<div class="item body" style="margin: auto;"> <!-- game -->
+			<div class="ui fluid container" style=" border:1px dashed black;">
+				<div class="container" id="tic-tac-toe"> <!--make it pretty later?-->
+					<div class="row">
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+					</div>
+					<div class="row">
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+					</div>
+					<div class="row">
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+						<div class="cell" data-cell></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="ad-container"><!-- will change ad placment -->
+			<!-- hardcoded -->
 		</div>
 	</div>
 
-	<img src="./Media/Tic-Tac-Toe.png" width="600px" class="ui centered rounded image">
-
-	<div class="ad-container ad3">
-		<div class="ad">
-			<!-- Ad Content -->
-			<h2>Ad Title 3</h2>
-			<p>Ad description goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-		</div>
+	<div id="output">
+		<!-- AI generated-->
 	</div>
+
+	<footer>
+		<div class="ui inverted bottom fixed menu">
+			<div class="item">
+				<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
+			</div>
+			<div class="item">
+				<p>CSS provided by Fomantic-UI | Vectors and icons by <a href="https://www.svgrepo.com"
+						target="_blank">SVG Repo</a></p>
+			</div>
+		</div>
+	</footer>
 </body>
 
-<footer>
-	<div class="ui inverted bottom fixed menu">
-		<div class="item">
-			<p>2024 © Copyright Gamez Central. All rights Reserved.</p>
-		</div>
-		<div class="item">
-			<p>CSS provided by Fomantic-UI</p>
-		</div>
-	</div>
-</footer>
+<script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
+<script src="./scripts/gamez/audio.js"></script>
+
+<script src="./scripts/gamez/TTT/TTT_initiate.js"></script>
+<script src="./scripts/gamez/TTT/TTT_rules.js"></script>
+<script src="./scripts/gamez/TTT/TTT_GUI.js"></script>
+
+<script src="./scripts/User/signUp_Login.js"></script>
+<script src="./scripts/store/cart.js"></script>
+<script src="./scripts/Ads/randAds.js"></script>
+
+<script>
+	// Call the function to fetch and update data when the page loads
+	window.onload = function () {
+		fetchBalanceAndAvatar();
+		checkCart();
+	};
+</script>
 
 </html>

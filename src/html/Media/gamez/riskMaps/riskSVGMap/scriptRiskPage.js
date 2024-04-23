@@ -1,0 +1,1 @@
+const continents = document.querySelectorAll('.North_America, .South_America, .Europe, .Africa, .Asia, .Australia');

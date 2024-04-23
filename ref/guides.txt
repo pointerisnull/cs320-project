@@ -1,24 +1,36 @@
 Linux/Powershell:
-rm <name> ~ remove file
-cd / ~root dir
-ip a ~ IP list
-nano <file name> ~ nano text editor
-
-
 netstat -aon | findstr :<port> ~ see running PID
 taskkill /PID <PID> /F ~ kill port number
 
 node <file> ~ compile/run js file
 
 Server:
-sudo ./restart.sh ~ restart server
+SSH: ssh (username)@207.246.81.16
+RRESTARTING THE SERVER: sudo ./restart.sh
+  -If this does not work, run: chmod +x restart.sh
+  -Run again
+UPDATING THE SERVER:
+  sudo ./shutdown.sh OR sudo forever stop app.js
+  rm -rf cs320-project
+  git clone https://github.com/pointerisnull/cs320-project/
+  cd /cs320-project/src
+  sudo npm install express ~ NEEDS TO BE REINSTALLED EVERYTIME, NOT SURE WHY
+  sudo node app.js IF THIS WORKS, THEN: sudo forever start app.js
+  ELSE DEBUG ACCORDINGLY
 
-MongoDB:
+MongoDB: https://www.mongodb.com/docs/mongodb-shell/install/#std-label-mdb-shell-install
 mongosh ~ start mongo
 cls ~ clear screen
 exit 
 
+https://github.com/michaeltreat/Mongo_CheatSheet
 show dbs ~ show databases
 use <name> ~ go into database
 show collections ~ show collections/tables
 db.<collection>.find({"<field>": "<value>"})
+
+Graphics:
+https://gsap.com/resources/svg ~ animation
+https://www.svgrepo.com/
+https://fontawesome.com/
+https://www.canva.com/create/gif-maker/

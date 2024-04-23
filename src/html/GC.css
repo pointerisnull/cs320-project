@@ -1,5 +1,6 @@
 body {
     margin-top: 60px !important;
+    background-color: #f0f0f0;
 }
 
 .ln {
@@ -7,6 +8,10 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+}
+
+p {
+    margin-top: 12px;
 }
 
 h1 {
@@ -35,6 +40,27 @@ a.link:hover {
     color: orange;
 }
 
+#leaderboard-table tr:hover {
+    background-color: lightyellow;
+}
+
+/* I added this to provide some animation to the home screen. This code's purpose is to slightly elevate each ui card when hovered over. */
+.ui.horizontal.equal.width.segments:hover {
+    border: 1px solid transparent;
+    /* Set a transparent border initially */
+}
+
+.ui.segment {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.ui.segment:hover {
+    opacity: 1;
+    transform: translateY(20px);
+}
+
 .page {
     margin: 5px;
 }
@@ -48,19 +74,9 @@ a.link:hover {
     text-align: right !important;
 }
 
-/*drop down option*/
-a.drop {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    margin: 0 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+/* Dropdown option (change to fomantic styling?) */
+.dropdown {
     position: relative;
-}
-
-a.drop:hover {
-    background-color: #777;
 }
 
 .dropdown-content {
@@ -70,6 +86,8 @@ a.drop:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     z-index: 1;
+    right: 0;
+    top: 40px;
 }
 
 .dropdown:hover .dropdown-content {
@@ -87,40 +105,20 @@ a.drop:hover {
     background-color: #777;
 }
 
-/*ad space*/
-.ad-container {
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin: 5px;
-    border-radius: 5px;
+/* Add styling for the coin icon and balance */
+#coin {
+    margin-right: 5px;
+    /* Adjust spacing between coin icon and balance */
 }
 
+/* ads (need better styling for each page)*/
 .ad {
-    margin-bottom: 5px;
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.ad1 {
-    width: auto;
-}
-
-.ad2 {
-    width: 25%;
-    height: auto;
-    position: absolute;
-}
-
-.ad3 {
-    width: 25%;
+    padding: 10px;
+    margin: 10px;
 }
 
 /*login page styles*/
-
 .login-container {
     max-width: 400px;
     margin: 100px auto;
@@ -150,10 +148,17 @@ button {
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust as needed */
 }
 
 #forgot-password-btn {
@@ -207,11 +212,272 @@ input[type="password"] {
     border-radius: 3px;
 }
 
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+/*profile pics*/
+.avatar-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.avatar-option {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.avatar-option object {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.avatar-option object:hover {
+    border-color: blue;
+}
+
+.avatar-option.selected object {
+    border-color: blue;
+}
+
+#avatar-input {
+    display: none;
+}
+
+#avatar-label {
+    margin-bottom: 10px;
+}
+
+/* For profile.html */
+
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
     background-color: #fff;
-    appearance: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-info .info-item {
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    /* Light gray background */
+}
+
+.profile-info .info-item .header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333;
+    /* Dark gray text */
+}
+
+.profile-info .info-item .content {
+    color: #666666;
+    /* Gray text */
+}
+
+/* for the store pgea */
+.store-container {
+    margin: 20px;
+    text-align: center;
+}
+
+.store-item {
+    display: inline-block;
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.item-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.item-details {
+    margin-top: 10px;
+}
+
+.item-details h3 {
+    margin-bottom: 5px;
+}
+
+.storeAddButton {
+    width: 50%;
+}
+
+/* For cart */
+.main-cart-container {
+    max-width: 500px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Item Styling */
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-item img {
+    margin-right: 20px;
+}
+
+.cart-item p {
+    margin: 0;
+}
+
+/* Empty Cart Message Styling */
+.empty-cart-message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Checkout Button Styling */
+#cartBuyButton,
+#cartEmptyButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cartBuyButton:hover,
+#cartEmptyButton:hover {
+    background-color: #0056b3;
+}
+
+/* game container, Icons, & graphics placement for each game*/
+.ui.vertical.icon.menu {
+    width: min-content;
+    display: inline-block;
+    position: absolute;
+}
+
+ .ui.fluid.container {
+    height: 75%;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    position: relative;
+    padding: 1px;
+    overflow: hidden;
+}
+
+.group {
+    flex: 1; /* Each group takes up equal space */
+}
+
+.item.body { /*items in game container (not nav bar items)*/
+    width: max-content;
+    position: sticky;
+}
+
+
+/*chess board & pieces*/
+#animateProcessing {
+    position: fixed;
+    /* Use fixed positioning */
+    top: 40%;
+    /* Place the top edge at the vertical center of the viewport */
+    left: 50%;
+    /* Place the left edge at the horizontal center of the viewport */
+    transform: translate(-50%, -50%);
+    /* Move the element back by half of its own width and height */
+    z-index: 2;
+    /* Ensure the text is on top of the SVG */
+    background-color: rgba(206, 194, 194, 0.9);
+    /* Add a semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    opacity: 0;
+    /* Start with zero opacity */
+    animation: fadeInOut 10s ease-in-out forwards;
+    /* Animation name, duration, timing function, and fill-mode */
+}
+
+/* Keyframes for the fadeInOut animation */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0.75;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.75;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 0.75;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.container.ttt {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
 }
