@@ -28,19 +28,19 @@ async function createRiskGame(userId, gameInfo) {
       { name: 'Quebec', owner: null, armies: 3 },
       { name: 'Greenland', owner: null, armies: 2 },
       { name: 'Western United States', owner: null, armies: 3 },
-      { name: 'Eastern United States', owner: null, armies: 2 },
+      { name: 'Eastern United States', owner: null, armies: 2 }, // North America
       { name: 'Central America', owner: null, armies: 3 },
       { name: 'Venezuela', owner: null, armies: 2 },
       { name: 'Brazil', owner: null, armies: 3 },
       { name: 'Peru', owner: null, armies: 2 },
-      { name: 'Argentina', owner: null, armies: 3 },
+      { name: 'Argentina', owner: null, armies: 3 }, // South America
       { name: 'Iceland', owner: null, armies: 2 },
       { name: 'Great Britain', owner: null, armies: 3 },
       { name: 'Western Europe', owner: null, armies: 2 },
       { name: 'Southern Europe', owner: null, armies: 3 },
       { name: 'Northern Europe', owner: null, armies: 2 },
       { name: 'Scandinavia', owner: null, armies: 3 },
-      { name: 'Ukraine', owner: null, armies: 2 },
+      { name: 'Ukraine', owner: null, armies: 2 }, // Europe
       { name: 'Ural', owner: null, armies: 3 },
       { name: 'Siberia', owner: null, armies: 2 },
       { name: 'Yakutsk', owner: null, armies: 3 },
@@ -52,21 +52,55 @@ async function createRiskGame(userId, gameInfo) {
       { name: 'India', owner: null, armies: 3 },
       { name: 'Siam', owner: null, armies: 2 },
       { name: 'Japan', owner: null, armies: 3 },
-      { name: 'Middle East', owner: null, armies: 2 },
+      { name: 'Middle East', owner: null, armies: 2 }, // Asia
       { name: 'Egypt', owner: null, armies: 2 },
       { name: 'East Africa', owner: null, armies: 3 },
       { name: 'Congo', owner: null, armies: 2 },
       { name: 'South Africa', owner: null, armies: 3 },
       { name: 'North Africa', owner: null, armies: 2 },
-      { name: 'Madagascar', owner: null, armies: 3 },
+      { name: 'Madagascar', owner: null, armies: 3 }, // Africa
       { name: 'Indonesia', owner: null, armies: 2 },
       { name: 'New Guinea', owner: null, armies: 3 },
       { name: 'Western Australia', owner: null, armies: 2 },
-      { name: 'Eastern Australia', owner: null, armies: 2 }
+      { name: 'Eastern Australia', owner: null, armies: 2 } // Australia
     ];
 
     // Shuffle the territories
     const shuffledTerritories = shuffleArray(territories);
+
+    // connections array (hard coded it so if the map ever changes i guess it might be glitchy sry)
+    const connectedRegions = [
+      {
+        region: "North America",
+        conections: [territories[1], territories[2], territories[3], territories[4], territories[5], territories[6], territories[7], territories[8]],
+        owner: null
+      },
+      {
+        region: "South America",
+        conections: [territories[9], territories[10], territories[11], territories[12], territories[13]],
+        owner: null
+      },
+      {
+        region: "Europe",
+        conections: [territories[14], territories[15], territories[16], territories[17], territories[18], territories[19], territories[20]],
+        owner: null
+      },
+      {
+        region: "Asia",
+        conections: [territories[21], territories[22], territories[23], territories[24], territories[25], territories[25], territories[26], territories[27], territories[28], territories[29], territories[30], territories[31], territories[32]],
+        owner: null
+      },
+      {
+        region: "Africa",
+        conections: [territories[33], territories[34], territories[35], territories[36], territories[37], territories[38]],
+        owner: null
+      },
+      {
+        region: "Australia",
+        conections: [territories[39], territories[40], territories[41], territories[42]],
+        owner: null
+      }
+    ];
 
     if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
@@ -78,6 +112,7 @@ async function createRiskGame(userId, gameInfo) {
         winner: null,
         reinforcements: {}, // Reinforcements for each player
         game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
+        regions: connectedRegions,
         created_at: new Date(),
         updated_at: new Date()
       };
@@ -87,27 +122,6 @@ async function createRiskGame(userId, gameInfo) {
         const playerIndex = i % newLocalGame.playerNames.length;
         newLocalGame.territories[i].owner = newLocalGame.playerNames[playerIndex].toString();
       }
-
-      // // create a collection named 'regions' with documents representing polygon regions
-
-      // // 1. Create a 2D geospatial index on the polygon coordinates
-      // db.regions.createIndex({ "geometry.coordinates": "2dsphere" });
-
-      // // 2. Query for adjacent regions based on a given region
-      // const adjacentRegions = db.regions.find({
-      //   geometry: {
-      //     $geoIntersects: {
-      //       $geometry: {
-      //         type: "Polygon",
-      //         coordinates: [/* Coordinates of the given polygon */]
-      //       }
-      //     }
-      //   }
-      // });
-
-      // // Process the adjacentRegions result as needed
-
-
       // Insert the new game document into the Risk collection
       const result = await db.collection('Risk').insertOne(newLocalGame);
 

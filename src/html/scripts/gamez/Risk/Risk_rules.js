@@ -118,6 +118,40 @@ function checkWin() {
     return winner ? winner.playerName : null;
 }
 
+// if counting takes too long i made a version using booleans for the regions (I can make it db friendly tmr)
+/*function checkWin(attacker) {
+    const win = false;
+    for (let j = o; j < territories.length; j++) { // check if attacker owns each territory
+        if (territories[j].owner == attacker) {
+            win = true;
+        } else {
+            win = false; // if any territory isnt owned by attacker, that can't win yet.
+            break; // no need to keep looping
+        };
+    }
+    return win; // return boolean value
+}*/
+
+function continentControl(attacker) { // player can get more troops depending on continent control (needs to be db friendly?)
+    const control = false;
+    for (let i = 0; i < connectedRegions.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
+        let region = connectedRegions[i];
+        let territory = [region.connections];
+        for (let j = o; j < territory.length; j++) { // check if attacker owns each territory in a region for each region
+            if (territory[j].owner == attacker) {
+                control = true;
+            } else {
+                control = false; // if any territory isnt owned by attacker, that can't win yet.
+                break; // no need to keep looping
+            };
+        }
+        if (control == true) { // increase possible # of troops in reinforce phase
+
+        } else { // reset possible # of troops?
+
+        }
+    }
+}
 
 // This function takes the gameData object (which just has all the data about this specific local game of risk from the database) 
 // and uses that to set the fill and stroke of each polygon (i.e., country) in the svg (which is embedded as an iframe which is why 
