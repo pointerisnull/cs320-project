@@ -104,7 +104,7 @@ async function createRiskGame(userId, gameInfo) {
 
     function createDeck() {
       const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
-      let deck = []; // 56 cards : 42 territory:troopType; 12 Secret Mission(if Secret Mission RIsk rules are made); 2 wild troopType
+      let deck = []; // 44 cards : 42 territory:troopType; 2 wild troopType
 
       shuffleArray(troopTypes);
 
@@ -117,6 +117,14 @@ async function createRiskGame(userId, gameInfo) {
         };
         deck.push(card);
       });
+
+      const wildCard = {
+        territory: 'Wild Card',
+        troopType: troopTypes
+      };
+      deck.push(wildCard);
+      deck.push(wildCard);
+
       return deck;
     }
 
