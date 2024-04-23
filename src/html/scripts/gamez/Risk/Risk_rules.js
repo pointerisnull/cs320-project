@@ -30,7 +30,7 @@ function reinforcementPhase() {
 
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
-        polygon.addEventListener('click', handlePolygonClick);
+        polygon.addEventListener('click', handleReinforcementClick);
     });
 }
 
@@ -187,7 +187,7 @@ function updateTerritoryColors() {
 // These last few functions deal with handling click and hover events.
 
 // Function to handle mouse click on polygons
-function handlePolygonClick(event) {
+function handleReinforcementClick(event) {
     const polygon = event.target;
     const country = polygon.id;
     var topBannerText = document.getElementById("topBannerText");
@@ -202,6 +202,11 @@ function handlePolygonClick(event) {
                     topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
                     if(gameData.reinforcements === 0) {
                         console.log("Reinforcement phase over...");
+                        const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+
+                        polygons.forEach(polygon => {
+                            polygon.removeEventListener('click', handleReinforcementClick);
+                        })
                         attackPhase();
                     }
                 }
@@ -314,6 +319,13 @@ function handleFortifySecondClick(event) {
     if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
         if (isAdjacent(firstTerritoryToFortify, clickedPolygon.id)) {
             secondTerritoryToFortify = clickedPolygon.id;
+
+            polygons.forEach(polygon => {
+                polygon.removeEventListener('click', handleFortifyFirstClick);
+            })
+            polygons.forEach(polygon => {
+                polygon.removeEventListener('click', handleFortifySecondClick);
+            });
             displayFortifySelectionScreen();
         }
         else {
