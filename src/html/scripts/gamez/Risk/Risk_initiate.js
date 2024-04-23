@@ -6,6 +6,7 @@ async function selectGameModeScreen() {
     startScreen.style.display = 'none';
     gameModeOptionsScreen.style.display = 'flex';
 
+    // This part of the function is just checking if a game is currently saved to the database under the user's id, if so, a button will be displayed to resume that specific game.
     const userData = await getData();
     checkGameData = await getLocalRiskGameData(userData._id);
 
@@ -178,6 +179,7 @@ async function newRiskLocalGame() {
     }
 }
 
+// Is called when the button in the game mode selection screen is pressed. All it does is it removes said screen and calls the playLocalRiskGame() function to start the game.
 function resumeLocalRiskGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     gameModeOptionsScreen.style.display = 'none';
