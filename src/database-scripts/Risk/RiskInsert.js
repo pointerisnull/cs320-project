@@ -102,6 +102,54 @@ async function createRiskGame(userId, gameInfo) {
       }
     ];
 
+    const R_Cards = [
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      { name: 'Alaska', troopType: Infantry,},
+      
+
+    ];
+    
     if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
       const newLocalGame = {
