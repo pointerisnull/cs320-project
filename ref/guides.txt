@@ -1,9 +1,4 @@
 Linux/Powershell:
-rm <name> ~ remove file
-cd / ~root dir
-ip a ~ IP list
-nano <file name> ~ nano text editor
-
 netstat -aon | findstr :<port> ~ see running PID
 taskkill /PID <PID> /F ~ kill port number
 
@@ -28,12 +23,11 @@ mongosh ~ start mongo
 cls ~ clear screen
 exit 
 
+https://github.com/michaeltreat/Mongo_CheatSheet
 show dbs ~ show databases
 use <name> ~ go into database
 show collections ~ show collections/tables
 db.<collection>.find({"<field>": "<value>"})
-
-OpenAI key: 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 ~ PROTECT
 
 Graphics:
 https://gsap.com/resources/svg ~ animation
