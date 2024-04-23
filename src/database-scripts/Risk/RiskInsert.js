@@ -102,24 +102,24 @@ async function createRiskGame(userId, gameInfo) {
       }
     ];
 
-    const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
-    let deck = []; // 56 cards : 42 territory:troopType; 12 Secret Mission(if Secret Mission RIsk rules are made); 2 wild troopType
+    function createDeck() {
+      const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
+      let deck = []; // 56 cards : 42 territory:troopType; 12 Secret Mission(if Secret Mission RIsk rules are made); 2 wild troopType
 
-    territories.forEach(territory => { // create 42 cards with territories
-      const card = {
-        territory: territory,
-        troopType: null
-      };
-      deck.push(card);
-    });
-    for (let i = 0; i < deck; i++) { // add a troop type for each card in the deck
-      troopTypes.forEach(troopType => {
-        card.troopType = {
+      shuffleArray(troopTypes);
+
+      territories.forEach((territory, index) => { // create 42 cards with territories
+        const troopType = troopTypes[index % troopTypes.length]; // pick a troopType from shuffled troopType array
+        
+        const card = { // card object
+          territory: territory,
           troopType: troopType
         };
         deck.push(card);
       });
+      return deck;
     }
+
 
 
     if (gameInfo.gameMode === 'Local') {
@@ -134,7 +134,7 @@ async function createRiskGame(userId, gameInfo) {
         reinforcements: {}, // Reinforcements for each player
         game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
         control: continents,
-        Cards: deck,
+        Cards: new createDeck(),
         created_at: new Date(),
         updated_at: new Date()
       };
