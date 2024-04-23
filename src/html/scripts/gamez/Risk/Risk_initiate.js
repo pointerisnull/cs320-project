@@ -177,12 +177,7 @@ async function playLocalRiskGame() {
     gameData = await getLocalRiskGameData(userData._id);
     if(gameData) {
         console.log(gameData);
-        updateTerritoryColors();
-        setInfoBox();
-        setBanners();
-        updateTopBanner();
         nextTurn();
-        checkWin();
     }
 }
 
@@ -210,5 +205,29 @@ async function getLocalRiskGameData(userId) {
         // Log error if fetching game data fails
         console.error('Error with game:', error);
         throw error;
+    }
+}
+
+async function updateLocalRiskGameData() {
+    try {
+        const response = await fetch('/updateRiskLocalGame-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                gameData
+            )
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update local risk game data');
+        }
+
+        const data = await response.json();
+        console.log('Local risk game data updated successfully.');
+        return true;
+    } catch (error) {
+        console.error('Error updating local risk game data', error);
     }
 }

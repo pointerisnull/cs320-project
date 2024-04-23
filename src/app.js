@@ -11,6 +11,7 @@ const { handleUserDataRequest } = require('./handlers/userDataHandler');
 const { updateUser } = require('./database-scripts/User/UserUpdate');
 const { createRiskGame } = require('./database-scripts/Risk/RiskInsert');
 const { handleLocalRiskGameDataRequest } = require('./handlers/riskLocalGameDataHandler');
+const { updateRiskGame } = require('./database-scripts/Risk/RiskUpdate');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
@@ -179,6 +180,32 @@ const server = http.createServer((req, res) => {
         const userId = req.headers.authorization.split(' ')[1];
         // Process user data request
         handleLocalRiskGameDataRequest(req, res, userId);
+        return; // End the request here to prevent further processing
+    }
+
+    // Handles the local risk game update request
+    if (req.method === 'POST' && req.url === '/updateRiskLocalGame-data') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', async () => {
+            try {
+                const gameData = JSON.parse(body);
+                
+                // Call the updateRiskGame function passing the updated game data.
+                await updateRiskGame(gameData);
+                
+                // Send a success response
+                res.statusCode = 200;
+                res.end(JSON.stringify({ message: 'Local risk game updated successfully' }));
+            } catch (error) {
+                // Handle errors
+                console.error('Error updating local risk game information:', error);
+                res.statusCode = 500; // Internal Server Error
+                res.end(JSON.stringify({ error: 'Failed to update local risk game information' }));
+            }
+        });
         return; // End the request here to prevent further processing
     }
     

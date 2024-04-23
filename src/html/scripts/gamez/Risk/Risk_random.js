@@ -56,3 +56,19 @@ function decreaseTroopsToSend() {
     document.getElementById('troopsToSendCount').textContent = troopsToSendCount;
 }
 
+var fortifyTroopsToSendCount = 0;
+
+function increaseFortifyTroopsToSend() {
+    if(fortifyTroopsToSendCount < findTerritoryByPolygonId(firstTerritoryToFortify).armies - 1 && findTerritoryByPolygonId(firstTerritoryToFortify).armies > 1) {
+        fortifyTroopsToSendCount++;
+    }
+    document.getElementById('fortifyTroopsToSendCount').textContent = fortifyTroopsToSendCount;
+}
+
+function decreaseFortifyTroopsToSend() {
+    if(fortifyTroopsToSendCount > 0) {
+        fortifyTroopsToSendCount--;
+    }
+    document.getElementById('fortifyTroopsToSendCount').textContent = fortifyTroopsToSendCount;
+}
+
