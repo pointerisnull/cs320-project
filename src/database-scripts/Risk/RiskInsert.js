@@ -106,6 +106,7 @@ async function createRiskGame(userId, gameInfo) {
       // Create a new Risk game object
       const newLocalGame = {
         _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
+        game_mode: gameInfo.gameMode,
         playerNames: gameInfo.playerNames,
         territories: shuffledTerritories,
         player_turn: gameInfo.playerNames[0], // Index of the current player in the players array

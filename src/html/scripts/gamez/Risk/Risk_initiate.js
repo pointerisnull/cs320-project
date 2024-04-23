@@ -1,10 +1,21 @@
 // This function is called when the "Play Game" button is pushed on the start screen.
-function selectGameModeScreen() {
+async function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
 
     startScreen.style.display = 'none';
     gameModeOptionsScreen.style.display = 'flex';
+
+    const userData = await getData();
+    checkGameData = await getLocalRiskGameData(userData._id);
+
+    if(checkGameData) {
+        if(checkGameData.game_mode === 'Local') {
+            const resumeLocalRiskGameButton = document.getElementById("resumeLocalRiskGameButton");
+            resumeLocalRiskGameButton.textContent = "Resume Game";
+            resumeLocalRiskGameButton.style.display = 'block';
+        }
+    }
 }
 
 /* Get the relevant elements to be displayed in fullscreen mode*/
@@ -165,6 +176,12 @@ async function newRiskLocalGame() {
         console.error('Error inserting local risk game:', error);
         }
     }
+}
+
+function resumeLocalRiskGame() {
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    gameModeOptionsScreen.style.display = 'none';
+    playLocalRiskGame();
 }
 
 var gameData = null;
