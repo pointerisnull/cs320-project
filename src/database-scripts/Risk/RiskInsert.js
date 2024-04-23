@@ -130,14 +130,8 @@ async function createRiskGame(userId, gameInfo) {
   } finally {
     await client.close();
   }
-  module.exports = {
-    territories,
-    connectedRegions,
-  };
 }
 
 module.exports = {
   createRiskGame,
 };
-
-
