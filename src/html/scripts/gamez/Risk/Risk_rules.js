@@ -1,12 +1,10 @@
+import { connectedRegions } from "../../../../database-scripts/Risk/RiskInsert";
+var connectedRegions;
+import { territories } from "../../../../database-scripts/Risk/RiskInsert";
+var territories;
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn() {
-    const bottomBannerText = document.getElementById("bottomBannerText");
-    bottomBannerText.innerHTML = '';
-    updateTerritoryColors();
-    setInfoBox();
-    setBanners();
-    updateTopBanner();
     reinforcementPhase();
 }
 
@@ -19,7 +17,7 @@ function reinforcementPhase() {
     const currentPlayer = gameData.player_turn;
     var numberOfTerritories = 0;
     gameData.territories.forEach((territory) => {
-        if(territory.owner === currentPlayer) {
+        if (territory.owner === currentPlayer) {
             numberOfTerritories++;
         }
     })
@@ -45,79 +43,55 @@ function attackPhase() {
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
     // Add click event listeners to all countries for selecting attacker
-    if(!attacker) {
+    if (!attacker) {
         polygons.forEach(polygon => {
-            polygon.addEventListener('click', handleAttackFirstClick);
+            polygon.addEventListener('click', handleFirstClick);
         });
     }
 }
 
 function fortificationPhase() {
-    document.getElementById("attackPhaseContinueOrOverScreen").style.display = "none";
     console.log("Fortification phase starting...");
     gameData.game_phase = 'fortify';
-    var bottomBannerText = document.getElementById("bottomBannerText");
-    bottomBannerText.innerHTML = "Choose two adjacent, owned territories to move troops between."
-    updateTopBanner();
-
-    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
-
-    polygons.forEach(polygon => {
-        polygon.removeEventListener('click', handleAttackFirstClick);
-    })
-    polygons.forEach(polygon => {
-        polygon.removeEventListener('click', handleAttackSecondClick);
-    });
-
-    polygons.forEach(polygon => {
-        polygon.addEventListener('click', handleFortifyFirstClick);
-    });
 }
 
-async function endCurrentTurn() {
-    const win = checkWin();
-    if(win) {
-        // Nothing implemented yet for when someone wins.
+let attacker = null; // Variable to store the attacking country
+let defender = null;
+
+// This function is called at the end of every turn to check if a player has won or not. (no animation yet)
+function checkWin(attacker) {
+    const win = false;
+    for (let j = o; j < territories.length; j++) { // check if attacker owns each territory
+        if (territories[j].owner == attacker) {
+            win = true;
+        } else {
+            win = false; // if any territory isnt owned by attacker, that can't win yet.
+            break; // no need to keep looping
+        };
     }
-    else {
-        if(gameData.playerNames.indexOf(gameData.player_turn) < gameData.playerNames.length - 1) {
-            gameData.player_turn = gameData.playerNames[gameData.playerNames.indexOf(gameData.player_turn) + 1];
-        }
-        else {
-            gameData.player_turn = gameData.playerNames[0];
-        }
-        gameData.game_phase = "reinforcement";
+    return win; // return boolean value
+}
 
-        const updated = await updateLocalRiskGameData();
+function continentControl(attacker) { // player can get more troops depending on continent control
+    const control = false;
+    for (let i = 0; i < connectedRegions.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
+        let region = connectedRegions[i];
+        let territory = [region.connections];
+        for (let j = o; j < territory.length; j++) { // check if attacker owns each territory in a region for each region
+            if (territory[j].owner == attacker) {
+                control = true;
+            } else {
+                control = false; // if any territory isnt owned by attacker, that can't win yet.
+                break; // no need to keep looping
+            };
+        }
+        if (control == true) { // increase possible # of troops in reinforce phase
 
-        console.log(updated);
-        if(updated) {
-            nextTurn();
+        } else { // reset possible # of troops?
+
         }
     }
 }
-
-// This function is called at the end of every turn to check if a player has won or not.
-function checkWin() {
-    var playerTerritoryCounts = [];
-
-    gameData.playerNames.forEach((player) => {
-        playerTerritoryCounts.push({playerName: player, territoryCount: 0});
-        gameData.territories.forEach((territory) => {
-            if(territory.owner === player) {
-                const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
-                if (index !== -1) {
-                    playerTerritoryCounts[index].territoryCount += 1;
-                }
-            }
-        });
-    });
-
-    // Check if any player owns all territories.
-    const winner = playerTerritoryCounts.find(object => object.territoryCount === gameData.territories.length);
-    return winner ? winner.playerName : null;
-}
-
 
 // This function takes the gameData object (which just has all the data about this specific local game of risk from the database) 
 // and uses that to set the fill and stroke of each polygon (i.e., country) in the svg (which is embedded as an iframe which is why 
@@ -130,7 +104,7 @@ function updateTerritoryColors() {
     const polygonIds = [];
 
     // Getting each individual polygon id (e.g., 'Alaska', 'China', etc.) from the polygons array.
-    for(i = 0; i < polygons.length; i++) {
+    for (i = 0; i < polygons.length; i++) {
         const polygonId = polygons[i].getAttribute("id");
         polygonIds.push(polygonId);
     }
@@ -138,10 +112,10 @@ function updateTerritoryColors() {
     // This iterates over the territories array and over every iteration also iterates over a for-loop which is trying to find what 
     // polygon id from the polygonIds array matches with the current 'territory' object.
     gameData.territories.forEach((territory) => {
-        for(i = 0; i < gameData.territories.length; i++) {
-            if(territory.name === polygonIds[i]) {
+        for (i = 0; i < gameData.territories.length; i++) {
+            if (territory.name === polygonIds[i]) {
                 const country = document.getElementById("riskSVGMap").contentWindow.document.getElementById(polygonIds[i]);
-                if(country) {
+                if (country) {
                     country.style.fill = colorsFill[gameData.playerNames.indexOf(territory.owner)];
                     country.style.stroke = colorsStroke[gameData.playerNames.indexOf(territory.owner)];
                 }
@@ -157,16 +131,16 @@ function handlePolygonClick(event) {
     const polygon = event.target;
     const country = polygon.id;
     var topBannerText = document.getElementById("topBannerText");
-    
-    if(gameData.reinforcements > 0 && gameData.game_phase === 'reinforcement') {
+
+    if (gameData.reinforcements > 0 && gameData.game_phase === 'reinforcement') {
         gameData.territories.forEach((territory) => {
-            if(territory.name === country) {
-                if(gameData.player_turn === territory.owner) {
+            if (territory.name === country) {
+                if (gameData.player_turn === territory.owner) {
                     gameData.reinforcements--;
                     territory.armies += 1;
                     updateTopBanner();
                     topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
-                    if(gameData.reinforcements === 0) {
+                    if (gameData.reinforcements === 0) {
                         console.log("Reinforcement phase over...");
                         attackPhase();
                     }
@@ -176,32 +150,29 @@ function handlePolygonClick(event) {
     }
 }
 
-let attacker = null; // Variable to store the attacking country
-let defender = null;
-
 // Function to handle the first click (selecting the attacker)
-function handleAttackFirstClick(event) {
+function handleFirstClick(event) {
     const clickedPolygon = event.target;
     const currentPlayer = gameData.player_turn;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
     var bottomBannerText = document.getElementById("bottomBannerText");
 
-    if(attacker === null) {
+    if (attacker === null) {
         // Check if the clicked country belongs to the current player
         if (findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies > 1) {
             attacker = clickedPolygon.id;
             console.log(`Attacker selected: ${attacker}`);
             bottomBannerText.innerHTML = "Please select a target (must be adjacent).";
             // Add click event listeners to all countries for selecting defender.
-            if(attacker) {
+            if (attacker) {
                 polygons.forEach(polygon => {
-                    polygon.removeEventListener('click', handleAttackFirstClick);
+                    polygon.removeEventListener('click', handleFirstClick);
                 })
                 polygons.forEach(polygon => {
-                    polygon.addEventListener('click', handleAttackSecondClick);
+                    polygon.addEventListener('click', handleSecondClick);
                 });
             }
-        } else if(findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies <= 1){
+        } else if (findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies <= 1) {
             console.log("An attacking territory must have at least 2 troops!");
             bottomBannerText.innerHTML = "An attacking territory must have at least 2 troops! Please select an attacker.";
         }
@@ -213,13 +184,13 @@ function handleAttackFirstClick(event) {
 }
 
 // Function to handle the second click (selecting the defender)
-function handleAttackSecondClick(event) {
+function handleSecondClick(event) {
     const clickedPolygon = event.target;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
     var bottomBannerText = document.getElementById("bottomBannerText");
 
     // Check if the clicked country is adjacent to the attacker
-    if(attacker) {
+    if (attacker) {
         if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
             bottomBannerText.innerHTML = "You can't attack your own countries! Please select a target."
             console.log("You can't attack your own countries!");
@@ -230,66 +201,15 @@ function handleAttackSecondClick(event) {
             bottomBannerText.innerHTML = "Attacker: " + attacker + " | Target: " + defender;
             displayAttackSelectScreen(attacker, defender);
             polygons.forEach(polygon => {
-                polygon.removeEventListener('click', handleAttackSecondClick);
+                polygon.removeEventListener('click', handleSecondClick);
             })
             polygons.forEach(polygon => {
-                polygon.addEventListener('click', handleAttackFirstClick);
+                polygon.addEventListener('click', handleFirstClick);
             });
         } else {
             bottomBannerText.innerHTML = "You can only attack adjacent territories! Please select a target."
             console.log("You can only attack adjacent territories!");
         }
-    }
-}
-
-var firstTerritoryToFortify = null;
-var secondTerritoryToFortify = null;
-
-function handleFortifyFirstClick(event) {
-    const clickedPolygon = event.target;
-    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
-    var bottomBannerText = document.getElementById("bottomBannerText");
-
-    if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
-        if (findTerritoryByPolygonId(clickedPolygon.id).armies > 1) {
-            firstTerritoryToFortify = clickedPolygon.id;
-            console.log(`First territory selected: ${firstTerritoryToFortify}`);
-            polygons.forEach(polygon => {
-                polygon.removeEventListener('click', handleFortifyFirstClick);
-            })
-            polygons.forEach(polygon => {
-                polygon.addEventListener('click', handleFortifySecondClick);
-            });
-        }
-        else {
-            console.log("You can only select territories with at least 2 troops!");
-            bottomBannerText.innerHTML = "You can only select territories with at least 2 troops!";
-        }
-    }
-    else {
-        console.log("You can only select your own territories!");
-        bottomBannerText.innerHTML = "You can only select your own territories!";
-    }
-}
-
-function handleFortifySecondClick(event) {
-    const clickedPolygon = event.target;
-    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
-    var bottomBannerText = document.getElementById("bottomBannerText");
-
-    if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
-        if (isAdjacent(firstTerritoryToFortify, clickedPolygon.id)) {
-            secondTerritoryToFortify = clickedPolygon.id;
-            displayFortifySelectionScreen();
-        }
-        else {
-            console.log("You can only select adjacent territories!");
-            bottomBannerText.innerHTML = "You can only select adjacent territories!";
-        }
-    }
-    else {
-        console.log("You can only select territories that you own!");
-        bottomBannerText.innerHTML = "You can only select territories that you own!";
     }
 }
 
@@ -304,9 +224,9 @@ function startAttack() {
     var loser = null;
     var bottomBannerText = document.getElementById("bottomBannerText");
 
-    while(attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
+    while (attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
-        if(randomValue < 0.5) {
+        if (randomValue < 0.5) {
             defenderLostTroops++;
             defenderCurrentTroops--;
         }
@@ -318,7 +238,7 @@ function startAttack() {
         console.log(defender, ": ", defenderCurrentTroops);
     }
 
-    if(attackerCurrentTroops) {
+    if (attackerCurrentTroops) {
         winner = attacker;
         loser = defender;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
