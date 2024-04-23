@@ -102,54 +102,26 @@ async function createRiskGame(userId, gameInfo) {
       }
     ];
 
-    const R_Cards = [
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      { name: 'Alaska', troopType: Infantry,},
-      
+    const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
+    let deck = []; // 56 cards : 42 territory:troopType; 12 Secret Mission(if Secret Mission RIsk rules are made); 2 wild troopType
 
-    ];
-    
+    territories.forEach(territory => { // create 42 cards with territories
+      const card = {
+        territory: territory,
+        troopType: null
+      };
+      deck.push(card);
+    });
+    for (let i = 0; i < deck; i++) { // add a troop type for each card in the deck
+      troopTypes.forEach(troopType => {
+        card.troopType = {
+          troopType: troopType
+        };
+        deck.push(card);
+      });
+    }
+
+
     if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
       const newLocalGame = {
@@ -162,6 +134,7 @@ async function createRiskGame(userId, gameInfo) {
         reinforcements: {}, // Reinforcements for each player
         game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
         control: continents,
+        Cards: deck,
         created_at: new Date(),
         updated_at: new Date()
       };
