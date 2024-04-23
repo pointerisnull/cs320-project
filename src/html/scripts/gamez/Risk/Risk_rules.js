@@ -1,6 +1,12 @@
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn() {
+    const bottomBannerText = document.getElementById("bottomBannerText");
+    bottomBannerText.innerHTML = '';
+    updateTerritoryColors();
+    setInfoBox();
+    setBanners();
+    updateTopBanner();
     reinforcementPhase();
 }
 
@@ -41,19 +47,75 @@ function attackPhase() {
     // Add click event listeners to all countries for selecting attacker
     if(!attacker) {
         polygons.forEach(polygon => {
-            polygon.addEventListener('click', handleFirstClick);
+            polygon.addEventListener('click', handleAttackFirstClick);
         });
     }
 }
 
 function fortificationPhase() {
+    document.getElementById("attackPhaseContinueOrOverScreen").style.display = "none";
     console.log("Fortification phase starting...");
     gameData.game_phase = 'fortify';
+    var bottomBannerText = document.getElementById("bottomBannerText");
+    bottomBannerText.innerHTML = "Choose two adjacent, owned territories to move troops between."
+    updateTopBanner();
+
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleAttackFirstClick);
+    })
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleAttackSecondClick);
+    });
+
+    polygons.forEach(polygon => {
+        polygon.addEventListener('click', handleFortifyFirstClick);
+    });
+}
+
+async function endCurrentTurn() {
+    const win = checkWin();
+    if(win) {
+        // Nothing implemented yet for when someone wins.
+    }
+    else {
+        if(gameData.playerNames.indexOf(gameData.player_turn) < gameData.playerNames.length - 1) {
+            gameData.player_turn = gameData.playerNames[gameData.playerNames.indexOf(gameData.player_turn) + 1];
+        }
+        else {
+            gameData.player_turn = gameData.playerNames[0];
+        }
+        gameData.game_phase = "reinforcement";
+
+        const updated = await updateLocalRiskGameData();
+
+        console.log(updated);
+        if(updated) {
+            nextTurn();
+        }
+    }
 }
 
 // This function is called at the end of every turn to check if a player has won or not.
 function checkWin() {
+    var playerTerritoryCounts = [];
 
+    gameData.playerNames.forEach((player) => {
+        playerTerritoryCounts.push({playerName: player, territoryCount: 0});
+        gameData.territories.forEach((territory) => {
+            if(territory.owner === player) {
+                const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
+                if (index !== -1) {
+                    playerTerritoryCounts[index].territoryCount += 1;
+                }
+            }
+        });
+    });
+
+    // Check if any player owns all territories.
+    const winner = playerTerritoryCounts.find(object => object.territoryCount === gameData.territories.length);
+    return winner ? winner.playerName : null;
 }
 
 
@@ -118,7 +180,7 @@ let attacker = null; // Variable to store the attacking country
 let defender = null;
 
 // Function to handle the first click (selecting the attacker)
-function handleFirstClick(event) {
+function handleAttackFirstClick(event) {
     const clickedPolygon = event.target;
     const currentPlayer = gameData.player_turn;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
@@ -133,10 +195,10 @@ function handleFirstClick(event) {
             // Add click event listeners to all countries for selecting defender.
             if(attacker) {
                 polygons.forEach(polygon => {
-                    polygon.removeEventListener('click', handleFirstClick);
+                    polygon.removeEventListener('click', handleAttackFirstClick);
                 })
                 polygons.forEach(polygon => {
-                    polygon.addEventListener('click', handleSecondClick);
+                    polygon.addEventListener('click', handleAttackSecondClick);
                 });
             }
         } else if(findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies <= 1){
@@ -151,7 +213,7 @@ function handleFirstClick(event) {
 }
 
 // Function to handle the second click (selecting the defender)
-function handleSecondClick(event) {
+function handleAttackSecondClick(event) {
     const clickedPolygon = event.target;
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
     var bottomBannerText = document.getElementById("bottomBannerText");
@@ -168,15 +230,66 @@ function handleSecondClick(event) {
             bottomBannerText.innerHTML = "Attacker: " + attacker + " | Target: " + defender;
             displayAttackSelectScreen(attacker, defender);
             polygons.forEach(polygon => {
-                polygon.removeEventListener('click', handleSecondClick);
+                polygon.removeEventListener('click', handleAttackSecondClick);
             })
             polygons.forEach(polygon => {
-                polygon.addEventListener('click', handleFirstClick);
+                polygon.addEventListener('click', handleAttackFirstClick);
             });
         } else {
             bottomBannerText.innerHTML = "You can only attack adjacent territories! Please select a target."
             console.log("You can only attack adjacent territories!");
         }
+    }
+}
+
+var firstTerritoryToFortify = null;
+var secondTerritoryToFortify = null;
+
+function handleFortifyFirstClick(event) {
+    const clickedPolygon = event.target;
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    var bottomBannerText = document.getElementById("bottomBannerText");
+
+    if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
+        if (findTerritoryByPolygonId(clickedPolygon.id).armies > 1) {
+            firstTerritoryToFortify = clickedPolygon.id;
+            console.log(`First territory selected: ${firstTerritoryToFortify}`);
+            polygons.forEach(polygon => {
+                polygon.removeEventListener('click', handleFortifyFirstClick);
+            })
+            polygons.forEach(polygon => {
+                polygon.addEventListener('click', handleFortifySecondClick);
+            });
+        }
+        else {
+            console.log("You can only select territories with at least 2 troops!");
+            bottomBannerText.innerHTML = "You can only select territories with at least 2 troops!";
+        }
+    }
+    else {
+        console.log("You can only select your own territories!");
+        bottomBannerText.innerHTML = "You can only select your own territories!";
+    }
+}
+
+function handleFortifySecondClick(event) {
+    const clickedPolygon = event.target;
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    var bottomBannerText = document.getElementById("bottomBannerText");
+
+    if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
+        if (isAdjacent(firstTerritoryToFortify, clickedPolygon.id)) {
+            secondTerritoryToFortify = clickedPolygon.id;
+            displayFortifySelectionScreen();
+        }
+        else {
+            console.log("You can only select adjacent territories!");
+            bottomBannerText.innerHTML = "You can only select adjacent territories!";
+        }
+    }
+    else {
+        console.log("You can only select territories that you own!");
+        bottomBannerText.innerHTML = "You can only select territories that you own!";
     }
 }
 

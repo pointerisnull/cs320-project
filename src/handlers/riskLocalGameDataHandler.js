@@ -11,7 +11,7 @@ async function handleLocalRiskGameDataRequest(req, res, userId) {
 
         // Fetch all documents from UserInformation collection
         const gameData = await riskCollection.findOne({ _id: ObjectId.createFromHexString(userId) });
-        console.log("Found game data for local risk game: ", JSON.stringify(gameData, null, 2));
+        // console.log("Found game data for local risk game: ", JSON.stringify(gameData, null, 2));
 
         // Send the data to the client
         res.end(JSON.stringify(gameData));

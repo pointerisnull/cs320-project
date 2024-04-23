@@ -184,7 +184,7 @@
             </div>
         </div>
         <div id="game-container" class="item body" style="margin: auto;"> <!-- game -->
-            <div id="inside-game-container" class="ui fluid container" style=" border:1px dashed black; width:800px; height:560px;">
+            <div id="inside-game-container" class="ui fluid container" style="border:1px dashed black; width:800px; height:560px;">
                 <div class="option-screen" id="startScreen">
                     <h1>Welcome to Risk</h1>
                     <button onclick="selectGameModeScreen()">Play</button>
@@ -232,7 +232,8 @@
                     <p>Select another attacker or continue on and fortify.</p>
                     <button onclick="attackPhase()">Attack again</button>
                     <button onclick="fortificationPhase()">Continue</button>    
-                <div>
+                </div>
+                <div id="fortifySelectionScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                 <!-- Info box -->
                 <div id="infoBox" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                 <!-- SVG Map -->

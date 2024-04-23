@@ -109,10 +109,38 @@ function hideTroopSendScreen() {
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies -= troopsToSendCount;
     attacker = null;
     defender = null;
-    bottomBannerText.innerHTML = "Choose another attacker or move on to the defense phase...";
+    bottomBannerText.innerHTML = "Choose another attacker or move on to the fortification phase...";
+    displayAttackPhaseContinueOrOverScreen();
 }
 
 function displayAttackPhaseContinueOrOverScreen() {
-    const attackContinueOrOverScreen = document.getElementById("attackContinueOrOverScreen");
-    attackContinueOrOverScreen.style.display = 'block';
+    const attackPhaseContinueOrOverScreen = document.getElementById("attackPhaseContinueOrOverScreen");
+    attackPhaseContinueOrOverScreen.style.display = 'block';
+}
+
+function hideAttackPhaseContinueOrOverScreen() {
+    const attackPhaseContinueOrOverScreen = document.getElementById("attackPhaseContinueOrOverScreen");
+    attackPhaseContinueOrOverScreen.style.display = 'none';
+}
+
+function displayFortifySelectionScreen() {
+    const fortifySelectionScreen = document.getElementById("fortifySelectionScreen");
+
+    fortifySelectionScreen.innerHTML = `
+    <div>Number of troops to send from ${firstTerritoryToFortify} to ${secondTerritoryToFortify}: <span id="fortifyTroopsToSendCount">1</span></div>
+    <button onclick="decreaseFortifyTroopsToSend()" style="width:10%">-</button>
+    <button onclick="increaseFortifyTroopsToSend()" style="width:10%">+</button>
+    <br></br>
+    <button onclick="hideFortifySelectionScreen()">Ok</button>
+    `;
+    fortifySelectionScreen.style.display = 'block';
+}
+
+function hideFortifySelectionScreen() {
+    const fortifySelectionScreen = document.getElementById("fortifySelectionScreen");
+    fortifySelectionScreen.style.display = 'none';
+
+    firstTerritoryToFortify = null;
+    secondTerritoryToFortify = null;
+    endCurrentTurn();
 }
