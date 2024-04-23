@@ -1,7 +1,3 @@
-import { connectedRegions } from "../../../../database-scripts/Risk/RiskInsert";
-var connectedRegions;
-import { territories } from "../../../../database-scripts/Risk/RiskInsert";
-var territories;
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn() {
@@ -136,7 +132,7 @@ function checkWin() {
     return win; // return boolean value
 }*/
 
-function continentControl(attacker) { // player can get more troops depending on continent control
+function continentControl(attacker) { // player can get more troops depending on continent control (needs to be db friendly?)
     const control = false;
     for (let i = 0; i < connectedRegions.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
         let region = connectedRegions[i];
