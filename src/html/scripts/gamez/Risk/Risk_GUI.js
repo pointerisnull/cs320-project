@@ -28,18 +28,26 @@ function updateBottomBanner() {
 
 }
 
+let isInfoBoxHovered = false; // Flag to track if the mouse is over the infobox
+
 // Function to update each individual country and its info and set up the "info box" and hover events.
 function setInfoBox() {
+    const infoBox = document.getElementById('infoBox');
+
+    // Add event listener to the info box to handle mouse enter and leave
+    infoBox.addEventListener('mouseenter', () => {
+        isInfoBoxHovered = true;
+        infoBox.style.display = "block";
+    });
+    infoBox.addEventListener('mouseleave', () => {
+        isInfoBoxHovered = false;
+        hideInfoBox(); // Hide the infobox when mouse leaves it
+    });
+
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
         polygon.addEventListener('mouseenter', handlePolygonHover);
-        polygon.addEventListener('mouseleave', hideInfoBox);
-    });
-
-    // Add event listener to the info box to handle mouse leave
-    const infoBox = document.getElementById('infoBox');
-    infoBox.addEventListener('mouseleave', () => {
-        hideInfoBox();
+        polygon.addEventListener('mouseleave', handlePolygonLeave);
     });
 }
 
@@ -73,8 +81,16 @@ function handlePolygonHover(event) {
     infoBox.style.top = `${topPosition}px`;
     infoBox.style.left = `${leftPosition}px`;
 
-    // Display the info box
-    infoBox.style.display = 'block';
+    // Display the info box if the mouse is not over it
+    if (!isInfoBoxHovered) {
+        infoBox.style.display = 'block';
+    }
+}
+
+function handlePolygonLeave() {
+    if (!isInfoBoxHovered) {
+        hideInfoBox();
+    }
 }
 
 // Function to hide the info box
@@ -82,7 +98,6 @@ function hideInfoBox() {
     const infoBox = document.getElementById('infoBox');
     infoBox.style.display = 'none';
 }
-
 
 function displayAttackSelectScreen(attackerId, targetId) {
     const attackSelectScreen = document.getElementById('attackSelectScreen');
