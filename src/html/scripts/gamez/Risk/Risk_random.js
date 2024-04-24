@@ -27,7 +27,7 @@ function isAdjacent(attackerPolygonId, defenderPolygonId) {
 var troopsAttackingCount = 1;
 
 function increaseAttackingTroops() {
-    if(troopsAttackingCount < findTerritoryByPolygonId(attacker).armies - 1 && findTerritoryByPolygonId(attacker).armies > 2) {
+    if(attacker && troopsAttackingCount < findTerritoryByPolygonId(attacker).armies - 1 && findTerritoryByPolygonId(attacker).armies > 2) {
         troopsAttackingCount++;
     }
     document.getElementById('troopsAttackingCount').textContent = troopsAttackingCount;

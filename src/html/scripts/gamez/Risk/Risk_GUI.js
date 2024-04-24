@@ -78,7 +78,7 @@ function displayAttackSelectScreen(attackerId, targetId) {
     <span id="troopsAttackingCount">1</span>
     <button onclick="increaseAttackingTroops()" style="width:10%">+</button>
     <br></br>
-    <button onclick="startAttack()">Attack!</button>
+    <button onclick="singleAttack()">Attack!</button>
     `;
     attackSelectScreen.style.display = 'block';
 }
@@ -86,7 +86,6 @@ function displayAttackSelectScreen(attackerId, targetId) {
 function hideAttackSummaryScreen() {
     const attackSummaryScreen = document.getElementById('attackSummaryScreen');
     attackSummaryScreen.style.display = 'none';
-    displayTroopSendScreen();
 }
 
 function displayTroopSendScreen() {
@@ -105,8 +104,8 @@ function hideTroopSendScreen() {
     const troopSendScreen = document.getElementById("troopSendScreen");
     var bottomBannerText = document.getElementById("bottomBannerText");
     troopSendScreen.style.display = 'none';
-    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = troopsToSendCount + 1;
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies -= troopsToSendCount;
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies += troopsToSendCount;
     attacker = null;
     defender = null;
     bottomBannerText.innerHTML = "Choose another attacker or move on to the fortification phase...";
@@ -139,7 +138,8 @@ function displayFortifySelectionScreen() {
 function hideFortifySelectionScreen() {
     const fortifySelectionScreen = document.getElementById("fortifySelectionScreen");
     fortifySelectionScreen.style.display = 'none';
-
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(firstTerritoryToFortify))].armies -= fortifyTroopsToSendCount;
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(secondTerritoryToFortify))].armies += fortifyTroopsToSendCount;
     firstTerritoryToFortify = null;
     secondTerritoryToFortify = null;
     endCurrentTurn();

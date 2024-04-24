@@ -1,6 +1,10 @@
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn() {
+    troopsAttackingCount = 1;
+    troopsToSendCount = 0;
+    fortifyTroopsToSendCount = 0;
+
     const bottomBannerText = document.getElementById("bottomBannerText");
     bottomBannerText.innerHTML = '';
     updateTerritoryColors();
@@ -339,16 +343,20 @@ function handleFortifySecondClick(event) {
     }
 }
 
-function startAttack() {
+// This function is called when the current player selects two valid territories and the number of troops to send. This function encapsulates the entire attack.
+function singleAttack() {
     document.getElementById('attackSelectScreen').style.display = 'none';
     var attackerLostTroops = 0;
     var defenderLostTroops = 0;
     var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
     var defenderCurrentTroops = findTerritoryByPolygonId(defender).armies;
+    // var attackerBeginningTroops = attackerCurrentTroops;
+    // var defenderBeginningTroops = defenderCurrentTroops;
     var randomValue = 0;
     var winner = null;
     var loser = null;
     var bottomBannerText = document.getElementById("bottomBannerText");
+    const attackSummaryScreen = document.getElementById('attackSummaryScreen');
 
     while(attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
@@ -367,26 +375,32 @@ function startAttack() {
     if(attackerCurrentTroops) {
         winner = attacker;
         loser = defender;
-        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
-        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops + 1;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].owner = findTerritoryByPolygonId(attacker).owner;
         updateTerritoryColors();
         bottomBannerText.innerHTML = "You successfully invaded " + loser + "!";
+        attackSummaryScreen.innerHTML = `
+        <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
+        <div>${defender} lost ${defenderLostTroops} troop(s)</div>
+        <div>${winner} beat ${loser}</div>
+        <br></br>
+        <button onclick="hideAttackSummaryScreen(); displayTroopSendScreen();">Ok</button>
+        `;
     }
     else {
         winner = defender;
         loser = attacker;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops;
+        attackSummaryScreen.innerHTML = `
+        <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
+        <div>${defender} lost ${defenderLostTroops} troop(s)</div>
+        <div>${loser} beat ${winner}</div>
+        <br></br>
+        <button onclick="hideAttackSummaryScreen(); displayAttackPhaseContinueOrOverScreen();">Ok</button>
+        `;
     }
 
-    const attackSummaryScreen = document.getElementById('attackSummaryScreen');
-    attackSummaryScreen.innerHTML = `
-    <div>${attacker} lost ${attackerLostTroops}</div>
-    <div>${defender} lost ${defenderLostTroops}</div>
-    <div>${winner} beat ${loser}</div>
-    <br></br>
-    <button onclick="hideAttackSummaryScreen()">Ok</button>
-    `;
     attackSummaryScreen.style.display = 'block';
 }
