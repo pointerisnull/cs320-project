@@ -29,6 +29,13 @@ function check_coords(col, row) {
   return is_occupied(square);
 }
 
+function get_square(id) {
+  for (let i = 0; i < board_squares.length; i++) {
+    if(board_squares[i].id == id)
+      return board_squares[i];
+  }
+}
+
 function hide_legal_squares() {
   for (let i = 0; i < board_squares.length; i++) {
     if (board_squares[i].classList.contains("active"))
@@ -48,10 +55,11 @@ function simulate_move() {
 }
 
 function en_passant(fcol, frow, tocol, torow, occupation, color) {
-  if ((frow-torow == 1) &&  (tocol+1 == fcol || tocol-1 == fcol) && occupation == "empty" && color == "black")
+  /*WIP*/
+  /*if ((frow-torow == 1) &&  (tocol+1 == fcol || tocol-1 == fcol) && occupation == "empty" && color == "black")
     return true;
   else if ((torow-frow == 1) && (tocol+1 == fcol || tocol-1 == fcol) && occupation == "empty" && color == "white")
-    return true;
+    return true;*/
   return false;
 }
 
@@ -85,7 +93,6 @@ function pawn_promote(pawn) {
 /*piece legality*/
 function pawn_legality(pawn, fcol, frow, tocol, torow, occupation, color) {
   let move = false;
-  console.log(pawn.children);
   /*first move, pawn can move foward 2 spaces (optional)*/ 
   if (pawn.first_move) {
     pawn.fist_move = false;
@@ -198,7 +205,6 @@ function bishop_legality(piece, fcol, frow, tocol, torow, occupation, color) {
         colCheck++;
       }
       return true;
-      return true;
     }   
     //north east
     if(tocol > fcol && torow > frow) {
@@ -306,6 +312,41 @@ function is_legal_move(piece, destination) {
   return false;
 }
 
+function move_piece(from_square, to_square) {
+  const piece = get_square(from_square).children[0];
+  const destination = get_square(to_square);
+  const destination_id = destination.id;
+  const color = piece.getAttribute("color");
+
+
+  if (is_occupied(destination) != "empty") {
+    /*capture enemy pieces and prevent self-capture*/
+    if (turn == true && color == "white" && is_occupied(destination) == "black") {
+      /*destroy all children then append piece*/
+      while(destination.firstChild) {
+        destination.removeChild(destination.firstChild);
+      }
+    } else if (turn == false && color == "black" && is_occupied(destination) == "white") {
+      /*destroy all children then append piece*/
+      while(destination.firstChild) {
+        destination.removeChild(destination.firstChild);
+      } 
+    }
+  }
+  
+  destination.appendChild(piece);
+  if (piece.classList.contains("pawn")) {
+    if (color == "white" && destination_id[1] == '8')
+      pawn_promote(piece);
+    else if (color == "black" && destination_id[1] == '1')
+      pawn_promote(piece);
+  } else if (piece.classList.contains("king")) {
+    for (let i = 0; i < board_squares.length; i++)
+      if (board_squares[i].classList.contains("check") && is_occupied(board_squares[i]) == "empty")
+      board_squares[i].classList.remove("check");
+  }
+}
+
 /*main movement functions*/
 function allow_drop(ev) {
   ev.preventDefault();
@@ -333,34 +374,8 @@ function drop(ev) {
   if (!is_legal_move(piece, destination))
     return;
 
-  if (is_occupied(destination) != "empty") {
-    /*capture enemy pieces and prevent self-capture*/
-    if (turn == true && color == "white" && is_occupied(destination) == "black") {
-      /*destroy all children then append piece*/
-      while(destination.firstChild) {
-        destination.removeChild(destination.firstChild);
-      }
-    } else if (turn == false && color == "black" && is_occupied(destination) == "white") {
-      /*destroy all children then append piece*/
-      while(destination.firstChild) {
-        destination.removeChild(destination.firstChild);
-      } 
-    }
-  }
-  
-  /*change turns*/
-  destination.appendChild(piece);
-  if (piece.classList.contains("pawn")) {
-    if (color == "white" && destination_id[1] == '8')
-      pawn_promote(piece);
-    else if (color == "black" && destination_id[1] == '1')
-      pawn_promote(piece);
-    console.log(destination);
-  } else if (piece.classList.contains("king")) {
-    for (let i = 0; i < board_squares.length; i++)
-      if (board_squares[i].classList.contains("check") && is_occupied(board_squares[i]) == "empty")
-      board_squares[i].classList.remove("check");
-  }
+  move_piece(piece.square_id, destination_id);
+
   turn = !turn;
   history = history + piece.square_id;
   history = history + destination_id;
