@@ -80,8 +80,15 @@ function fortificationPhase() {
 
 async function endCurrentTurn() {
     const win = checkWin();
-    if (win) {
-        // Nothing implemented yet for when someone wins.
+    if (win != null) {
+        gameData.game_phase = "End";
+
+        const updated = await updateLocalRiskGameData();
+
+        console.log(updated);
+        if (updated) { // Nothing implemented yet for when someone wins.
+            //nextTurn();
+        }
     }
     else {
         if (gameData.playerNames.indexOf(gameData.player_turn) < gameData.playerNames.length - 1) {
@@ -141,39 +148,22 @@ function recievedCard(gainedTerritory) { // Not done or tested yet
     var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
     var gainedTerritory = gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].name;
 
-    if (gainedTerritory == null) {
+    const cards = [gameData.Cards]; // player needs to recieve a card when aqured territory
+
+    /*if (gainedTerritory == null) {
         return;
-    } else if (/*get name of territory and match to card to get army amount*/) { }
+    } else if (/*get name of territory and match to card to get army amount*) { } */
 
     this.hand = []; // player hand of cards
 
-    this.hand.push(card); // push recievced card to hand
+    this.hand.push(card); // push recieved card to hand
 
     const sets = {};
-    this.hand.forEach(card => {
+    this.hand.forEach(card => { // create a set from matching troopTypes 
         sets[card.troopType] = sets[card.troopType] || [];
         sets[card.troopType].push(card);
     });
-
-    let reinforcements = 0;
-    for (const troopType in sets) {
-        const hand = sets[troopType];
-        if (hand.length >= 3) {
-            const numSets = Math.floor(hand.length / 3);
-            reinforcements += numSets;
-            console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${numSets} troops.`);
-        }
-    }
-
-    // Add reinforcements to player's army
-    // this.army += reinforcements
-
-    // Remove traded cards from player's collection
-    // this.cards = this.cards.filter(card => !tradedCards.includes(card));
 }
-
-
-
 
 function tradeIn() {
     // trooptype army value
@@ -181,38 +171,35 @@ function tradeIn() {
     const cavalry = 5;
     const artillery = 10;
 
-    const card = [gameData.Cards]; // player needs to recieve a card when aqured territory
-    this.hand = [];
-
-    this.hand.push(card);
-
-    const sets = {};
-    this.hand.forEach(card => {
-        sets[card.troopType] = sets[card.troopType] || [];
-        sets[card.troopType].push(card);
-    });
-
     let reinforcements = 0;
-    for (const troopType in sets) {
+    for (const troopType in recievedCard().sets) {
         const hand = sets[troopType];
-        if (hand.length >= 3) {
-            const numSets = Math.floor(hand.length / 3);
-            reinforcements += numSets;
-            console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${numSets} troops.`);
+        if (hand.length >= 3) { // if hand has a possible set
+            const numSets = Math.floor(hand.length / 3); // possible sets
+            // check if set cards have have troop type
+            if (card.troopType == 'Infantry'){ // set reinforments based on set troopType
+                reinforcements += infantry;
+            } else if (card.troopType == 'Cavalry') {
+                reinforcements += cavalry;
+            } else if (card.troopType == 'Artillery') {
+                reinforcements += artillery;
+            }
+            // reinforcements += numSets;
+            console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${reinforcements} troops.`);
         }
     }
 
     // Add reinforcements to player's army
-    // this.army += reinforcements
+    gameData.reinforcements += [reinforcements];
 
     // Remove traded cards from player's collection
-    // this.cards = this.cards.filter(card => !tradedCards.includes(card));
+    // recievedCard().hand = this.cards.filter(card => !tradedCards.includes(card));
 }
 
-function continentControl(currentPlayer) { // player can get more troops depending on continent control (needs to be db friendly?)
-    const control = false;
-    for (let i = 0; i < gameData.control.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
-        let region = gameData.control[i];
+function continentControl(attacker) { // player can get more troops depending on continent control (finding region control needs to be db friendly)
+    var control = checkWin();
+    /*for (let i = 0; i < connectedRegions.length; i++) { // check each region (record each region control & territory count to ensure correct # of recieved troops) Needs modified
+        let region = connectedRegions[i];
         let territory = [region.connections];
         for (let j = o; j < territory.length; j++) { // check if attacker owns each territory in a region for each region
             if (territory[j].owner == attacker) {
@@ -221,13 +208,21 @@ function continentControl(currentPlayer) { // player can get more troops dependi
                 control = false; // if any territory isnt owned by attacker, that can't win yet.
                 break; // no need to keep looping
             };
-        }
-        if (control == true) { // increase possible # of troops in reinforce phase
-
+        }*/
+    if (control != null) { // increase possible # of troops in reinforce phase
+        let count = control.playerTerritoryCounts;
+        if (count <= 9) { 
+            reinforcementPhase().gameData.reinforcements += 3; // always at least 3 armies for fewer than 9 territories
+        } else if (count < 42) { // recieved army based on count
+            let recieve = count / 3;
+            reinforcementPhase().gameData.reinforcements += recieve;
         } else { // reset possible # of troops?
-
+            reinforcementPhase().gameData.reinforcements += 0;
         }
+    } else {
+        reinforcementPhase().gameData.reinforcements += 3; // always at least 3 armies for fewer than 9 territories
     }
+
 }
 
 // This function takes the gameData object (which just has all the data about this specific local game of risk from the database) 
