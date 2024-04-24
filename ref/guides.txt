@@ -29,8 +29,9 @@ use <name> ~ go into database
 show collections ~ show collections/tables
 db.<collection>.find({"<field>": "<value>"})
 
-Graphics:
+Graphics/Audio/Icons:
 https://gsap.com/resources/svg ~ animation
 https://www.svgrepo.com/
 https://fontawesome.com/
 https://www.canva.com/create/gif-maker/
+https://mixkit.co/free-sound-effects/game/ ~ game sounds
