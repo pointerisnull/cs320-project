@@ -90,8 +90,32 @@
             width: 30%;
         }
 
-        #riskLocalMultiplayerGameSettings button {
+        .option-screen button:hover {
+            background-color: #357337;
+        }
 
+        .game-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .addMinusButtonsWithNumber {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row; /* Ensure buttons and number are on the same line */
+            margin-top: 10px;
+        }
+
+        .addMinusButtonsWithNumber button {
+            margin: 10px;
+            padding: 10px;
+            width: 40px;
         }
 
     </style>
@@ -200,23 +224,25 @@
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
-                <div id="riskLocalMultiplayerGameScreen">
-                    <div class="option-screen" id="riskLocalMultiplayerGameSettings" style="display:none">
-                        <h1>Choose Settings</h1>
-                        <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers">
-                            <h2>Number of Players</h2>
+                <div class="option-screen" id="riskLocalMultiplayerGameSettingsScreen" style="display:none">
+                    <h1>Choose Settings</h1>
+                    <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
+                        <h2>Number of Players</h2>
+                        <div class="addMinusButtonsWithNumber">
                             <button onclick="decreasePlayer()">-</button>
                             <span id="playerCount">1</span>
                             <button onclick="increasePlayer()">+</button>
-                            <h2>Number of AI Opponents</h2>
+                        </div>
+                        <h2>Number of AI Opponents</h2>
+                        <div class="addMinusButtonsWithNumber">
                             <button onclick="decreaseAI()">-</button>
                             <span id="aiCount">1</span>
                             <button onclick="increaseAI()">+</button>
-                            <button onclick="generatePlayerNameInput(0)">Next</button>
                         </div>
-                        <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
-                            <h1>Choose Player Names</h1>
-                        </div>
+                        <button onclick="generatePlayerNameInput(0)" style="width:130px;">Next</button>
+                    </div>
+                    <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
+                        <h1>Choose Player Names</h1>
                     </div>
                 </div>
                 <!-- Top Banner -->
@@ -227,10 +253,11 @@
                 <div id="bottomBanner" style="position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                     <span id="bottomBannerText"></span>
                 </div>
-                <div id="attackSelectScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="attackSummaryScreen" style="position: absolute;top: 30%; left: 25%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="troopSendScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="attackPhaseContinueOrOverScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;">
+                <!-- All screens in-game which require user interaction. -->
+                <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
+                <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
+                <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
+                <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
                     <p>Select another attacker or continue on and fortify.</p>
                     <button onclick="attackPhase()">Attack again</button>
                     <button onclick="fortificationPhase()">Continue</button>    

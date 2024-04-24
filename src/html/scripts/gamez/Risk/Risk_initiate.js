@@ -28,10 +28,10 @@ var contentHeight = insideGameContainer.style.height;
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
-    var riskLocalMultiplayerGameSettings = document.getElementById("riskLocalMultiplayerGameSettings");
+    var riskLocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
 
     gameModeOptionsScreen.style.display = 'none';
-    riskLocalMultiplayerGameSettings.style.display = 'flex';
+    riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
 }
 
 var playerCount = 1; // Initial number of total players
@@ -89,7 +89,7 @@ function decreaseAI() {
 }
 
 // Get the div where player names will be added
-var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettings")
+var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen")
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
 // Variable to store player names
