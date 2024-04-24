@@ -90,10 +90,22 @@
             width: 30%;
         }
 
-        #riskLocalMultiplayerGameSettings button {
+        .game-screen {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
 
+        .game-container button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-
+    }
     </style>
 
 </head>
@@ -227,10 +239,11 @@
                 <div id="bottomBanner" style="position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                     <span id="bottomBannerText"></span>
                 </div>
-                <div id="attackSelectScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="attackSummaryScreen" style="position: absolute;top: 30%; left: 25%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="troopSendScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <div id="attackPhaseContinueOrOverScreen" style="position: absolute;top: 30%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;">
+                <!-- All screens in-game which require user interaction. -->
+                <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
+                <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
+                <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
+                <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
                     <p>Select another attacker or continue on and fortify.</p>
                     <button onclick="attackPhase()">Attack again</button>
                     <button onclick="fortificationPhase()">Continue</button>    
