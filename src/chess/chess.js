@@ -1,5 +1,6 @@
 let captured_pieces = [];
 let turn = true;
+let history = "";
 
 const board_squares = document.getElementsByClassName("square");
 const pieces = document.getElementsByClassName("piece");
@@ -361,7 +362,9 @@ function drop(ev) {
       board_squares[i].classList.remove("check");
   }
   turn = !turn;
-  document.getElementById("turn").innerHTML = turn ? "White's Turn" : "Black's Turn";
+  history = history + piece.square_id;
+  history = history + destination_id;
+  document.getElementById("turn").innerHTML = turn ? "White's Turn | " + history : "Black's Turn | " + history;
   /*update the piece's coordinates*/
   piece.first_move = false;
   piece.square_id = destination_id;
