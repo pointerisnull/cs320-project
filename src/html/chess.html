@@ -5,7 +5,7 @@
 	<title>Gamez Central</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="../chess/chess.css">
-	<--! <link rel="stylesheet" type="text/css" href="./GC.css"> -->
+	<link rel="stylesheet" type="text/css" href="./GC.css">
 </head>
 
 <audio id="audio" src="./Media/gamez/etc/audio/WilliamRosati.mp3"></audio>
@@ -13,24 +13,25 @@
 <body class="ln">
 	<div class="ui top fixed menu">
 		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
-			<a href="../index.html"><img src="./Media/logo.png" width="50px"></a>
+			<a href="../index.html"><img src="./Media/logo.svg" width="50px"></a>
 		</div>
 		<a class="item page" href="./Risk.html">Risk</a>
 		<a class="item page" href="#">Chess</a>
 		<a class="item page" href="./tictactoe.html">Tic-Tac-Toe</a>
 		<a class="item page" href="./leaderboard.html">Leaderboard</a>
 		<a class="item page" href="./credits.html">Credits</a>
+	  <a id="turn">White's Turn</a>
 		<div class="right item dropdown" style="margin-right: 5px; padding: 5px 0px 0px 5px">
-			<img src="./Media/Store/shoppingcart.png" id="shoppingCart" width="20px"
+			<img src="./Media/Store/shoppingcart.svg" id="shoppingCart" width="20px"
 				style="margin-right: 10px; display:none;">
 			<p id="cartItemCount"
 				style="position: absolute; top: 4px; right: 124px; background-color: red; color: white; border-radius: 50%; padding: 3px 5px; font-size: 12px; display: none;">
 			</p>
-			<img src="./Media/Store/coin.png" id="coin" width="20px">
+			<img src="./Media/Store/coin.svg" id="coin" width="20px">
 			<p id="balanceTop" style="margin-right:10px"></p>
-			<object id="accountImage" data="./Media/profile/account.png" width="40px" style="margin:0px"
-				type="image/png" class="avatar-svg">
-				<img src="./Media/profile/account.png" width="40px" alt="Avatar 1" />
+			<object id="accountImage" data="./Media/profile/account.svg" width="40px" style="margin:0px"
+				type="image/svg" class="avatar-svg">
+				<img src="./Media/profile/account.svg" width="40px" alt="Avatar 1" />
 			</object>
 			<div class="dropdown-content">
 				<a id="loginLink" href="./login.html">Login</a> <!--Displayed when logged out, hidden when logged in -->
@@ -48,7 +49,6 @@
 		</div>
 	</div>
 
-	<h1>Chess</h1>
 	<div class="ui container">
 		<div class="item body">
 			<div class="ui vertical icon menu"> <!--game side bar menu-->
@@ -81,89 +81,89 @@
 				<!--row 8-->
 				<div class="square white">
 					<div class="piece rook" color="black">
-						<img src="../chess/res/chessPiecesPNGS/rook_black.png">
+						<img src="../chess/res/rook_black.svg">
 					</div>
 				</div>
 				<div class="square black">
 					<div class="piece knight" color="black">
-						<img src="../chess/res/chessPiecesPNGS/knight_black.png">
+						<img src="../chess/res/knight_black.svg">
 					</div>
 				</div>
 				<div class="square white">
 					<div class="piece bishop" color="black">
-						<img src="../chess/res/chessPiecesPNGS/bishop_black.png">
+						<img src="../chess/res/bishop_black.svg">
 					</div>
 				</div>
 				<div class="square black">
 					<div class="piece queen" color="black">
-						<img src="../chess/res/chessPiecesPNGS/queen_black.png">
+						<img src="../chess/res/queen_black.svg">
 					</div>
 				</div>
 				<div class="square white">
 					<div class="piece king" color="black">
-						<img src="../chess/res/chessPiecesPNGS/king_black.png">
+						<img src="../chess/res/king_black.svg">
 					</div>
 				</div>
 				<div class="square black">
 					<div class="piece bishop" color="black">
-						<img src="../chess/res/chessPiecesPNGS/bishop_black.png">
+						<img src="../chess/res/bishop_black.svg">
 					</div>
 				</div>
 				<div class="square white">
 					<div class="piece knight" color="black">
-						<img src="../chess/res/chessPiecesPNGS/knight_black.png">
+						<img src="../chess/res/knight_black.svg">
 					</div>
 				</div>
 				<div class="square black">
 					<div class="piece rook" color="black">
-						<img src="../chess/res/chessPiecesPNGS/rook_black.png">
+						<img src="../chess/res/rook_black.svg">
 					</div>
 				</div>
 				<!--row 7-->
 				<div class="square black">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="black">
-						<img src="../chess/res/chessPiecesPNGS/pawn_black.png">
+						<img src="../chess/res/pawn_black.svg">
 					</div>
 
 				</div>
@@ -206,55 +206,55 @@
 				<!--row 2-->
 				<div class="square white">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece pawn" color="white">
-						<img src="../chess/res/chessPiecesPNGS/pawn_white.png">
+						<img src="../chess/res/pawn_white.svg">
 					</div>
 
 
@@ -262,56 +262,56 @@
 				<!--row 1-->
 				<div class="square black">
 					<div class="piece rook" color="white">
-						<img src="../chess/res/chessPiecesPNGS/rook_white.png">
+						<img src="../chess/res/rook_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece knight" color="white">
-						<img src="../chess/res/chessPiecesPNGS/knight_white.png">
+						<img src="../chess/res/knight_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece bishop" color="white">
-						<img src="../chess/res/chessPiecesPNGS/bishop_white.png">
+						<img src="../chess/res/bishop_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece queen" color="white">
-						<img src="../chess/res/chessPiecesPNGS/queen_white.png">
+						<img src="../chess/res/queen_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece king" color="white">
-						<img src="../chess/res/chessPiecesPNGS/king_white.png">
+						<img src="../chess/res/king_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece bishop" color="white">
-						<img src="../chess/res/chessPiecesPNGS/bishop_white.png">
+						<img src="../chess/res/bishop_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square black">
 					<div class="piece knight" color="white">
-						<img src="../chess/res/chessPiecesPNGS/knight_white.png">
+						<img src="../chess/res/knight_white.svg">
 					</div>
 
 
 				</div>
 				<div class="square white">
 					<div class="piece rook" color="white">
-						<img src="../chess/res/chessPiecesPNGS/rook_white.png">
+						<img src="../chess/res/rook_white.svg">
 					</div>
 
 				</div>
@@ -320,10 +320,6 @@
 		</div>
 
 	</div>
-	<div id="ad-container">
-		<!-- hardcoded -->
-	</div>
-
 
 	<footer>
 		<div class="ui inverted bottom fixed menu">
