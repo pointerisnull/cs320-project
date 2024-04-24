@@ -34,4 +34,3 @@ https://gsap.com/resources/svg ~ animation
 https://www.svgrepo.com/
 https://fontawesome.com/
 https://www.canva.com/create/gif-maker/
-https://mixkit.co/free-sound-effects/game/ ~ game sounds
