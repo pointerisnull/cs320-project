@@ -40,10 +40,12 @@ a.link:hover {
     color: orange;
 }
 
+/*leadboard pg*/
 #leaderboard-table tr:hover {
     background-color: lightyellow;
 }
 
+/* Home pg*/
 /* I added this to provide some animation to the home screen. This code's purpose is to slightly elevate each ui card when hovered over. */
 .ui.horizontal.equal.width.segments:hover {
     border: 1px solid transparent;
@@ -105,10 +107,94 @@ a.link:hover {
     background-color: #777;
 }
 
+/*Store Page*/
 /* Add styling for the coin icon and balance */
 #coin {
     margin-right: 5px;
     /* Adjust spacing between coin icon and balance */
+}
+
+/* for the store pgea */
+.store-container {
+    margin: 20px;
+    text-align: center;
+}
+
+.store-item {
+    display: inline-block;
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.item-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.item-details {
+    margin-top: 10px;
+}
+
+.item-details h3 {
+    margin-bottom: 5px;
+}
+
+.storeAddButton {
+    width: 50%;
+}
+
+/* For cart */
+.main-cart-container {
+    max-width: 500px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Item Styling */
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-item img {
+    margin-right: 20px;
+}
+
+.cart-item p {
+    margin: 0;
+}
+
+/* Empty Cart Message Styling */
+.empty-cart-message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Checkout Button Styling */
+#cartBuyButton,
+#cartEmptyButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cartBuyButton:hover,
+#cartEmptyButton:hover {
+    background-color: #0056b3;
 }
 
 /* ads (need better styling for each page)*/
@@ -118,7 +204,7 @@ a.link:hover {
     margin: 10px;
 }
 
-/*login page styles*/
+/*Login page*/
 .login-container {
     max-width: 400px;
     margin: 100px auto;
@@ -260,7 +346,7 @@ input[type="password"] {
     margin-bottom: 10px;
 }
 
-/* For profile.html */
+/* Profile pg */
 
 .profile-container {
     max-width: 800px;
@@ -297,89 +383,6 @@ input[type="password"] {
     /* Gray text */
 }
 
-/* for the store pgea */
-.store-container {
-    margin: 20px;
-    text-align: center;
-}
-
-.store-item {
-    display: inline-block;
-    margin: 10px;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-}
-
-.item-image img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-}
-
-.item-details {
-    margin-top: 10px;
-}
-
-.item-details h3 {
-    margin-bottom: 5px;
-}
-
-.storeAddButton {
-    width: 50%;
-}
-
-/* For cart */
-.main-cart-container {
-    max-width: 500px;
-    margin: 100px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Cart Item Styling */
-.cart-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.cart-item img {
-    margin-right: 20px;
-}
-
-.cart-item p {
-    margin: 0;
-}
-
-/* Empty Cart Message Styling */
-.empty-cart-message {
-    text-align: center;
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-/* Checkout Button Styling */
-#cartBuyButton,
-#cartEmptyButton {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#cartBuyButton:hover,
-#cartEmptyButton:hover {
-    background-color: #0056b3;
-}
-
 /* game container, Icons, & graphics placement for each game*/
 .ui.vertical.icon.menu {
     width: min-content;
@@ -408,7 +411,7 @@ input[type="password"] {
     position: sticky;
 }
 
-
+/*Chess Page*/
 /*chess board & pieces*/
 #animateProcessing {
     position: fixed;
@@ -431,6 +434,7 @@ input[type="password"] {
     /* Animation name, duration, timing function, and fill-mode */
 }
 
+/* TTT page */
 /* Keyframes for the fadeInOut animation */
 @keyframes fadeInOut {
     0% {
@@ -496,6 +500,7 @@ input[type="password"] {
     background-color: #f0f0f0;
 }
 
+/*Risk pg*/
 /* Start screen styles (I called it "option-screen" to generalize it more). */
 .option-screen {
     position: absolute;
