@@ -83,6 +83,8 @@ function displayAttackSelectScreen(attackerId, targetId) {
     attackSelectScreen.style.display = 'block';
 }
 
+// The functions below deal with displaying and hiding the various screens that pop up throughout one turn.
+
 function hideAttackSummaryScreen() {
     const attackSummaryScreen = document.getElementById('attackSummaryScreen');
     attackSummaryScreen.style.display = 'none';
