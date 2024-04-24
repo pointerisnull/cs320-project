@@ -209,10 +209,10 @@ function tradeIn() {
     // this.cards = this.cards.filter(card => !tradedCards.includes(card));
 }
 
-function continentControl(currentPlayer) { // player can get more troops depending on continent control (needs to be db friendly?)
-    const control = false;
-    for (let i = 0; i < gameData.control.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
-        let region = gameData.control[i];
+function continentControl(attacker) { // player can get more troops depending on continent control (needs to be db friendly?)
+    var control = checkWin();
+    /*for (let i = 0; i < connectedRegions.length; i++) { // check each region (couldve down w/o; idk how organized/messy it looks going through the regions first)
+        let region = connectedRegions[i];
         let territory = [region.connections];
         for (let j = o; j < territory.length; j++) { // check if attacker owns each territory in a region for each region
             if (territory[j].owner == attacker) {
@@ -221,12 +221,15 @@ function continentControl(currentPlayer) { // player can get more troops dependi
                 control = false; // if any territory isnt owned by attacker, that can't win yet.
                 break; // no need to keep looping
             };
-        }
-        if (control == true) { // increase possible # of troops in reinforce phase
-
-        } else { // reset possible # of troops?
-
-        }
+        }*/
+    let count = control.playerTerritoryCounts;
+    if (count <= 9) { // increase possible # of troops in reinforce phase
+        reinforcementPhase().gameData.reinforcements += 3; // always at least 3 armies for fewer than 9 territories
+    } else if (count < 42) { // recieved army based on count
+        let recieve = count / 3;
+        reinforcementPhase().gameData.reinforcements += recieve;
+    } else { // reset possible # of troops?
+        reinforcementPhase().gameData.reinforcements += 0;
     }
 }
 
