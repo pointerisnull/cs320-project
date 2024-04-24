@@ -20,9 +20,15 @@ vars.board = [
 
 //Sets array for Tic-Tac-Toe²
 vars.board2 = [
-    ['b','b','b'],
-    ['b','b','b'],
-    ['b','b','b']
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b'],
+    ['b','b','b','b','b','b','b','b','b']
 ];
 
 //Button functionality for selecting Tic-Tac-Toe
@@ -82,16 +88,20 @@ function coordinate(event) {
         vars.arrayX = Math.floor(arrayX);
         vars.arrayY = Math.floor(arrayY);
 
-        vars.pieceX = (vars.arrayX * 180) + 63;
-        vars.pieceY = (vars.arrayY * 180) + 120;
+        vars.pieceX = (vars.arrayX * 180) + 25;
+        vars.pieceY = (vars.arrayY * 180) + 160;
+        
+        document.getElementById("board").setAttribute('font-size', '180');
     } else {
         let arrayX = (x - rect.left) / 60;
         let arrayY = (y - rect.top) / 60;
         vars.arrayX = Math.floor(arrayX);
         vars.arrayY = Math.floor(arrayY);
 
-        vars.pieceX = (vars.arrayX * 60);
-        vars.pieceY = (vars.arrayY * 60) + 60;
+        vars.pieceX = (vars.arrayX * 60) + 5;
+        vars.pieceY = (vars.arrayY * 60) + 55;
+
+        document.getElementById("board").setAttribute('font-size', '70');
     }
 
     hoverPiece();
@@ -99,19 +109,20 @@ function coordinate(event) {
 
 //Draws the piece when hovering over space
 function hoverPiece() {
-    if (vars.gameType == 1) {
-        if (isLegal()) {
+    if (isLegal()) {
+        if (vars.gameType == 1) {
+            document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
+            document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
+            document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
+            document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
+        } else {
             document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
             document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
             document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
             document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
         }
-    } else {
-        document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
-        document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
-        document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
-        document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
     }
+    
     
 }
 
@@ -128,7 +139,9 @@ function onClick() {
         setArray();
         if (!isWin()) {
             pieceType();
-            isFull();
+            if (vars.gameType == 1) {
+                isFull();
+            }
         }
     }
 }
@@ -137,7 +150,7 @@ function onClick() {
 function isFull() {
     vars.count += 1;
     if (vars.count == 9) {
-        let drawCode = '<text x="170" y="270" fill="black">Draw!</text>';
+        let drawCode = '<text x="170" y="270" fill="black" font-size="80">Draw!</text>';
         
         document.getElementById("board").innerHTML = drawCode;
     }
@@ -158,17 +171,26 @@ function pieceType() {
 
 //Changes array value
 function setArray() {
-    vars.board[vars.arrayX][vars.arrayY] = vars.pieceSVG;
+    if (vars.gameType == 1) {
+        vars.board[vars.arrayX][vars.arrayY] = vars.pieceSVG;
+    } else {
+        vars.board2[vars.arrayX][vars.arrayY] = vars.pieceSVG;
+    }
 }
 
 //Determines if move is legal
 function isLegal() {
-    return Boolean(vars.board[vars.arrayX][vars.arrayY] == 'b' && !isWin());
+    if (vars.gameType == 1) {
+        return Boolean(vars.board[vars.arrayX][vars.arrayY] == 'b' && !isWin());
+    } else {
+        return Boolean(vars.board2[vars.arrayX][vars.arrayY] == 'b' && !isWin());
+    }
+    
 }
 
 //Erases board and says winner
 function drawWin() {
-    let winCode = '<text x="140" y="270" fill="' + vars.pieceColor + '">' + vars.winPiece + ' Wins!</text>';
+    let winCode = '<text x="140" y="270" fill="' + vars.pieceColor + '" font-size="80">' + vars.winPiece + ' Wins!</text>';
         
     document.getElementById("board").innerHTML = winCode;
 }
