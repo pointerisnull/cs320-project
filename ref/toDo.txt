@@ -9,8 +9,29 @@ Sprint 2
 X Ads - 10 w/ links displayed randomly
 X  Monetary system - charge coins to play, reward users that win games/achievements
 ~  Game progress - development of features in all 3 games
-  Saving game - able to save game state in persistent layer
+X  Saving game - able to save game state in persistent layer
 X  Leaderboard - Show accounts w/the most wins or achievements
 X  Sound/Music - basic sounds for user feedback(clicks) & background music
 X  Graphics/Animation/Interaction - Graphic development for each game
 X  Report - Template is 50% complete
+
+Sprint 3
+  Risk Logic
+ X TTT client-side complete
+  chess client-side complete
+X Saving Game - Risk
+  Bug Page
+  Administrators
+  Player Chat
+  Unit Tests
+  UML Diagrams
+  Graphics/Icons/animations
+
+Sprint 4
+  All games are complete (client & server side)
+  GUI complete
+  Customizations
+  multiplayer synchronous/asynchronous
+  computer player (AI/Non AI)
+  Achievements
+  Game sounds
