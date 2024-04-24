@@ -90,22 +90,34 @@
             width: 30%;
         }
 
-        .game-screen {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 10px;
-        border: 1px solid black;
+        .option-screen button:hover {
+            background-color: #357337;
+        }
 
-        .game-container button {
+        .game-screen {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
         }
-    }
+
+        .addMinusButtonsWithNumber {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row; /* Ensure buttons and number are on the same line */
+            margin-top: 10px;
+        }
+
+        .addMinusButtonsWithNumber button {
+            margin: 10px;
+            padding: 10px;
+            width: 40px;
+        }
+
     </style>
 
 </head>
@@ -212,23 +224,25 @@
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
-                <div id="riskLocalMultiplayerGameScreen">
-                    <div class="option-screen" id="riskLocalMultiplayerGameSettings" style="display:none">
-                        <h1>Choose Settings</h1>
-                        <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers">
-                            <h2>Number of Players</h2>
+                <div class="option-screen" id="riskLocalMultiplayerGameSettingsScreen" style="display:none">
+                    <h1>Choose Settings</h1>
+                    <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
+                        <h2>Number of Players</h2>
+                        <div class="addMinusButtonsWithNumber">
                             <button onclick="decreasePlayer()">-</button>
                             <span id="playerCount">1</span>
                             <button onclick="increasePlayer()">+</button>
-                            <h2>Number of AI Opponents</h2>
+                        </div>
+                        <h2>Number of AI Opponents</h2>
+                        <div class="addMinusButtonsWithNumber">
                             <button onclick="decreaseAI()">-</button>
                             <span id="aiCount">1</span>
                             <button onclick="increaseAI()">+</button>
-                            <button onclick="generatePlayerNameInput(0)">Next</button>
                         </div>
-                        <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
-                            <h1>Choose Player Names</h1>
-                        </div>
+                        <button onclick="generatePlayerNameInput(0)" style="width:130px;">Next</button>
+                    </div>
+                    <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
+                        <h1>Choose Player Names</h1>
                     </div>
                 </div>
                 <!-- Top Banner -->
