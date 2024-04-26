@@ -1,4 +1,4 @@
-const {vars} = require('./TTT_initiate.js');
+let {vars} = require('./TTT_initiate.js');
 
 //Draws the game board
 function drawBoard() {
