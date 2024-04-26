@@ -1,4 +1,4 @@
-const {vars} = require('./TTT_initiate.js');
+let {vars} = require('./TTT_initiate.js');
 
 //Determines if board if full
 function isFull() {
