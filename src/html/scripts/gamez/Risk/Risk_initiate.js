@@ -1,3 +1,94 @@
+const socket = new WebSocket('ws://localhost:3000');
+
+async function createServer() {
+    const serverName = document.getElementById('serverNameInput').value;
+    const hostUserData = await getData();
+    console.log(hostUserData._id);
+    const serverData = { action: 'createServer', serverName: serverName, host: hostUserData._id, playerIds: [hostUserData._id]};
+    socket.send(JSON.stringify(serverData));
+}
+
+// Function to request the list of servers from the server
+async function getRiskServers() {
+    socket.send(JSON.stringify({ action: 'getServers' }));
+}
+
+socket.onmessage = function(event) {
+    const message = JSON.parse(event.data);
+    if (message.action === 'serverCreated') {
+        // Handle server created confirmation
+        console.log('Server created successfully');
+    } else if (message.action === 'serverList') {
+        // Handle list of servers received from the server
+        const serverList = message.servers;
+        console.log('Received server list:', serverList);
+        // Display the list of servers to the user
+        displayServers(serverList); // Implement this function to display servers on the UI
+    } else if (message.action === 'joinServer') {
+        console.log("Joined server");
+        getRiskServers();
+    } else if (message.action === 'error') {
+        // Handle error message
+        console.error('Error:', message.error);
+    }
+};
+
+
+function displayServers(serverList) {
+    const gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    const riskOnlineGameServerScreen = document.getElementById("riskOnlineGameServerScreen");
+    const listRiskServerScreen = document.getElementById("listRiskServerScreen");
+    gameModeOptionsScreen.style.display = 'none';
+    riskOnlineGameServerScreen.style.display = 'block';
+
+    // Clear the existing content
+    listRiskServerScreen.innerHTML = '';
+
+    // Display the number of servers
+    const riskServerCount = document.createElement('h1');
+    riskServerCount.textContent = `Number of servers: ${serverList.length}`;
+    listRiskServerScreen.appendChild(riskServerCount);
+
+    // Add a line break
+    listRiskServerScreen.appendChild(document.createElement('br'));
+
+    // Loop through the serverList array and create HTML elements for each server
+    serverList.forEach(server => {
+        const serverDiv = document.createElement('div');
+        serverDiv.textContent = "Server Name: " + server.serverName + "\n" + "Number of Players: " + server.playerIds.length; // Modify this to display other server details as needed
+
+        // Attach an event listener to join the server when clicked
+        serverDiv.addEventListener('click', () => {
+            joinServer(server); // Pass the server ID to the joinServer function
+        });
+
+        listRiskServerScreen.appendChild(serverDiv);
+    });
+}
+
+async function joinServer(serverData) {
+    const newPlayerId = (await getData())._id;
+    
+    // Check if the player's ID is already in the list of player IDs for the selected server
+    if (!serverData.playerIds.includes(newPlayerId)) {
+        // If the player's ID is not already in the list, proceed to join the server
+        serverData.playerIds.push(newPlayerId);
+        socket.send(JSON.stringify({ action: 'joinServer', server: serverData }));
+    } else {
+        // If the player's ID is already in the list, display a message indicating that the player cannot join
+        console.log('Cannot join server: Player is already in the server.');
+    }
+}
+
+function toggleCreateServerScreen() {
+    const createServerScreen = document.getElementById("createRiskServerScreen");
+    if (createServerScreen.style.display === "none") {
+        createServerScreen.style.display = "block";
+    } else {
+        createServerScreen.style.display = "none";
+    }
+}
+
 // This function is called when the "Play Game" button is pushed on the start screen.
 async function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
@@ -32,6 +123,16 @@ function riskLocalMultiplayerGame() {
 
     gameModeOptionsScreen.style.display = 'none';
     riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
+}
+
+function riskOnlineGame() {
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    var riskOnlineGameServerScreen = document.getElementById("riskOnlineGameServerScreen");
+
+    
+
+    gameModeOptionsScreen.style.display = 'none';
+    riskOnlineGameServerScreen.style.display = 'flex';
 }
 
 var playerCount = 1; // Initial number of total players

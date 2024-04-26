@@ -1,0 +1,23 @@
+// This file takes retrieves the data from our database and helps to send it client-side.
+
+const { connectToDatabase } = require('../mongoConnection');
+
+async function handleRiskServerDataRequest() {
+    console.log('Handling risk server data request...');
+    try {
+        const db = await connectToDatabase();
+        const riskServerCollection = db.collection('Risk_Servers');
+
+        // Fetch all documents from the collection and convert the cursor to an array
+        const serversCursor = await riskServerCollection.find();
+        const serversArray = await serversCursor.toArray();
+        // Send the data to the client
+        return serversArray;
+    } catch (error) {
+        console.error('Error fetching risk server data:', error);
+    }
+}
+
+module.exports = {
+    handleRiskServerDataRequest,
+};

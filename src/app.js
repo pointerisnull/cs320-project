@@ -12,6 +12,43 @@ const { updateUser } = require('./database-scripts/User/UserUpdate');
 const { createRiskGame } = require('./database-scripts/Risk/RiskInsert');
 const { handleLocalRiskGameDataRequest } = require('./handlers/riskLocalGameDataHandler');
 const { updateRiskGame } = require('./database-scripts/Risk/RiskUpdate');
+const WebSocket = require('ws');
+const { createRiskServer } = require('./database-scripts/Risk/RiskInsertServer');
+const { handleRiskServerDataRequest } = require('./handlers/riskServerDataHandler');
+const { updateRiskServer } = require('./database-scripts/Risk/RiskUpdateServer');
+
+const wss = new WebSocket.Server({ port: 3000 });
+
+// Define the event handler for incoming WebSocket connections
+wss.on('connection', function connection(ws) {
+    console.log('Client connected');
+
+    // Define the event handler for incoming messages from the client
+    ws.on('message', async function incoming(message) {
+        const data = JSON.parse(message);
+        if (data.action === 'createServer') {
+            // Insert server into database
+            console.log("Going into createServer function...");
+            await createRiskServer(data);
+            // Send confirmation back to client
+            ws.send(JSON.stringify({ action: 'serverCreated' }));
+        } else if (data.action === 'getServers') {
+            // Handle request for list of servers
+            const servers = await handleRiskServerDataRequest();
+            ws.send(JSON.stringify({ action: 'serverList', servers: servers }));
+        } else if (data.action === 'joinServer') {
+            // Handle request for list of servers
+            await updateRiskServer(data);
+            ws.send(JSON.stringify({ action: 'joinServer'}));
+        }
+    });
+
+    // Define the event handler for closing the WebSocket connection
+    ws.on('close', function close() {
+        console.log('Client disconnected');
+        // No need to remove event listeners explicitly
+    });
+});
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);

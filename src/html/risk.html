@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="./GC.css">
     <link rel="stylesheet" type="text/css" href="./Media/gamez/riskMaps/riskSVGMap/stylesRiskPage.css">
     <link rel="stylesheet" type="text/css" href="./css/Risk.css">
-
 </head>
 
 <audio id="audio" src="./Media/gamez/etc/audio/BattleMusic.mp3"></audio>
@@ -15,20 +14,20 @@
 <body class="ln">
 
     <!-- Loading screen -->
-    <div class="loading-screen" id="loadingScreen">
+    <!-- <div class="loading-screen" id="loadingScreen">
         <div class="loading-bar">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-    </div>
+    </div> -->
 
     <!-- GIF container -->
-    <div class="gif-container hidden" id="gifContainer">
+    <!-- <div class="gif-container hidden" id="gifContainer"> -->
         <!-- GIF embed code -->
-        <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778"
+        <!-- <div class="tenor-gif-embed" data-postid="10565650" data-share-method="host" data-aspect-ratio="1.77778"
             data-width="100%"><a href="https://tenor.com/view/risk-game-board-game-gif-10565650">Risk Game GIF</a>from
             <a href="https://tenor.com/search/risk-gifs">Risk GIFs</a></div>
         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
+    </div> -->
 
     <div class="ui top fixed menu">
         <div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
@@ -108,7 +107,7 @@
                     <h1>Select Game Mode</h1>
                     <button id="resumeLocalRiskGameButton" onclick="resumeLocalRiskGame()" style="display:none"></button>
                     <!-- <button id="resumeComputerRiskGameButton" onclick="" style="display:none"></button> -->
-                    <button onclick="riskOnlineGame()">Play - Online</button>
+                    <button onclick="getRiskServers()">Play - Online</button>
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
@@ -131,6 +130,17 @@
                     </div>
                     <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
                         <h1>Choose Player Names</h1>
+                    </div>
+                </div>
+                <div class="option-screen" id="riskOnlineGameServerScreen" style="display:none">
+                    <!-- List Servers UI -->
+                    <div id="listRiskServerScreen"></div>
+                    <!-- Create Server button -->
+                    <button onclick="toggleCreateServerScreen()">Create Server</button>
+                    <!-- Server creation UI -->
+                    <div id="createRiskServerScreen" style="display:none">
+                        <input type="text" id="serverNameInput" placeholder="Server Name">
+                        <button onclick="createServer()">Create Server</button>
                     </div>
                 </div>
                 <!-- Top Banner -->
