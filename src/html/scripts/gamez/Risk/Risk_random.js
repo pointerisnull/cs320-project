@@ -24,10 +24,12 @@ function isAdjacent(attackerPolygonId, defenderPolygonId) {
     }
 }
 
+// These variables and functions below deal with the different times user input is needed to select a certain number of troops. 
+
 var troopsAttackingCount = 1;
 
 function increaseAttackingTroops() {
-    if(troopsAttackingCount < findTerritoryByPolygonId(attacker).armies - 1 && findTerritoryByPolygonId(attacker).armies > 2) {
+    if(attacker && troopsAttackingCount < findTerritoryByPolygonId(attacker).armies - 1 && findTerritoryByPolygonId(attacker).armies > 2) {
         troopsAttackingCount++;
     }
     document.getElementById('troopsAttackingCount').textContent = troopsAttackingCount;

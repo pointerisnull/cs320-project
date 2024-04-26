@@ -69,50 +69,80 @@ async function createRiskGame(userId, gameInfo) {
     const shuffledTerritories = shuffleArray(territories);
 
     // connections array (hard coded it so if the map ever changes i guess it might be glitchy sry)
-    const connectedRegions = [
+    const continents = [
       {
         region: "North America",
-        conections: [territories[1], territories[2], territories[3], territories[4], territories[5], territories[6], territories[7], territories[8]],
+        connections: [territories[1], territories[2], territories[3], territories[4], territories[5], territories[6], territories[7], territories[8]],
         owner: null
       },
       {
         region: "South America",
-        conections: [territories[9], territories[10], territories[11], territories[12], territories[13]],
+        connections: [territories[9], territories[10], territories[11], territories[12], territories[13]],
         owner: null
       },
       {
         region: "Europe",
-        conections: [territories[14], territories[15], territories[16], territories[17], territories[18], territories[19], territories[20]],
+        connections: [territories[14], territories[15], territories[16], territories[17], territories[18], territories[19], territories[20]],
         owner: null
       },
       {
         region: "Asia",
-        conections: [territories[21], territories[22], territories[23], territories[24], territories[25], territories[25], territories[26], territories[27], territories[28], territories[29], territories[30], territories[31], territories[32]],
+        connections: [territories[21], territories[22], territories[23], territories[24], territories[25], territories[25], territories[26], territories[27], territories[28], territories[29], territories[30], territories[31], territories[32]],
         owner: null
       },
       {
         region: "Africa",
-        conections: [territories[33], territories[34], territories[35], territories[36], territories[37], territories[38]],
+        connections: [territories[33], territories[34], territories[35], territories[36], territories[37], territories[38]],
         owner: null
       },
       {
         region: "Australia",
-        conections: [territories[39], territories[40], territories[41], territories[42]],
+        connections: [territories[39], territories[40], territories[41], territories[42]],
         owner: null
       }
     ];
+
+    function createDeck() {
+      const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
+      let deck = []; // 44 cards : 42 territory:troopType; 2 wild troopType
+
+      shuffleArray(troopTypes);
+
+      territories.forEach((territory, index) => { // create 42 cards with territories
+        const troopType = troopTypes[index % troopTypes.length]; // pick a troopType from shuffled troopType array
+        
+        const card = { // card object
+          territory: territory,
+          troopType: troopType
+        };
+        deck.push(card);
+      });
+
+      const wildCard = {
+        territory: 'Wild Card',
+        troopType: troopTypes
+      };
+      deck.push(wildCard);
+      deck.push(wildCard);
+
+      return deck;
+    }
+
+
 
     if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
       const newLocalGame = {
         _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
+        game_mode: gameInfo.gameMode,
         playerNames: gameInfo.playerNames,
         territories: shuffledTerritories,
         player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
         winner: null,
         reinforcements: {}, // Reinforcements for each player
         game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
-        regions: connectedRegions,
+        control: continents,
+        Cards: new createDeck(),
         created_at: new Date(),
         updated_at: new Date()
       };

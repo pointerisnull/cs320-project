@@ -1,10 +1,22 @@
 // This function is called when the "Play Game" button is pushed on the start screen.
-function selectGameModeScreen() {
+async function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
 
     startScreen.style.display = 'none';
     gameModeOptionsScreen.style.display = 'flex';
+
+    // This part of the function is just checking if a game is currently saved to the database under the user's id, if so, a button will be displayed to resume that specific game.
+    const userData = await getData();
+    checkGameData = await getLocalRiskGameData(userData._id);
+
+    if(checkGameData) {
+        if(checkGameData.game_mode === 'Local') {
+            const resumeLocalRiskGameButton = document.getElementById("resumeLocalRiskGameButton");
+            resumeLocalRiskGameButton.textContent = "Resume Game";
+            resumeLocalRiskGameButton.style.display = 'block';
+        }
+    }
 }
 
 /* Get the relevant elements to be displayed in fullscreen mode*/
@@ -16,10 +28,10 @@ var contentHeight = insideGameContainer.style.height;
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
-    var riskLocalMultiplayerGameSettings = document.getElementById("riskLocalMultiplayerGameSettings");
+    var riskLocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
 
     gameModeOptionsScreen.style.display = 'none';
-    riskLocalMultiplayerGameSettings.style.display = 'flex';
+    riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
 }
 
 var playerCount = 1; // Initial number of total players
@@ -77,7 +89,7 @@ function decreaseAI() {
 }
 
 // Get the div where player names will be added
-var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettings")
+var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen")
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
 // Variable to store player names
@@ -165,6 +177,13 @@ async function newRiskLocalGame() {
         console.error('Error inserting local risk game:', error);
         }
     }
+}
+
+// Is called when the button in the game mode selection screen is pressed. All it does is it removes said screen and calls the playLocalRiskGame() function to start the game.
+function resumeLocalRiskGame() {
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    gameModeOptionsScreen.style.display = 'none';
+    playLocalRiskGame();
 }
 
 var gameData = null;

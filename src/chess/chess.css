@@ -1,6 +1,7 @@
 body {
     margin-top: 60px !important;
     background-color: #7da674;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -31,6 +32,14 @@ body {
 
 .black {
   background-color: #9e8555;
+}
+
+.active {
+  background-color: #11f4f4; 
+}
+
+.check {
+  background-color: #f41111;
 }
 
 .piece {

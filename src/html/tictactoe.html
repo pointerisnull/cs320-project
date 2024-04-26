@@ -6,9 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="./GC.css">
 </head>
-
+<script src="./scripts/gamez/TTT/TTT.js"></script>
 <audio id="audio" src="./Media/gamez/etc/audio/Monplaisir-Soundtrack.mp3"></audio>
-
 <body class="ln">
 	<div class="ui top fixed menu">
 		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px">
@@ -79,23 +78,25 @@
 		<div class="item body" style="margin: auto;"> <!-- game -->
 			<div class="ui fluid container" style=" border:1px dashed black;">
 				<div class="container" id="tic-tac-toe"> <!--make it pretty later?-->
-					<div class="row">
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
+					<div class="option-screen" id="startScreen">
+						<h1>Welcome to Tic-Tac-Toe</h1>
+						<button onclick="selectTTT()">Play Tic-Tac-Toe</button>
+						<button onclick="selectTTT2()">Play Tic-Tac-Toe²</button>
 					</div>
-					<div class="row">
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
-					</div>
-					<div class="row">
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
-						<div class="cell" data-cell></div>
-					</div>
+					<svg  id="board" width="540" height="540" style="text-align:center;margin:auto" onmousemove="coordinate(event)" onClick="onClick()">
+						<line x1="0" y1="180" x2="540" y2="180" style="fill:none;stroke:black;stroke-width:5"/>
+						<line x1="0" y1="360" x2="540" y2="360" style="fill:none;stroke:black;stroke-width:5"/>
+						<line x1="180" y1="0" x2="180" y2="540" style="fill:none;stroke:black;stroke-width:5"/>
+						<line x1="360" y1="0" x2="360" y2="540" style="fill:none;stroke:black;stroke-width:5"/>
+					</svg>
 				</div>
 			</div>
+			<div id="chat-container">
+				<p>Chat!</p>
+			</div>
+			<input type="hidden" id="username" value="<username>"> <!-- HTML generation with the logged-in username populated in the input field-->
+			<input type="text" id="input-box" placeholder="Type your message...">
+			<button onclick="sendMessage()">Send</button>
 		</div>
 		<div id="ad-container"><!-- will change ad placment -->
 			<!-- hardcoded -->
@@ -122,13 +123,10 @@
 <script src="https://kit.fontawesome.com/72c730bbf1.js" crossorigin="anonymous"></script>
 <script src="./scripts/gamez/audio.js"></script>
 
-<script src="./scripts/gamez/TTT/TTT_initiate.js"></script>
-<script src="./scripts/gamez/TTT/TTT_rules.js"></script>
-<script src="./scripts/gamez/TTT/TTT_GUI.js"></script>
-
 <script src="./scripts/User/signUp_Login.js"></script>
 <script src="./scripts/store/cart.js"></script>
 <script src="./scripts/Ads/randAds.js"></script>
+<script src="./scripts/gamez/chat.js"></script>
 
 <script>
 	// Call the function to fetch and update data when the page loads
