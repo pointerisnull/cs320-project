@@ -19,12 +19,6 @@ async function selectGameModeScreen() {
     }
 }
 
-/* Get the relevant elements to be displayed in fullscreen mode*/
-var gameContainer = document.getElementById("game-container");
-var insideGameContainer = document.getElementById('inside-game-container');
-var contentWidth = insideGameContainer.style.width;
-var contentHeight = insideGameContainer.style.height;
-
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
