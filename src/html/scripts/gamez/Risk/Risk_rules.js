@@ -128,20 +128,26 @@ function checkWin() {
     const winner = playerTerritoryCounts.find(object => object.territoryCount === gameData.territories.length);
     return winner ? winner.playerName : null;
 }
+function checkWin() { // needs tested
+    var win = null;
+    const winner = null;
 
-// if counting takes too long i made a version using booleans for the regions (I can make it db friendly tmr)
-/*function checkWin(attacker) {
-    const win = false;
-    for (let j = o; j < territories.length; j++) { // check if attacker owns each territory
-        if (territories[j].owner == attacker) {
-            win = true;
-        } else {
-            win = false; // if any territory isnt owned by attacker, that can't win yet.
-            break; // no need to keep looping
-        };
-    }
-    return win; // return boolean value
-}*/
+    gameData.playerNames.forEach((player) => { // check if each player owns each territory
+        gameData.territories.forEach((territory) => {
+            if (territory.owner === player) {
+                win = true;
+            } else {
+                win = false;
+                return;
+            }
+        });
+        if (win == true) {
+            winner = player;
+        }
+    });
+
+    return winner;
+}
 
 function recievedCard(gainedTerritory) { // Not done or tested yet
     const currentPlayer = gameData.player_turn;
@@ -177,7 +183,7 @@ function tradeIn() {
         if (hand.length >= 3) { // if hand has a possible set
             const numSets = Math.floor(hand.length / 3); // possible sets
             // check if set cards have have troop type
-            if (card.troopType == 'Infantry'){ // set reinforments based on set troopType
+            if (card.troopType == 'Infantry') { // set reinforments based on set troopType
                 reinforcements += infantry;
             } else if (card.troopType == 'Cavalry') {
                 reinforcements += cavalry;
@@ -211,7 +217,7 @@ function continentControl(attacker) { // player can get more troops depending on
         }*/
     if (control != null) { // increase possible # of troops in reinforce phase
         let count = control.playerTerritoryCounts;
-        if (count <= 9) { 
+        if (count <= 9) {
             reinforcementPhase().gameData.reinforcements += 3; // always at least 3 armies for fewer than 9 territories
         } else if (count < 42) { // recieved army based on count
             let recieve = count / 3;
