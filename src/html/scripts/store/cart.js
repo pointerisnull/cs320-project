@@ -113,11 +113,12 @@ function loadCart() {
 
             // Display cost
             const itemCost = document.createElement('p');
-            itemCost.textContent = `Cost: $${totalCost}`;
+            itemCost.textContent = `Cost: $${Math.round(totalCost * 100) / 100}`;
             itemCost.style.fontWeight = 'bold';
             itemCost.style.textAlign = 'right';
+            itemCost.style.marginLeft = 'auto'; // Aligns the cost to the right side of the container
+            itemCost.style.marginRight = '10px'; // Adds some space between the cost and the container's edge
             cartItem.appendChild(itemCost);
-
             document.getElementById('cartContainer').appendChild(cartItem); // Append item to cart container
             document.getElementById('cartEmptyButton').style.display = 'block';
 

@@ -28,6 +28,14 @@ function riskLocalMultiplayerGame() {
     riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
 }
 
+function riskOnlineGame() {
+    const gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    const riskOnlineGameScreen = document.getElementById("riskOnlineGameScreen");
+    gameModeOptionsScreen.style.display = 'none';
+    riskOnlineGameScreen.style.display = 'flex';
+
+}
+
 var playerCount = 1; // Initial number of total players
 
 function increasePlayer() {

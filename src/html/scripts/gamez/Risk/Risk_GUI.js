@@ -1,4 +1,4 @@
-const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#85c1ff"];
+const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#e2f0cb", "#85c1ff"];
 const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
 
 // These next two functions (setBanners() and updateBanner()) displays and updates the banner that shows on the top of 
@@ -28,14 +28,26 @@ function updateBottomBanner() {
 
 }
 
+let isInfoBoxHovered = false; // Flag to track if the mouse is over the infobox
+
 // Function to update each individual country and its info and set up the "info box" and hover events.
 function setInfoBox() {
+    const infoBox = document.getElementById('infoBox');
+
+    // Add event listener to the info box to handle mouse enter and leave
+    infoBox.addEventListener('mouseenter', () => {
+        isInfoBoxHovered = true;
+        infoBox.style.display = "block";
+    });
+    infoBox.addEventListener('mouseleave', () => {
+        isInfoBoxHovered = false;
+        hideInfoBox(); // Hide the infobox when mouse leaves it
+    });
+
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
     Array.from(polygons).forEach(polygon => {
         polygon.addEventListener('mouseenter', handlePolygonHover);
-        polygon.addEventListener('mouseleave', () => {
-            document.getElementById('infoBox').style.display = 'none';
-        });
+        polygon.addEventListener('mouseleave', handlePolygonLeave);
     });
 }
 
@@ -52,17 +64,39 @@ function handlePolygonHover(event) {
             `;
         }
     });
-    infoBox.style.display = 'block';
-    // Position the info box near the hovered polygon
+
+    // Calculate the position of the info box
     const rect = polygon.getBoundingClientRect();
-    if(rect.right >= 600) {
-        infoBox.style.top = rect.top + 'px';
-        infoBox.style.left = rect.left - 100 + 'px'; // Position it to the right of the polygon
+    let topPosition = rect.top - infoBox.offsetHeight - 10; // Offset to position slightly above the polygon
+    let leftPosition = rect.left + (rect.width / 2) - (infoBox.offsetWidth / 2); // Center horizontally
+
+    // Adjust position if near the edge of the container
+    if (leftPosition < 0) {
+        leftPosition = 10; // Move to the left edge
+    } else if (leftPosition + infoBox.offsetWidth > window.innerWidth) {
+        leftPosition = window.innerWidth - infoBox.offsetWidth - 10; // Move to the right edge
     }
-    else {
-        infoBox.style.top = rect.top + 'px';
-        infoBox.style.left = rect.right + 'px'; // Position it to the right of the polygon
+
+    // Set the position of the info box
+    infoBox.style.top = `${topPosition}px`;
+    infoBox.style.left = `${leftPosition}px`;
+
+    // Display the info box if the mouse is not over it
+    if (!isInfoBoxHovered) {
+        infoBox.style.display = 'block';
     }
+}
+
+function handlePolygonLeave() {
+    if (!isInfoBoxHovered) {
+        hideInfoBox();
+    }
+}
+
+// Function to hide the info box
+function hideInfoBox() {
+    const infoBox = document.getElementById('infoBox');
+    infoBox.style.display = 'none';
 }
 
 function displayAttackSelectScreen(attackerId, targetId) {
