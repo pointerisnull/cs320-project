@@ -12,9 +12,6 @@ const { updateUser } = require('./database-scripts/User/UserUpdate');
 const { createRiskGame } = require('./database-scripts/Risk/RiskInsert');
 const { handleLocalRiskGameDataRequest } = require('./handlers/riskLocalGameDataHandler');
 const { updateRiskGame } = require('./database-scripts/Risk/RiskUpdate');
-const { createRiskServer } = require('./database-scripts/Risk/RiskInsertServer');
-const { handleRiskServerDataRequest } = require('./handlers/riskServerDataHandler');
-const { updateRiskServer } = require('./database-scripts/Risk/RiskUpdateServer');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
