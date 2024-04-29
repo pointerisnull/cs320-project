@@ -107,7 +107,7 @@
                     <h1>Select Game Mode</h1>
                     <button id="resumeLocalRiskGameButton" onclick="resumeLocalRiskGame()" style="display:none"></button>
                     <!-- <button id="resumeComputerRiskGameButton" onclick="" style="display:none"></button> -->
-                    <button onclick="getRiskServers()">Play - Online</button>
+                    <button onclick="riskOnlineGame()">Play - Online</button>
                     <button onclick="riskComputerGame()">Play - Computer(s)</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
@@ -132,16 +132,8 @@
                         <h1>Choose Player Names</h1>
                     </div>
                 </div>
-                <div class="option-screen" id="riskOnlineGameServerScreen" style="display:none">
-                    <!-- List Servers UI -->
-                    <div id="listRiskServerScreen"></div>
-                    <!-- Create Server button -->
-                    <button onclick="toggleCreateServerScreen()">Create Server</button>
-                    <!-- Server creation UI -->
-                    <div id="createRiskServerScreen" style="display:none">
-                        <input type="text" id="serverNameInput" placeholder="Server Name">
-                        <button onclick="createServer()">Create Server</button>
-                    </div>
+                <div class="option-screen" id="riskOnlineGameScreen" style="display:none">
+                    <h2>Online Play Coming Soon...</h2>
                 </div>
                 <!-- Top Banner -->
                 <div id="topBanner" style="position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
