@@ -95,6 +95,12 @@
     border: 1px solid black;
 }
 
+#popup_screens {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center pop-up screens horizontally */
+}
+
 .addMinusButtonsWithNumber {
     display: flex;
     justify-content: center;
