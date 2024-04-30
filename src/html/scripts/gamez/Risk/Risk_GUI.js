@@ -51,6 +51,14 @@ function setInfoBox() {
     });
 }
 
+function updateInfoBox(territory) {
+    const infoBox = document.getElementById('infoBox');
+    infoBox.innerHTML = `
+        <div>Owner: ${territory.owner}</div>
+        <div>Troop Count: ${territory.armies}</div>
+    `;
+}
+
 // Function to handle mouse hover over polygons
 function handlePolygonHover(event) {
     const polygon = event.target;

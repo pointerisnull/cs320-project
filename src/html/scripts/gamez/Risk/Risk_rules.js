@@ -271,6 +271,7 @@ function handleReinforcementClick(event) {
                     gameData.reinforcements--;
                     territory.armies += 1;
                     updateTopBanner();
+                    updateInfoBox(territory);
                     topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
                     if (gameData.reinforcements === 0) {
                         console.log("Reinforcement phase over...");
