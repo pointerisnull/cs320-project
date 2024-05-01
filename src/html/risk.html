@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href="./GC.css">
     <link rel="stylesheet" type="text/css" href="./Media/gamez/riskMaps/riskSVGMap/stylesRiskPage.css">
     <link rel="stylesheet" type="text/css" href="./css/Risk.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel='stylesheet' type='text/css'>
+
 </head>
 
 <audio id="audio" src="./Media/gamez/etc/audio/BattleMusic.mp3"></audio>
@@ -65,7 +70,7 @@
         </div>
     </div>
 
-    <h1>Risk</h1>
+    <h1 style="font-family: Arial, sans-serif;">Risk</h1>
 
     <div class="ui container">
         <div class="item body">
@@ -96,6 +101,8 @@
         </div>
         <div id="game-container" class="item body" style="margin: auto;"> <!-- game -->
             <div id="inside-game-container" class="ui fluid container" style="border:1px dashed black; width:800px; height:560px;">
+                <!-- Fullscreen button -->
+                <img src="./Media/gamez/etc/enterFullScreen.png" id="fullscreen-button" onclick="openFullscreen()" width="40px" height="40px"/>
                 <div class="option-screen" id="startScreen">
                     <h1>Welcome to Risk</h1>
                     <button onclick="selectGameModeScreen()">Play</button>
@@ -136,25 +143,29 @@
                     <h2>Online Play Coming Soon...</h2>
                 </div>
                 <!-- Top Banner -->
-                <div id="topBanner" style="position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                <div id="topBanner" style="font-family:'Exo'; position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                     <span id="topBannerText"></span>
                 </div>
                 <!-- Bottom Banner -->
-                <div id="bottomBanner" style="position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                <div id="bottomBanner" style="font-family:'Exo'; position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                     <span id="bottomBannerText"></span>
                 </div>
-                <!-- All screens in-game which require user interaction. -->
-                <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
-                <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
-                <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
-                <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
-                    <p>Select another attacker or continue on and fortify.</p>
-                    <button onclick="attackPhase()" style="margin-bottom:10px;">Attack again</button>
-                    <button onclick="fortificationPhase()" style="margin-bottom:10px;">Continue</button>    
+                <div id="popup_screens">
+                    <!-- All screens in-game which require user interaction. -->
+                    <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
+                    <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
+                    <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
+                    <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
+                        <div class="popup_screen_text">
+                            <p>Select another attacker or continue on and fortify.</p>
+                            <button onclick="attackPhase()" style="margin-bottom:10px;">Attack again</button>
+                            <button onclick="fortificationPhase()" style="margin-bottom:10px;">Continue</button>
+                        </div> 
+                    </div>
+                    <div id="fortifySelectionScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                    <!-- Info box -->
+                    <div id="infoBox" class="game-screen" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                 </div>
-                <div id="fortifySelectionScreen" style="position: absolute;top: 35%; left: 30%; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
-                <!-- Info box -->
-                <div id="infoBox" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                 <!-- SVG Map -->
                 <iframe id="riskSVGMap" src="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%" height="100%" style="border:none;    background: linear-gradient(to bottom, #cccccc, #999999);"></iframe>
             </div>
