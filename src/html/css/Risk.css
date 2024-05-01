@@ -1,3 +1,24 @@
+h1 {
+    font-family: 'Jersey 20';
+    font-size: '48px';
+}
+
+h2 {
+    font-family: 'Montserrat';
+}
+
+button {
+    font-family: 'Anton';
+}
+
+.popup_screen_text {
+    font-family: 'Exo';
+}
+
+.popup_screen_text_headers {
+    font-weight: bold;
+}
+
 /* Loading screen styles */
 .loading-screen {
     position: fixed;
@@ -93,6 +114,28 @@
     background-color: white;
     padding: 10px;
     border: 1px solid black;
+    border-radius: 10px; /* Adjust the radius as needed */
+    background: linear-gradient(to bottom, #f7d079, #fbb040); /* Example gradient */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the values for the desired effect */
+    transition: all 0.3s ease-in-out; /* Example transition */
+
+}
+
+.game-screen button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.game-screen button:hover {
+    background-color: #777; /* Lighter gray hover background color */
 }
 
 #popup_screens {

@@ -54,8 +54,10 @@ function setInfoBox() {
 function updateInfoBox(territory) {
     const infoBox = document.getElementById('infoBox');
     infoBox.innerHTML = `
-        <div>Owner: ${territory.owner}</div>
-        <div>Troop Count: ${territory.armies}</div>
+        <div class="popup_screen_text">
+            <div><span class="popup_screen_text_headers">Owner:</span> ${territory.owner}</div>
+            <div><span class="popup_screen_text_headers">Troop Count:</span> ${territory.armies}</div>
+        </div>
     `;
 }
 
@@ -67,8 +69,10 @@ function handlePolygonHover(event) {
     gameData.territories.forEach((territory) => {
         if (territory.name === country) {
             infoBox.innerHTML = `
-                <div>Owner: ${territory.owner}</div>
-                <div>Troop Count: ${territory.armies}</div>
+                <div class="popup_screen_text">
+                    <div><span class="popup_screen_text_headers">Owner:</span> ${territory.owner}</div>
+                    <div><span class="popup_screen_text_headers">Troop Count:</span> ${territory.armies}</div>
+                </div>
             `;
         }
     });
@@ -113,14 +117,21 @@ function displayAttackSelectScreen(attackerId, targetId) {
         troopsAttackingCount = 0;
     }
     attackSelectScreen.innerHTML = `
-    <div>Attacker: ${attackerId}; Troop Count: ${findTerritoryByPolygonId(attackerId).armies}</div>
-    <div>Target: ${targetId}; Troop Count: ${findTerritoryByPolygonId(targetId).armies}</div>
-    <div>How many troops do you want to send into battle: </div>
-    <button onclick="decreaseAttackingTroops()" style="width:10%">-</button>
-    <span id="troopsAttackingCount">1</span>
-    <button onclick="increaseAttackingTroops()" style="width:10%">+</button>
-    <br></br>
-    <button onclick="singleAttack()">Attack!</button>
+    <div class="popup_screen_text">
+        <hr></hr>
+        <div><span class="popup_screen_text_headers">Attacker:</span> ${attackerId}</div>
+        <div><span class="popup_screen_text_headers">Troop Count:</span> ${findTerritoryByPolygonId(attackerId).armies}</div>
+        <hr></hr>
+        <div><span class="popup_screen_text_headers">Target:</span> ${targetId}</div>
+        <div><span class="popup_screen_text_headers">Troop Count:</span> ${findTerritoryByPolygonId(targetId).armies}</div>
+        <hr></hr>
+        <div><span class="popup_screen_text_headers">How many troops do you want to send into battle:</span> </div>
+        <button onclick="decreaseAttackingTroops()" style="width:10%">-</button>
+        <span id="troopsAttackingCount">1</span>
+        <button onclick="increaseAttackingTroops()" style="width:10%">+</button>
+        <br></br>
+        <button onclick="singleAttack()">Attack!</button>
+    </div>
     `;
     attackSelectScreen.style.display = 'block';
 }
@@ -135,11 +146,13 @@ function hideAttackSummaryScreen() {
 function displayTroopSendScreen() {
     const troopSendScreen = document.getElementById('troopSendScreen');
     troopSendScreen.innerHTML = `
-    <div>Number of troops to send from ${attacker} to ${defender}: <span id="troopsToSendCount">1</span></div>
-    <button onclick="decreaseTroopsToSend()" style="width:10%">-</button>
-    <button onclick="increaseTroopsToSend()" style="width:10%">+</button>
-    <br></br>
-    <button onclick="hideTroopSendScreen()">Ok</button>
+    <div class="popup_screen_text">
+        <div><span class="popup_screen_text_headers">Number of troops to send from ${attacker} to ${defender}:</span> <span id="troopsToSendCount">1</span></div>
+        <button onclick="decreaseTroopsToSend()" style="width:10%">-</button>
+        <button onclick="increaseTroopsToSend()" style="width:10%">+</button>
+        <br></br>
+        <button onclick="hideTroopSendScreen()">Ok</button>
+    </div>
     `;
     troopSendScreen.style.display = 'block';
 }
@@ -170,11 +183,13 @@ function displayFortifySelectionScreen() {
     const fortifySelectionScreen = document.getElementById("fortifySelectionScreen");
 
     fortifySelectionScreen.innerHTML = `
-    <div>Number of troops to send from ${firstTerritoryToFortify} to ${secondTerritoryToFortify}: <span id="fortifyTroopsToSendCount">1</span></div>
-    <button onclick="decreaseFortifyTroopsToSend()" style="width:10%">-</button>
-    <button onclick="increaseFortifyTroopsToSend()" style="width:10%">+</button>
-    <br></br>
-    <button onclick="hideFortifySelectionScreen()">Ok</button>
+    <div class="popup_screen_text">
+        <div><span class="popup_screen_text_headers">Number of troops to send from ${firstTerritoryToFortify} to ${secondTerritoryToFortify}:</span> <span id="fortifyTroopsToSendCount">1</span></div>
+        <button onclick="decreaseFortifyTroopsToSend()" style="width:10%">-</button>
+        <button onclick="increaseFortifyTroopsToSend()" style="width:10%">+</button>
+        <br></br>
+        <button onclick="hideFortifySelectionScreen()">Ok</button>
+    </div>
     `;
     fortifySelectionScreen.style.display = 'block';
 }

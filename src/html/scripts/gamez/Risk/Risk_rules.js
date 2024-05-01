@@ -452,8 +452,9 @@ function singleAttack() {
         attackSummaryScreen.innerHTML = `
         <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
         <div>${defender} lost ${defenderLostTroops} troop(s)</div>
+        <hr></hr>
         <div>${winner} beat ${loser}</div>
-        <br></br>
+        <hr></hr>
         <button onclick="hideAttackSummaryScreen(); displayTroopSendScreen();">Ok</button>
         `;
     }
