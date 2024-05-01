@@ -1,8 +1,11 @@
 /* This functions main goal is to call the reqeustFullscreen() method. The rest of the code in the function 
 is just making sure the content in the full screen mode is scaled and placed properly. */
 function openFullscreen() {
-    if (gameContainer.requestFullscreen) {
+    if(gameContainer.requestFullscreen) {
         gameContainer.requestFullscreen();
+
+        document.getElementById('fullscreen-button').src = "./Media/gamez/etc/exitFullScreen.png"
+        document.getElementById('fullscreen-button').onclick = closeFullscreen;
 
         // Calculate the scaling factor based on the screen width. This is just to make sure the full screen mode fits most screens.
         var screenWidth = window.screen.width;
@@ -28,10 +31,10 @@ function openFullscreen() {
     } 
 }
 
-document.addEventListener('fullscreenchange', exitFullscreenHandler);
+document.addEventListener('fullscreenchange', escapeFullscreen);
 
-function exitFullscreenHandler() {
-    if (!document.fullscreenElement) {
+function escapeFullscreen() {
+    if(!document.fullscreenElement) {
         // If the fullscreenElement is null, it means the user has exited fullscreen mode
         insideGameContainer.style.width = contentWidth; // Reset width to default
         insideGameContainer.style.height = contentHeight; // Reset height to default
@@ -39,5 +42,22 @@ function exitFullscreenHandler() {
         gameContainer.style.alignItems = ''; // Reset alignItems
         gameContainer.style.display = ''; // Reset display
         gameContainer.style.transform = ''; // Reset transform (scaling)
+        document.getElementById('fullscreen-button').src = "./Media/gamez/etc/enterFullScreen.png"
+        document.getElementById('fullscreen-button').onclick = openFullscreen;
+    }
+}
+
+function closeFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen(); // Exit fullscreen mode
+        // Reset styling adjustments
+        insideGameContainer.style.width = contentWidth;
+        insideGameContainer.style.height = contentHeight;
+        gameContainer.style.justifyContent = '';
+        gameContainer.style.alignItems = '';
+        gameContainer.style.display = '';
+        gameContainer.style.transform = '';
+        document.getElementById('fullscreen-button').src = "./Media/gamez/etc/enterFullScreen.png";
+        document.getElementById('fullscreen-button').onclick = openFullscreen;
     }
 }
