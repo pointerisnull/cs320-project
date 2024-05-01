@@ -95,7 +95,7 @@ var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalM
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
 // Variable to store player names
-var playerNames = [];
+var playerNames = []; // = [{name:, hand:}] create object with player name and hand for cards recieved (and reinforcments for each player)
 
     // Function to generate input field for player names one at a time
     function generatePlayerNameInput(playerIndex) {
