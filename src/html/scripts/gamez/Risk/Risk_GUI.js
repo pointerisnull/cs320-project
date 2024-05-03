@@ -190,6 +190,7 @@ function displayFortifySelectionScreen() {
         <button onclick="increaseFortifyTroopsToSend()" style="width:10%">+</button>
         <br></br>
         <button onclick="hideFortifySelectionScreen()">Ok</button>
+        <button onclick="cancelFortify()">Cancel</button>
     </div>
     `;
     fortifySelectionScreen.style.display = 'block';

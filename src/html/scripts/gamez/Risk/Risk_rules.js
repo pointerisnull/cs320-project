@@ -491,3 +491,9 @@ function cancelAttack() {
     troopsAttackingCount = 1;
     attackPhase();
 }
+
+function cancelFortify() {
+    document.getElementById("fortifySelectionScreen").style.display = 'none';
+    removeShimmer();
+    fortificationPhase();
+}
