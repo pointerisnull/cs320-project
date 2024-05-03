@@ -53,6 +53,9 @@ function attackPhase() {
         polygons.forEach(polygon => {
             polygon.addEventListener('click', handleAttackFirstClick);
         });
+        polygons.forEach(polygon => {
+            polygon.removeEventListener('click', handleAttackSecondClick);
+        });
     }
 }
 
@@ -85,7 +88,6 @@ async function endCurrentTurn() {
 
         const updated = await updateLocalRiskGameData();
 
-        console.log(updated);
         if (updated) { // Nothing implemented yet for when someone wins.
             //nextTurn();
         }
@@ -101,7 +103,6 @@ async function endCurrentTurn() {
 
         const updated = await updateLocalRiskGameData();
 
-        console.log(updated);
         if (updated) {
             nextTurn();
         }
@@ -478,13 +479,15 @@ function singleAttack() {
         `;
     }
 
-    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
-    polygons.forEach(element => {
-        // Check if the element has the class you want to remove
-        if(element.classList.contains('shimmer')) {
-            // If it has the class, remove it
-            element.classList.remove('shimmer');
-        }
-    });
+    removeShimmer();
     attackSummaryScreen.style.display = 'block';
+}
+
+function cancelAttack() {
+    document.getElementById('attackSelectScreen').style.display = 'none';
+    attacker = null;
+    defender = null;
+    removeShimmer();
+    troopsAttackingCount = 1;
+    attackPhase();
 }
