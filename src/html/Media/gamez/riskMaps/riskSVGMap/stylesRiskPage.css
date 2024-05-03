@@ -55,3 +55,19 @@ polygon + text:hover {
     overflow: hidden; /* Ensure that the map contnt doesn't overflow the container */
     transition: transform 10s;
 }
+
+@keyframes shimmer {
+    0% {
+        filter: brightness(100%);
+    }
+    50% {
+        filter: brightness(150%);
+    }
+    100% {
+        filter: brightness(100%);
+    }
+}
+
+.shimmer {
+    animation: shimmer 2s infinite;
+}
