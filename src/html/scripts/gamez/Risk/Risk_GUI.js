@@ -201,5 +201,13 @@ function hideFortifySelectionScreen() {
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(secondTerritoryToFortify))].armies += fortifyTroopsToSendCount;
     firstTerritoryToFortify = null;
     secondTerritoryToFortify = null;
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    polygons.forEach(element => {
+        // Check if the element has the class you want to remove
+        if(element.classList.contains('shimmer')) {
+            // If it has the class, remove it
+            element.classList.remove('shimmer');
+        }
+    })
     endCurrentTurn();
 }

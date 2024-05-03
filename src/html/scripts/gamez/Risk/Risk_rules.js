@@ -301,6 +301,8 @@ function handleAttackFirstClick(event) {
     if (attacker === null) {
         // Check if the clicked country belongs to the current player
         if (findTerritoryByPolygonId(clickedPolygon.id).owner === currentPlayer && findTerritoryByPolygonId(clickedPolygon.id).armies > 1) {
+            // Add shimmering effect to the clicked country
+            clickedPolygon.classList.add('shimmer');
             attacker = clickedPolygon.id;
             console.log(`Attacker selected: ${attacker}`);
             bottomBannerText.innerHTML = "Please select a target (must be adjacent).";
@@ -337,6 +339,8 @@ function handleAttackSecondClick(event) {
             console.log("You can't attack your own countries!");
         }
         else if (isAdjacent(attacker, clickedPolygon.id)) {
+            // Add shimmering effect to the clicked country
+            clickedPolygon.classList.add('shimmer');
             defender = clickedPolygon.id;
             console.log(`Target selected: ${defender}`);
             bottomBannerText.innerHTML = "Attacker: " + attacker + " | Target: " + defender;
@@ -364,6 +368,7 @@ function handleFortifyFirstClick(event) {
 
     if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
         if (findTerritoryByPolygonId(clickedPolygon.id).armies > 1) {
+            clickedPolygon.classList.add('shimmer');
             firstTerritoryToFortify = clickedPolygon.id;
             console.log(`First territory selected: ${firstTerritoryToFortify}`);
             polygons.forEach(polygon => {
@@ -391,6 +396,7 @@ function handleFortifySecondClick(event) {
 
     if (findTerritoryByPolygonId(clickedPolygon.id).owner === gameData.player_turn) {
         if (isAdjacent(firstTerritoryToFortify, clickedPolygon.id)) {
+            clickedPolygon.classList.add('shimmer');
             secondTerritoryToFortify = clickedPolygon.id;
 
             polygons.forEach(polygon => {
@@ -472,5 +478,13 @@ function singleAttack() {
         `;
     }
 
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    polygons.forEach(element => {
+        // Check if the element has the class you want to remove
+        if(element.classList.contains('shimmer')) {
+            // If it has the class, remove it
+            element.classList.remove('shimmer');
+        }
+    });
     attackSummaryScreen.style.display = 'block';
 }
