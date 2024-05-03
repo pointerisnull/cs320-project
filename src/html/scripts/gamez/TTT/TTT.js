@@ -20,15 +20,9 @@ vars.board = [
 
 //Sets array for Tic-Tac-Toe²
 vars.board2 = [
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b'],
-    ['b','b','b','b','b','b','b','b','b']
+    ['','',''],
+    ['','',''],
+    ['','','']
 ];
 
 //Button functionality for selecting Tic-Tac-Toe
@@ -48,7 +42,21 @@ function selectTTT2() {
     startScreen.style.display = 'none';
 
     vars.gameType = 2;
+    initBoard2();
     drawBoard();
+}
+
+//Sets vars.board2 as an array of vars.board objects
+function initBoard2() {
+    for (let i = 0;i < 3;i++) {
+        for (let j = 0;j < 3;j++) {
+            window['vars.board' + i + j] = JSON.parse(JSON.stringify(vars.board));
+            vars.board2[i][j] = [...window['vars.board' + i + j]];
+            console.log(window['vars.board' + i + j]);
+            //vars.board2[i][j][0][0] = 'O';
+        }
+    }
+    console.log(vars.board2[0][0][0][0]);
 }
 
 //Draws the game board
@@ -101,8 +109,24 @@ function coordinate(event) {
         vars.pieceX = (vars.arrayX * 60) + 5;
         vars.pieceY = (vars.arrayY * 60) + 55;
 
+        let arrayX2 = vars.arrayX / 3;
+        let arrayY2 = vars.arrayY / 3;
+        vars.arrayX2 = Math.floor(arrayX2);
+        vars.arrayY2 = Math.floor(arrayY2);
+        
+        vars.arrayX = vars.arrayX - (3 * vars.arrayX2);
+        vars.arrayY = vars.arrayY - (3 * vars.arrayY2);
+
         document.getElementById("board").setAttribute('font-size', '70');
     }
+
+    document.getElementById("gameType").value = vars.gameType;
+    document.getElementById("X").value = vars.arrayX;
+    document.getElementById("Y").value = vars.arrayY;
+    document.getElementById("gameX").value = vars.arrayX2;
+    document.getElementById("gameY").value = vars.arrayY2;
+    document.getElementById("arrayValue").value = vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayX][vars.arrayY];
+    document.getElementById("arrayTrue").value = isLegal();
 
     hoverPiece();
 }   
@@ -110,20 +134,11 @@ function coordinate(event) {
 //Draws the piece when hovering over space
 function hoverPiece() {
     if (isLegal()) {
-        if (vars.gameType == 1) {
-            document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
-            document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
-            document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
-            document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
-        } else {
-            document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
-            document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
-            document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
-            document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
-        }
+        document.getElementById("pieceHover").setAttribute('x', vars.pieceX);
+        document.getElementById("pieceHover").setAttribute('y', vars.pieceY);
+        document.getElementById("pieceHover").setAttribute('fill', vars.pieceHoverColor);
+        document.getElementById("pieceHover").innerHTML = vars.pieceSVG;
     }
-    
-    
 }
 
 //Draws the piece
@@ -137,6 +152,7 @@ function onClick() {
     if (isLegal()) {
         drawPiece();
         setArray();
+        //pieceType();
         if (!isWin()) {
             pieceType();
             if (vars.gameType == 1) {
@@ -144,6 +160,8 @@ function onClick() {
             }
         }
     }
+    console.log(vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayX][vars.arrayY]);
+    console.log(vars.board2);
 }
 
 //Determines if board if full
@@ -174,7 +192,8 @@ function setArray() {
     if (vars.gameType == 1) {
         vars.board[vars.arrayX][vars.arrayY] = vars.pieceSVG;
     } else {
-        vars.board2[vars.arrayX][vars.arrayY] = vars.pieceSVG;
+        //vars.board2[0][0][vars.arrayX][vars.arrayY] = 'O';
+        vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayY][vars.arrayX] = vars.pieceSVG;
     }
 }
 
@@ -183,7 +202,7 @@ function isLegal() {
     if (vars.gameType == 1) {
         return Boolean(vars.board[vars.arrayX][vars.arrayY] == 'b' && !isWin());
     } else {
-        return Boolean(vars.board2[vars.arrayX][vars.arrayY] == 'b' && !isWin());
+        return Boolean(vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayY][vars.arrayX] == 'b');
     }
     
 }
