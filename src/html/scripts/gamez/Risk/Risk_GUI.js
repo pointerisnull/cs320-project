@@ -198,6 +198,8 @@ function displayFortifySelectionScreen() {
 
 function hideFortifySelectionScreen() {
     const fortifySelectionScreen = document.getElementById("fortifySelectionScreen");
+    document.getElementById('skipButtons').style.display = 'none';
+    document.getElementById('skipFortifyPhaseButton').style.display = 'none';
     fortifySelectionScreen.style.display = 'none';
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(firstTerritoryToFortify))].armies -= fortifyTroopsToSendCount;
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(secondTerritoryToFortify))].armies += fortifyTroopsToSendCount;

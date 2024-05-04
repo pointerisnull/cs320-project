@@ -165,3 +165,26 @@ button {
     z-index: 999; /* Ensure the button is above other elements */
     cursor: pointer;
 }
+
+#skipButtons {
+    font-family:'Exo'; 
+    position: absolute; 
+    bottom: 0;
+}
+
+#skipButtons button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#skipButtons button:hover {
+    background-color: darkred; /* Lighter gray hover background color */
+}

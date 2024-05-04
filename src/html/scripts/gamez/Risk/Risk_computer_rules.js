@@ -214,13 +214,17 @@ async function computerFortifyPhase() {
 
 // Very very simple. If we had more time I would make the decision processes more logical.
 async function computerSingleFortify(fortifyingSet) {
-    if(fortifyingSet.sender.armies <= 2) {
+    if(fortifyingSet.sender.armies <= 3) {
         gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= 1;
-        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies += 1;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.receiver)].armies += 1;
+    }
+    else if(fortifyingSet.sender.armies <= 8){
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= 2;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.receiver)].armies += 2;
     }
     else {
-        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= fortifyingSet.sender.armies / 2;
-        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies += fortifyingSet.sender.armies / 2;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= 4;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.receiver)].armies += 4;
     }
     var bottomBannerText = document.getElementById("bottomBannerText");
     bottomBannerText.innerHTML = gameData.player_turn + "'s turn is over...";
