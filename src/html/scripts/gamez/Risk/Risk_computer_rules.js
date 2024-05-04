@@ -99,12 +99,12 @@ async function computerAttackPhase() {
 
     if(bestPair) {
         bottomBannerText.innerHTML = "Computer player has decided to attack " + bestPair.defender.name + " with " + bestPair.attacker.name;
-        await sleep(5000);
+        await sleep(3000);
         computerSingleAttack(bestPair);
     }
 }
 
-function computerSingleAttack(attackingSet) {
+async function computerSingleAttack(attackingSet) {
     var attackerLostTroops = 0;
     var defenderLostTroops = 0;
     var attackerCurrentTroops = attackingSet.attacker.armies;
@@ -114,8 +114,20 @@ function computerSingleAttack(attackingSet) {
     var randomValue = 0;
     var winner = null;
     var loser = null;
-    var bottomBannerText = document.getElementById("bottomBannerText");
+    const bottomBannerText = document.getElementById("bottomBannerText");
+    const attackLiveScreen = document.getElementById("attackLiveScreen");
+    attackLiveScreen.style.maxHeight = '200px';
+    attackLiveScreen.style.overflow = 'scroll';
+    attackLiveScreen.innerHTML = `
+    <div style="text-align:center;"><span class="popup_screen_text_headers">Live Attack</span></div>
+    <hr></hr>
+    <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.attacker.name}:  ${attackerCurrentTroops}</span></div>
+    <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.defender.name}:  ${defenderCurrentTroops}</span></div>
+    <hr></hr>
+    `
+    attackLiveScreen.style.display = 'block';
     // const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+    await sleep(2000);
 
     while (attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
@@ -129,7 +141,12 @@ function computerSingleAttack(attackingSet) {
         }
         console.log(attackingSet.attacker.name, ": ", attackerCurrentTroops);
         console.log(attackingSet.defender.name, ": ", defenderCurrentTroops);
-        sleep(500);
+        attackLiveScreen.innerHTML += `
+        <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.attacker.name}:  ${attackerCurrentTroops}</span></div>
+        <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.defender.name}:  ${defenderCurrentTroops}</span></div>
+        <hr></hr>
+        `
+        await sleep(2000);
     }
 
     if (attackerCurrentTroops) {
