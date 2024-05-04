@@ -1,9 +1,3 @@
-/* Get the relevant elements to be displayed in fullscreen mode*/
-var gameContainer = document.getElementById("game-container");
-var insideGameContainer = document.getElementById('inside-game-container');
-var contentWidth = insideGameContainer.style.width;
-var contentHeight = insideGameContainer.style.height;
-
 /* This functions main goal is to call the reqeustFullscreen() method. The rest of the code in the function 
 is just making sure the content in the full screen mode is scaled and placed properly. */
 function openFullscreen() {

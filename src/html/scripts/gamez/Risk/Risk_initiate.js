@@ -19,6 +19,12 @@ async function selectGameModeScreen() {
     }
 }
 
+/* Get the relevant elements to be displayed in fullscreen mode*/
+var gameContainer = document.getElementById("game-container");
+var insideGameContainer = document.getElementById('inside-game-container');
+var contentWidth = insideGameContainer.style.width;
+var contentHeight = insideGameContainer.style.height;
+
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
@@ -95,7 +101,7 @@ var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalM
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
 // Variable to store player names
-var playerNames = []; // = [{name:, hand:}] create object with player name and hand for cards recieved (and reinforcments for each player)
+var playerNames = [];
 
     // Function to generate input field for player names one at a time
     function generatePlayerNameInput(playerIndex) {
