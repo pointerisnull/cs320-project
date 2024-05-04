@@ -2,9 +2,17 @@ let captured_pieces = [];
 let turn = true;
 let history = "";
 
-const board_squares = document.getElementsByClassName("square");
-const pieces = document.getElementsByClassName("piece");
-const piece_images = document.getElementsByTagName("img");
+var board_squares = document.getElementsByClassName("square");
+var pieces = document.getElementsByClassName("piece");
+var piece_images = document.getElementsByTagName("img");
+
+var default_board = $("#board").html();
+var ghost_board = board_squares;
+var ghost_pieces = pieces;
+
+var move_audio = new Audio('res/move.mp3'); 
+var capture_audio = new Audio('res/capture.mp3'); 
+var check_audio = new Audio('res/check.mp3'); 
   
 /*returns the color of piece in a square (if any)*/
 function is_occupied(square) {
@@ -318,7 +326,6 @@ function move_piece(from_square, to_square) {
   const destination_id = destination.id;
   const color = piece.getAttribute("color");
 
-
   if (is_occupied(destination) != "empty") {
     /*capture enemy pieces and prevent self-capture*/
     if (turn == true && color == "white" && is_occupied(destination) == "black") {
@@ -345,6 +352,26 @@ function move_piece(from_square, to_square) {
       if (board_squares[i].classList.contains("check") && is_occupied(board_squares[i]) == "empty")
       board_squares[i].classList.remove("check");
   }
+  
+  turn = !turn;
+  history = history + piece.square_id;
+  history = history + destination_id;
+  document.getElementById("turn").innerHTML = turn ? "White's Turn | " + history : "Black's Turn | " + history;
+  /*update the piece's coordinates*/
+  piece.first_move = false;
+  piece.square_id = destination_id;
+ 
+  if (is_check("white")) { 
+    check_audio.play();
+    if (color == "white")
+      undo_move();
+  }
+  else if (is_check("black")) {
+    check_audio.play();
+    if (color == "black")
+      undo_move();
+  } 
+  else move_audio.play();
 }
 
 /*main movement functions*/
@@ -375,16 +402,7 @@ function drop(ev) {
     return;
 
   move_piece(piece.square_id, destination_id);
-
-  turn = !turn;
-  history = history + piece.square_id;
-  history = history + destination_id;
-  document.getElementById("turn").innerHTML = turn ? "White's Turn | " + history : "Black's Turn | " + history;
-  /*update the piece's coordinates*/
-  piece.first_move = false;
-  piece.square_id = destination_id;
-  is_check("white");
-  is_check("black");
+ 
 }
 /*setup*/
 function init_board() {
@@ -412,5 +430,39 @@ function init_pieces() {
   }
 }
 
+async function reset_board() {
+  $("#board").html(default_board);
+  board_squares = document.getElementsByClassName("square");
+  pieces = document.getElementsByClassName("piece");
+  piece_images = document.getElementsByTagName("img");
+  
+  init_board();
+  init_pieces();
+}
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+async function play_board(moves, main_board) {
+  await delay(500);
+  for (let i = 0; i < moves.length; i = i+4) {
+    let from = moves[i] + moves[i+1];
+    let to = moves[i+2] + moves[i+3];
+    move_piece(from, to, main_board);
+    if (main_board) await delay(300);
+  }
+  //reset_board();
+}
+
+function undo_move() {
+  let temp = history.slice(0, -4);
+  reset_board();
+  history = "";
+  play_board(temp, false);
+  turn = !turn;
+}
+
+let temp = "f2f4e7e5e2e3";
+
 init_board();
 init_pieces();
+play_board(temp, true);
