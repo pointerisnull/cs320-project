@@ -110,7 +110,7 @@ async function createRiskGame(userId, gameInfo) {
 
       territories.forEach((territory, index) => { // create 42 cards with territories
         const troopType = troopTypes[index % troopTypes.length]; // pick a troopType from shuffled troopType array
-        
+
         const card = { // card object
           territory: territory,
           troopType: troopType
@@ -128,7 +128,13 @@ async function createRiskGame(userId, gameInfo) {
       return deck;
     }
 
-
+    function getName() {
+      const names = [];
+      for (let player of gameInfo.players) {
+        names.push(player.name);
+      }
+      return names;
+    }
 
     if (gameInfo.gameMode === 'Local') {
       // Create a new Risk game object
@@ -137,9 +143,8 @@ async function createRiskGame(userId, gameInfo) {
         game_mode: gameInfo.gameMode,
         playerNames: gameInfo.playerNames,
         territories: shuffledTerritories,
-        player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
+        player_turn: gameInfo.players[0].name, // Index of the current player in the players array
         winner: null,
-        reinforcements: {}, // Reinforcements for each player
         game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
         control: continents,
         Cards: new createDeck(),
@@ -152,6 +157,7 @@ async function createRiskGame(userId, gameInfo) {
         const playerIndex = i % newLocalGame.playerNames.length;
         newLocalGame.territories[i].owner = newLocalGame.playerNames[playerIndex].toString();
       }
+
       // Insert the new game document into the Risk collection
       const result = await db.collection('Risk').insertOne(newLocalGame);
 
