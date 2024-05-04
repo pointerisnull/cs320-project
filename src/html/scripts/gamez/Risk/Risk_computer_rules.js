@@ -165,4 +165,49 @@ async function computerSingleAttack(attackingSet) {
         gameData.territories[gameData.territories.indexOf(attackingSet.defender)].armies = defenderCurrentTroops;
         bottomBannerText.innerHTML = gameData.player_turn + " failed to invade " + loser + "!";
     }
+
+    await sleep(3000);
+    attackLiveScreen.style.display = 'none';
+
+    computerFortifyPhase();
+}
+
+async function computerFortifyPhase() {
+    console.log("Fortify phase starting...")
+    gameData.game_phase = 'fortify';
+    var bottomBannerText = document.getElementById("bottomBannerText");
+    updateTopBanner();
+    bottomBannerText.innerHTML = "Computer player thinking..."
+    await sleep(2000);
+
+    var possibleTerritoriesToFortify = [];
+    var largestArmyDifferential = 0;
+    var bestPair = null;
+    // Prioritize fortifying territories with fewer armies
+    gameData.territories.forEach((territory) => {
+        if(territory.owner === gameData.player_turn && territory.armies > 1) {
+            gameData.territories.forEach((adjacentTerritory) => {
+                if(isAdjacent(territory.name, adjacentTerritory.name) && adjacentTerritory.owner === gameData.player_turn) {
+                    possibleTerritoriesToFortify.push({sender: territory, receiver: adjacentTerritory});
+                }
+            });
+        }
+    });
+
+    possibleTerritoriesToFortify.forEach((pair) => {
+        console.log(pair);
+        if(pair.sender.armies - pair.receiver.armies > largestArmyDifferential) {
+            bestPair = pair;
+        }
+    });
+
+    if(bestPair) {
+        bottomBannerText.innerHTML = "Computer player has decided to fortify " + bestPair.receiver.name + " with " + bestPair.sender.name;
+        await sleep(3000);
+        computerSingleFortify();
+    }
+}
+
+async function computerSingleFortify() {
+    
 }
