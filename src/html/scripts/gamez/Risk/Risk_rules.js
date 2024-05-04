@@ -35,11 +35,12 @@ function reinforcementsEarned() {
 // This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
 // the game data, and sets the ability to click on polygons (which is used to divvy out reinforcements by the user).
 function reinforcementPhase() {
-    console.log("Reinforcement phase starting...")
+    console.log("Reinforcement phase starting...");
+    gameData.game_phase = 'reinforcement';
     var topBannerText = document.getElementById("topBannerText");
     var bottomBannerText = document.getElementById("bottomBannerText");
     var numberOfReinforcements = reinforcementsEarned();
-    
+
     gameData.reinforcements = numberOfReinforcements;
     topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
     bottomBannerText.innerHTML = "Please place your reinforcements";
