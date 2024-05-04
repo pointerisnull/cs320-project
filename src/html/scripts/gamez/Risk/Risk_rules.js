@@ -54,6 +54,9 @@ function attackPhase() {
         polygons.forEach(polygon => {
             polygon.addEventListener('click', handleAttackFirstClick);
         });
+        polygons.forEach(polygon => {
+            polygon.removeEventListener('click', handleAttackSecondClick);
+        });
     }
 }
 
@@ -86,7 +89,6 @@ async function endCurrentTurn() {
 
         const updated = await updateLocalRiskGameData();
 
-        console.log(updated);
         if (updated) { // Nothing implemented yet for when someone wins.
             //nextTurn();
         }
@@ -102,7 +104,6 @@ async function endCurrentTurn() {
 
         const updated = await updateLocalRiskGameData();
 
-        console.log(updated);
         if (updated) {
             nextTurn();
         }
@@ -484,81 +485,21 @@ function singleAttack() {
         `;
     }
 
-    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
-    polygons.forEach(element => {
-        // Check if the element has the class you want to remove
-        if(element.classList.contains('shimmer')) {
-            // If it has the class, remove it
-            element.classList.remove('shimmer');
-        }
-    });
+    removeShimmer();
     attackSummaryScreen.style.display = 'block';
 }
 
-var hand = []; // player hand of cards (add to db to save offline)
-const deck = [gameData.Cards];
-const territories = [gameData.territories];
-
-function recieveCard(gainedTerritory, hand, deck, territories) { // Not done or tested yet
-    // const currentPlayer = gameData.player_turn; // owner
-    // var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
-    var gainedTerritory = singleAttack().findTerritoryByPolygonId(attacker).name; // name of territory just one in attack
-
-    const gainedCard = gainedTerritory;
-
-    if (hand.includes(gainedCard)) {
-        console.log("Player already has card for this territory.");
-        return hand;
-    }
-
-    const cardIndex = deck.indexOf(gainedCard);
-
-    if (cardIndex !== -1) {
-        deck.splice(cardIndex, 1); // remove card from deck?
-        hand.push(gainedCard);// add card to player hand
-        console.log("Gained %s card", gainedCard);
-        return hand;
-    } else {
-        console.log("Card not found in deck");
-        return hand;
-    }
+function cancelAttack() {
+    document.getElementById('attackSelectScreen').style.display = 'none';
+    attacker = null;
+    defender = null;
+    removeShimmer();
+    troopsAttackingCount = 1;
+    attackPhase();
 }
 
-function tradeIn() {
-    // trooptype army value
-    const infantry = 1;
-    const cavalry = 5;
-    const artillery = 10;
-
-    var sets = {};
-
-    this.hand.forEach(card => { // create a set from matching troopTypes 
-        sets[card.troopType] = sets[card.troopType] || [];
-        sets[card.troopType].push(card);
-    });
-
-    /*get name of territory and match to card to get army amount*/
-    let reinforcements = 0;
-    for (const troopType in sets) {
-        const hand = sets[troopType];
-        if (hand.length >= 3) { // if hand has a possible set
-            const numSets = Math.floor(hand.length / 3); // possible sets
-            // check if set cards have have troop type
-            if (card.troopType == 'Infantry') { // set reinforments based on set troopType
-                reinforcements += infantry;
-            } else if (card.troopType == 'Cavalry') {
-                reinforcements += cavalry;
-            } else if (card.troopType == 'Artillery') {
-                reinforcements += artillery;
-            }
-            // reinforcements += numSets;
-            console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${reinforcements} troops.`);
-        }
-    }
-
-    // Add reinforcements to player's army
-    gameData.reinforcements += [reinforcements];
-
-    // Remove traded cards from player's collection
-    // recievedCard().hand = this.cards.filter(card => !tradedCards.includes(card));
+function cancelFortify() {
+    document.getElementById("fortifySelectionScreen").style.display = 'none';
+    removeShimmer();
+    fortificationPhase();
 }
