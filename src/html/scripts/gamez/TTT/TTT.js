@@ -10,6 +10,7 @@ vars.hoverColor2 = 'powderblue';
 vars.pieceColor = vars.color1;
 vars.pieceHoverColor = vars.hoverColor1;
 vars.count = 0;
+vars.gameStart = 1;
 
 //Sets array for Tic-Tac-Toe
 vars.board = [
@@ -118,6 +119,8 @@ function coordinate(event) {
         vars.arrayY = vars.arrayY - (3 * vars.arrayY2);
 
         document.getElementById("board").setAttribute('font-size', '70');
+
+        
     }
 
     document.getElementById("gameType").value = vars.gameType;
@@ -152,13 +155,15 @@ function onClick() {
     if (isLegal()) {
         drawPiece();
         setArray();
-        //pieceType();
+        vars.tempArrX = vars.arrayX;
+        vars.tempArrY = vars.arrayY;
         if (!isWin()) {
             pieceType();
             if (vars.gameType == 1) {
                 isFull();
             }
         }
+        vars.gameStart = 0;
     }
     console.log(vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayX][vars.arrayY]);
     console.log(vars.board2);
@@ -202,7 +207,14 @@ function isLegal() {
     if (vars.gameType == 1) {
         return Boolean(vars.board[vars.arrayX][vars.arrayY] == 'b' && !isWin());
     } else {
-        return Boolean(vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayY][vars.arrayX] == 'b');
+        isOpenSpace = Boolean(vars.board2[vars.arrayX2][vars.arrayY2][vars.arrayY][vars.arrayX] == 'b');
+        if (vars.gameStart != 0 || (vars.board2[vars.tempArrX][vars.tempArrY] != 'X' && vars.board2[vars.tempArrX][vars.tempArrY] != 'O')) {
+            isMatchingGame = Boolean(vars.arrayX2 == vars.tempArrX && vars.arrayY2 == vars.tempArrY);
+            legalMove = Boolean((isOpenSpace && isMatchingGame) || vars.gameStart != 0);
+        } else {
+            legalMove = Boolean(isOpenSpace);
+        }
+        return Boolean(legalMove);
     }
     
 }
@@ -216,39 +228,67 @@ function drawWin() {
 
 //Determines if win 
 function isWin() {
-    if (vars.board[0][0] == vars.board[0][1] && vars.board[0][1] == vars.board[0][2] && vars.board[0][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[1][0] == vars.board[1][1] && vars.board[1][1] == vars.board[1][2] && vars.board[1][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[2][0] == vars.board[2][1] && vars.board[2][1] == vars.board[2][2] && vars.board[2][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[0][0] == vars.board[1][0] && vars.board[1][0] == vars.board[2][0] && vars.board[2][0] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[0][1] == vars.board[1][1] && vars.board[1][1] == vars.board[2][1] && vars.board[2][1] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[0][2] == vars.board[1][2] && vars.board[1][2] == vars.board[2][2] && vars.board[2][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[0][0] == vars.board[1][1] && vars.board[1][1] == vars.board[2][2] && vars.board[2][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
-    } else if (vars.board[2][0] == vars.board[1][1] && vars.board[1][1] == vars.board[0][2] && vars.board[0][2] != 'b') {
-        vars.winPiece = vars.pieceSVG;
-        drawWin();
-        return true;
+    if (vars.gameType == 1) {
+        if (vars.board[0][0] == vars.board[0][1] && vars.board[0][1] == vars.board[0][2] && vars.board[0][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[1][0] == vars.board[1][1] && vars.board[1][1] == vars.board[1][2] && vars.board[1][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[2][0] == vars.board[2][1] && vars.board[2][1] == vars.board[2][2] && vars.board[2][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[0][0] == vars.board[1][0] && vars.board[1][0] == vars.board[2][0] && vars.board[2][0] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[0][1] == vars.board[1][1] && vars.board[1][1] == vars.board[2][1] && vars.board[2][1] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[0][2] == vars.board[1][2] && vars.board[1][2] == vars.board[2][2] && vars.board[2][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[0][0] == vars.board[1][1] && vars.board[1][1] == vars.board[2][2] && vars.board[2][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        } else if (vars.board[2][0] == vars.board[1][1] && vars.board[1][1] == vars.board[0][2] && vars.board[0][2] != 'b') {
+            vars.winPiece = vars.pieceSVG;
+            drawWin();
+            return true;
+        }
     } else {
-        return false;
+        if (vars.board2[vars.arrayX2][vars.arrayY2][0][0] == vars.board2[vars.arrayX2][vars.arrayY2][0][1] && vars.board2[vars.arrayX2][vars.arrayY2][0][1] == vars.board2[vars.arrayX2][vars.arrayY2][0][2] && vars.board2[vars.arrayX2][vars.arrayY2][0][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][1][0] == vars.board2[vars.arrayX2][vars.arrayY2][1][1] && vars.board2[vars.arrayX2][vars.arrayY2][1][1] == vars.board2[vars.arrayX2][vars.arrayY2][1][2] && vars.board2[vars.arrayX2][vars.arrayY2][1][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][2][0] == vars.board2[vars.arrayX2][vars.arrayY2][2][1] && vars.board2[vars.arrayX2][vars.arrayY2][2][1] == vars.board2[vars.arrayX2][vars.arrayY2][2][2] && vars.board2[vars.arrayX2][vars.arrayY2][2][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][0][0] == vars.board2[vars.arrayX2][vars.arrayY2][1][0] && vars.board2[vars.arrayX2][vars.arrayY2][1][0] == vars.board2[vars.arrayX2][vars.arrayY2][2][0] && vars.board2[vars.arrayX2][vars.arrayY2][2][0] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][0][1] == vars.board2[vars.arrayX2][vars.arrayY2][1][1] && vars.board2[vars.arrayX2][vars.arrayY2][1][1] == vars.board2[vars.arrayX2][vars.arrayY2][2][1] && vars.board2[vars.arrayX2][vars.arrayY2][2][1] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][0][2] == vars.board2[vars.arrayX2][vars.arrayY2][1][2] && vars.board2[vars.arrayX2][vars.arrayY2][1][2] == vars.board2[vars.arrayX2][vars.arrayY2][2][2] && vars.board2[vars.arrayX2][vars.arrayY2][2][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][0][0] == vars.board2[vars.arrayX2][vars.arrayY2][1][1] && vars.board2[vars.arrayX2][vars.arrayY2][1][1] == vars.board2[vars.arrayX2][vars.arrayY2][2][2] && vars.board2[vars.arrayX2][vars.arrayY2][2][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        } else if (vars.board2[vars.arrayX2][vars.arrayY2][2][0] == vars.board2[vars.arrayX2][vars.arrayY2][1][1] && vars.board2[vars.arrayX2][vars.arrayY2][1][1] == vars.board2[vars.arrayX2][vars.arrayY2][0][2] && vars.board2[vars.arrayX2][vars.arrayY2][0][2] != 'b') {
+            vars.board2[vars.arrayX2][vars.arrayY2] = vars.pieceSVG;
+            return true;
+        }
     }
+    
+    return false;
 }
