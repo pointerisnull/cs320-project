@@ -94,6 +94,7 @@ async function computerAttackPhase() {
         console.log(pair);
         if(pair.attacker.armies - pair.defender.armies > largestArmyDifferential) {
             bestPair = pair;
+            largestArmyDifferential = pair.attacker.armies - pair.defender.armies;
         }
     });
 
@@ -117,6 +118,7 @@ async function computerSingleAttack(attackingSet) {
     const bottomBannerText = document.getElementById("bottomBannerText");
     const attackLiveScreen = document.getElementById("attackLiveScreen");
     attackLiveScreen.style.maxHeight = '200px';
+    attackLiveScreen.style.width = '150px';
     attackLiveScreen.style.overflow = 'scroll';
     attackLiveScreen.innerHTML = `
     <div style="text-align:center;"><span class="popup_screen_text_headers">Live Attack</span></div>
@@ -124,7 +126,7 @@ async function computerSingleAttack(attackingSet) {
     <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.attacker.name}:  ${attackerCurrentTroops}</span></div>
     <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.defender.name}:  ${defenderCurrentTroops}</span></div>
     <hr></hr>
-    `
+    `;
     attackLiveScreen.style.display = 'block';
     // const attackSummaryScreen = document.getElementById('attackSummaryScreen');
     await sleep(2000);
@@ -145,7 +147,7 @@ async function computerSingleAttack(attackingSet) {
         <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.attacker.name}:  ${attackerCurrentTroops}</span></div>
         <div style="text-align:center;"><span class="popup_screen_text">${attackingSet.defender.name}:  ${defenderCurrentTroops}</span></div>
         <hr></hr>
-        `
+        `;
         await sleep(2000);
     }
 
@@ -183,7 +185,8 @@ async function computerFortifyPhase() {
     var possibleTerritoriesToFortify = [];
     var largestArmyDifferential = 0;
     var bestPair = null;
-    // Prioritize fortifying territories with fewer armies
+    // Prioritize fortifying territories with fewer armies. The first forEach loop is looking for territories 
+    // that will send troops and the second forEach loop is looking for territories that will receive troops.
     gameData.territories.forEach((territory) => {
         if(territory.owner === gameData.player_turn && territory.armies > 1) {
             gameData.territories.forEach((adjacentTerritory) => {
@@ -198,16 +201,29 @@ async function computerFortifyPhase() {
         console.log(pair);
         if(pair.sender.armies - pair.receiver.armies > largestArmyDifferential) {
             bestPair = pair;
+            largestArmyDifferential = pair.sender.armies - pair.receiver.armies;
         }
     });
 
     if(bestPair) {
         bottomBannerText.innerHTML = "Computer player has decided to fortify " + bestPair.receiver.name + " with " + bestPair.sender.name;
         await sleep(3000);
-        computerSingleFortify();
+        computerSingleFortify(bestPair);
     }
 }
 
-async function computerSingleFortify() {
-    
+// Very very simple. If we had more time I would make the decision processes more logical.
+async function computerSingleFortify(fortifyingSet) {
+    if(fortifyingSet.sender.armies <= 2) {
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= 1;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies += 1;
+    }
+    else {
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies -= fortifyingSet.sender.armies / 2;
+        gameData.territories[gameData.territories.indexOf(fortifyingSet.sender)].armies += fortifyingSet.sender.armies / 2;
+    }
+    var bottomBannerText = document.getElementById("bottomBannerText");
+    bottomBannerText.innerHTML = gameData.player_turn + "'s turn is over...";
+    await sleep(2000);
+    endCurrentTurn();
 }

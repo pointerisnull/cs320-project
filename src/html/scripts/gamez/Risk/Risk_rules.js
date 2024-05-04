@@ -433,7 +433,7 @@ function handleFortifySecondClick(event) {
 }
 
 // This function is called when the current player selects two valid territories and the number of troops to send. This function encapsulates the entire attack.
-function singleAttack() {
+async function singleAttack() {
     document.getElementById('attackSelectScreen').style.display = 'none';
     var attackerLostTroops = 0;
     var defenderLostTroops = 0;
@@ -447,6 +447,20 @@ function singleAttack() {
     var bottomBannerText = document.getElementById("bottomBannerText");
     const attackSummaryScreen = document.getElementById('attackSummaryScreen');
 
+    attackLiveScreen.style.maxHeight = '200px';
+    attackLiveScreen.style.width = '150px';
+    attackLiveScreen.style.overflow = 'scroll';
+    attackLiveScreen.innerHTML = `
+    <div style="text-align:center;"><span class="popup_screen_text_headers">Live Attack</span></div>
+    <hr></hr>
+    <div style="text-align:center;"><span class="popup_screen_text">${attacker}:  ${attackerCurrentTroops}</span></div>
+    <div style="text-align:center;"><span class="popup_screen_text">${defender}:  ${defenderCurrentTroops}</span></div>
+    <hr></hr>
+    `;
+    attackLiveScreen.style.display = 'block';
+    // const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+    await sleep(2000);
+
     while (attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
         if (randomValue < 0.5) {
@@ -459,7 +473,17 @@ function singleAttack() {
         }
         console.log(attacker, ": ", attackerCurrentTroops);
         console.log(defender, ": ", defenderCurrentTroops);
+
+        attackLiveScreen.innerHTML += `
+        <div style="text-align:center;"><span class="popup_screen_text">${attacker}:  ${attackerCurrentTroops}</span></div>
+        <div style="text-align:center;"><span class="popup_screen_text">${defender}:  ${defenderCurrentTroops}</span></div>
+        <hr></hr>
+        `
+        await sleep(2000);
     }
+
+    await sleep(3000);
+    attackLiveScreen.style.display = 'none';
 
     if (attackerCurrentTroops) {
         winner = attacker;
