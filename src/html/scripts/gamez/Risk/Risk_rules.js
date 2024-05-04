@@ -1,17 +1,35 @@
 // This function is called when the next turn is ready to be played. It plays out the entire current turn. It does this by setting off a chain of function calls, starting with the reinforcementPhase() function.
 // The turn continues even after the reinforcementPhase() function as the next phase function is called inside the reinforcementPhase function and so on.
 function nextTurn() {
+    const bottomBannerText = document.getElementById("bottomBannerText");
     troopsAttackingCount = 1;
     troopsToSendCount = 0;
     fortifyTroopsToSendCount = 0;
-
-    const bottomBannerText = document.getElementById("bottomBannerText");
-    bottomBannerText.innerHTML = '';
     updateTerritoryColors();
     setInfoBox();
     setBanners();
     updateTopBanner();
-    reinforcementPhase();
+
+    if(gameData.player_turn.indexOf('Computer') === -1) {
+        bottomBannerText.innerHTML = '';
+        reinforcementPhase();
+    }
+    else {
+        bottomBannerText.innerHTML = 'Computer player is thinking...';
+        computerReinforcementPhase();
+    }
+}
+
+function reinforcementsEarned() {
+    const currentPlayer = gameData.player_turn;
+    var numberOfTerritories = 0;
+    gameData.territories.forEach((territory) => {
+        if (territory.owner === currentPlayer) {
+            numberOfTerritories++;
+        }
+    });
+
+    return Math.max(Math.floor(numberOfTerritories / 3), 3);
 }
 
 // This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
@@ -20,14 +38,8 @@ function reinforcementPhase() {
     console.log("Reinforcement phase starting...")
     var topBannerText = document.getElementById("topBannerText");
     var bottomBannerText = document.getElementById("bottomBannerText");
-    const currentPlayer = gameData.player_turn;
-    var numberOfTerritories = 0;
-    gameData.territories.forEach((territory) => {
-        if (territory.owner === currentPlayer) {
-            numberOfTerritories++;
-        }
-    })
-    var numberOfReinforcements = Math.max(Math.floor(numberOfTerritories / 3), 3);
+    var numberOfReinforcements = reinforcementsEarned();
+    
     gameData.reinforcements = numberOfReinforcements;
     topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
     bottomBannerText.innerHTML = "Please place your reinforcements";

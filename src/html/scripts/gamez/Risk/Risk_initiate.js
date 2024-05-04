@@ -150,7 +150,7 @@ var playerNames = [];
 async function newRiskLocalGame() {
     if(aiCount > 0) {
         for(i = 1; i <= aiCount; i++) {
-            playerNames.push("Computer" + "(" + i  + ")");
+            playerNames.push("Computer" + " (" + i  + ")");
         }
     }
 
