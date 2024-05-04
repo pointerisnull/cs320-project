@@ -17,7 +17,7 @@ function isAdjacent(attackerPolygonId, defenderPolygonId) {
     const distance = calculateDistance(attackerPolygonBounds.left, attackerPolygonBounds.top, defenderPolygonBounds.left, defenderPolygonBounds.top);
 
     // Check if the distance is below a threshold to consider them adjacent
-    if (distance < 85 && attackerPolygon !== defenderPolygon) {
+    if (distance < 150 && attackerPolygon !== defenderPolygon) {
         return true;
     } else {
         return false;

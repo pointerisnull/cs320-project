@@ -114,7 +114,7 @@ function hideInfoBox() {
 function displayAttackSelectScreen(attackerId, targetId) {
     const attackSelectScreen = document.getElementById('attackSelectScreen');
     if(findTerritoryByPolygonId(attacker).armies < 3) {
-        troopsAttackingCount = 1;
+        troopsAttackingCount = 0;
     }
     attackSelectScreen.innerHTML = `
     <div class="popup_screen_text">
@@ -131,7 +131,6 @@ function displayAttackSelectScreen(attackerId, targetId) {
         <button onclick="increaseAttackingTroops()" style="width:10%">+</button>
         <br></br>
         <button onclick="singleAttack()">Attack!</button>
-        <button onclick="cancelAttack()">Cancel</button>
     </div>
     `;
     attackSelectScreen.style.display = 'block';
@@ -190,7 +189,6 @@ function displayFortifySelectionScreen() {
         <button onclick="increaseFortifyTroopsToSend()" style="width:10%">+</button>
         <br></br>
         <button onclick="hideFortifySelectionScreen()">Ok</button>
-        <button onclick="cancelFortify()">Cancel</button>
     </div>
     `;
     fortifySelectionScreen.style.display = 'block';
@@ -203,11 +201,6 @@ function hideFortifySelectionScreen() {
     gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(secondTerritoryToFortify))].armies += fortifyTroopsToSendCount;
     firstTerritoryToFortify = null;
     secondTerritoryToFortify = null;
-    removeShimmer();
-    endCurrentTurn();
-}
-
-function removeShimmer() {
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
     polygons.forEach(element => {
         // Check if the element has the class you want to remove
@@ -215,5 +208,6 @@ function removeShimmer() {
             // If it has the class, remove it
             element.classList.remove('shimmer');
         }
-    });
+    })
+    endCurrentTurn();
 }
