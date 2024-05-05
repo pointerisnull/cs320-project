@@ -156,10 +156,10 @@ const server = http.createServer((req, res) => {
         });
         req.on('end', async () => {
             try {
-                const { userId, gameInfo } = JSON.parse(body);
+                const { userData, gameInfo } = JSON.parse(body);
                 
                 // Call the updateUser function passing the user ID and updated information
-                await createRiskGame(userId, gameInfo);
+                await createRiskGame(userData, gameInfo);
                 
                 // Send a success response
                 res.statusCode = 200;

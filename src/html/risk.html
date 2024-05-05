@@ -112,10 +112,10 @@
                 </div>
                 <div class="option-screen" id="gameModeOptionsScreen" style="display:none">
                     <h1>Select Game Mode</h1>
-                    <button id="resumeLocalRiskGameButton" onclick="resumeLocalRiskGame()" style="display:none"></button>
+                    <button id="resumeRiskGameButton" onclick="resumeRiskGame()" style="display:none"></button>
                     <!-- <button id="resumeComputerRiskGameButton" onclick="" style="display:none"></button> -->
                     <button onclick="riskOnlineGame()">Play - Online</button>
-                    <button onclick="riskComputerGame()">Play - Computer(s)</button>
+                    <button onclick="riskComputerGame()">Play - Computer</button>
                     <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
                 </div>
                 <div class="option-screen" id="riskLocalMultiplayerGameSettingsScreen" style="display:none">
@@ -129,14 +129,26 @@
                         </div>
                         <h2>Number of AI Opponents</h2>
                         <div class="addMinusButtonsWithNumber">
-                            <button onclick="decreaseAI()">-</button>
-                            <span id="aiCount">1</span>
-                            <button onclick="increaseAI()">+</button>
+                            <button onclick="decreaseAI(this.value)" value="Local">-</button>
+                            <span id="aiCountLocal">1</span>
+                            <button onclick="increaseAI(this.value)" value="Local">+</button>
                         </div>
                         <button onclick="generatePlayerNameInput(0)" style="width:131px;">Next</button>
                     </div>
                     <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
                         <h1>Choose Player Names</h1>
+                    </div>
+                </div>
+                <div class="option-screen" id="riskComputerSettingsScreen" style="display:none">
+                    <h1>Choose Settings</h1>
+                    <div id="riskComputerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
+                        <h2>Number of AI Opponents</h2>
+                        <div class="addMinusButtonsWithNumber">
+                            <button onclick="decreaseAI(this.value)" value="Computer">-</button>
+                            <span id="aiCountComputer">1</span>
+                            <button onclick="increaseAI(this.value)" value="Computer">+</button>
+                        </div>
+                        <button onclick="newRiskGame(this.value)" value="Computer" style="width:180px;">Start (10 coins)</button>
                     </div>
                 </div>
                 <div class="option-screen" id="riskOnlineGameScreen" style="display:none">

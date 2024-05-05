@@ -11,6 +11,9 @@ async function updateUser(userId, updatedInfo) {
         const db = client.db();
 
         const userIdObject = ObjectId.createFromHexString(userId);
+        if(updatedInfo._id) {
+            delete updatedInfo._id;
+        }
 
         console.log("Updating ", userId, "'s", updatedInfo);
         // Update the user information in the database
@@ -18,8 +21,7 @@ async function updateUser(userId, updatedInfo) {
             { _id: userIdObject }, // Use the string representation directly
             { $set: updatedInfo } // Update user information
         );
-
-        console.log(await db.collection('UserInformation').findOne({ _id: userIdObject }));
+        
         console.log('User information updated successfully');
     } catch (error) {
         console.error('Error updating user information:', error);

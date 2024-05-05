@@ -104,7 +104,7 @@ async function endCurrentTurn() {
     if (win != null) {
         gameData.game_phase = "End";
 
-        const updated = await updateLocalRiskGameData();
+        const updated = await updateRiskGameData();
 
         if (updated) { // Nothing implemented yet for when someone wins.
             //nextTurn();
@@ -119,7 +119,7 @@ async function endCurrentTurn() {
         }
         gameData.game_phase = "reinforcement";
 
-        const updated = await updateLocalRiskGameData();
+        const updated = await updateRiskGameData();
 
         if (updated) {
             nextTurn();

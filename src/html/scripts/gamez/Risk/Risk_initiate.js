@@ -8,14 +8,12 @@ async function selectGameModeScreen() {
 
     // This part of the function is just checking if a game is currently saved to the database under the user's id, if so, a button will be displayed to resume that specific game.
     const userData = await getData();
-    checkGameData = await getLocalRiskGameData(userData._id);
+    checkGameData = await getRiskGameData(userData._id);
 
     if(checkGameData) {
-        if(checkGameData.game_mode === 'Local') {
-            const resumeLocalRiskGameButton = document.getElementById("resumeLocalRiskGameButton");
-            resumeLocalRiskGameButton.textContent = "Resume Game";
-            resumeLocalRiskGameButton.style.display = 'block';
-        }
+        const resumeRiskGameButton = document.getElementById("resumeRiskGameButton");
+        resumeRiskGameButton.textContent = "Resume Game";
+        resumeRiskGameButton.style.display = 'block';
     }
 }
 
@@ -34,77 +32,110 @@ function riskLocalMultiplayerGame() {
     riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
 }
 
+function riskComputerGame() {
+    var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    var riskComputerSettingsScreen = document.getElementById("riskComputerSettingsScreen");
+
+    gameModeOptionsScreen.style.display = 'none';
+    riskComputerSettingsScreen.style.display = 'flex';
+}
+
 function riskOnlineGame() {
     const gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     const riskOnlineGameScreen = document.getElementById("riskOnlineGameScreen");
     gameModeOptionsScreen.style.display = 'none';
     riskOnlineGameScreen.style.display = 'flex';
-
 }
 
 var playerCount = 1; // Initial number of total players
 
 function increasePlayer() {
     if (playerCount < 6) {
-        if(playerCount + aiCount >= 6 && aiCount > 0) {
-            aiCount--;
+        if(playerCount + aiCountLocal >= 6 && aiCountLocal > 0) {
+            aiCountLocal--;
         }
         playerCount++;
-        if(playerCount === 1 && aiCount === 0) {
-            aiCount = 1;
+        if(playerCount === 1 && aiCountLocal === 0) {
+            aiCountLocal = 1;
         }
         document.getElementById("playerCount").textContent = playerCount;
-        document.getElementById("aiCount").textContent = aiCount;
+        document.getElementById("aiCountLocal").textContent = aiCountLocal;
     }
 }
 
 function decreasePlayer() {
     if (playerCount > 1) {
         playerCount--;
-        if(playerCount === 1 && aiCount === 0) {
-            aiCount = 1;
+        if(playerCount === 1 && aiCountLocal === 0) {
+            aiCountLocal = 1;
         }
         document.getElementById("playerCount").textContent = playerCount;
-        document.getElementById("aiCount").textContent = aiCount;
+        document.getElementById("aiCountLocal").textContent = aiCountLocal;
     }
 }
 
-var aiCount = 1; // Initial number of AI opponents
+var aiCountLocal = 1;
+var aiCountComputer = 1; // Initial number of AI opponents
 
-function increaseAI() {
-    if (aiCount < 5) {
-        if(aiCount + playerCount >= 6 && playerCount > 1) {
-            playerCount--;
+function increaseAI(mode) {
+    if(mode === 'Local') {
+        if (aiCountLocal < 5) {
+            if(aiCountLocal + playerCount >= 6 && playerCount > 1) {
+                playerCount--;
+            }
+            aiCountLocal++;
+            if(playerCount === 1 && aiCountLocal === 0) {
+                aiCountLocal = 1;
+            }
         }
-        aiCount++;
-        if(playerCount === 1 && aiCount === 0) {
-            aiCount = 1;
-        }
-        document.getElementById("playerCount").textContent = playerCount;
-        document.getElementById("aiCount").textContent = aiCount;
     }
+    else if(mode === 'Computer') {
+        if (aiCountComputer < 5) {
+            if(aiCountComputer + playerCount >= 6 && playerCount > 1) {
+                playerCount--;
+            }
+            aiCountComputer++;
+            if(playerCount === 1 && aiCountComputer === 0) {
+                aiCountComputer = 1;
+            }
+        }
+    }
+    document.getElementById("playerCount").textContent = playerCount;
+    document.getElementById("aiCountLocal").textContent = aiCountLocal;
+    document.getElementById("aiCountComputer").textContent = aiCountComputer;
 }
 
-function decreaseAI() {
-    if (aiCount > 0) {
-        aiCount--;
-        if(playerCount === 1 && aiCount === 0) {
-            aiCount = 1;
+function decreaseAI(mode) {
+    if(mode === 'Local') {
+        if (aiCountLocal > 0) {
+            aiCountLocal--;
+            if(playerCount === 1 && aiCountLocal === 0) {
+                aiCountLocal = 1;
+            }
         }
-        document.getElementById("playerCount").textContent = playerCount;
-        document.getElementById("aiCount").textContent = aiCount;
     }
+    else if(mode === 'Computer') {
+        if (aiCountComputer > 1) {
+            aiCountComputer--;
+            if(playerCount === 1 && aiCountComputer === 0) {
+                aiCountComputer = 1;
+            }
+        }
+    }
+    document.getElementById("playerCount").textContent = playerCount;
+    document.getElementById("aiCountLocal").textContent = aiCountLocal;
+    document.getElementById("aiCountComputer").textContent = aiCountComputer;
 }
 
 // Get the div where player names will be added
-var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen")
+var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
 // Variable to store player names
 var playerNames = [];
 
-    // Function to generate input field for player names one at a time
-    function generatePlayerNameInput(playerIndex) {
+// Function to generate input field for player names one at a time
+function generatePlayerNameInput(playerIndex) {
     numberOfPlayersDiv.style.display = 'none';
     playersNamesDiv.style.display = 'flex';
 
@@ -135,11 +166,12 @@ var playerNames = [];
         if (playerIndex < playerCount - 1) {
             generatePlayerNameInput(playerIndex + 1);
         } else {
-            // If all players have entered their names, this block of code is ran which will involve a call to the newRiskLocalGame() function.
+            // If all players have entered their names, this block of code is ran which will involve a call to the newRiskGame() function.
             console.log("All player names submitted:", playerNames);
             playersNamesDiv.style.display = 'none';
             risklocalMultiplayerGameSettingsScreen.style.display = 'none';
-            newRiskLocalGame();
+            const mode = 'Local';
+            newRiskGame(mode);
         }
     };
     playersNamesDiv.appendChild(submitButton);
@@ -147,19 +179,36 @@ var playerNames = [];
 
 // This function takes all the game info listed out above (i.e., number of players, number of ai, etc.) and uses a post request to send it server-side, 
 // which it will then be sent as a parameter to the RiskInsert.js file and then used to create a new document in the Risk collection in our database.
-async function newRiskLocalGame() {
-    if(aiCount > 0) {
-        for(i = 1; i <= aiCount; i++) {
-            playerNames.push("Computer" + " (" + i  + ")");
-        }
-    }
+async function newRiskGame(mode) {
+
+    const riskComputerSettingsScreen = document.getElementById("riskComputerSettingsScreen");
 
     const userData = await getData();
     console.log(userData);
+
+    if(mode === 'Computer') {
+        playerNames.push(userData.user_name);
+        riskComputerSettingsScreen.style.display = 'none';
+
+        if(aiCountComputer > 0) {
+            for(i = 1; i <= aiCountComputer; i++) {
+                playerNames.push("Computer" + " (" + i  + ")");
+            }
+        }
+    }
+
+    if(mode === 'Local') {
+        if(aiCountLocal > 0) {
+            for(i = 1; i <= aiCountLocal; i++) {
+                playerNames.push("Computer" + " (" + i  + ")");
+            }
+        }
+    }
+
     if(userData) {
         const gameInfo = {
             playerNames,
-            gameMode: 'Local'
+            gameMode: mode
         };
         try {
             const response = await fetch('/insert-riskLocalGame', {
@@ -168,30 +217,30 @@ async function newRiskLocalGame() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userId: userData._id,
+                    userData: userData,
                     gameInfo: gameInfo
                 })
             });
 
             if (!response.ok) {
-                throw new Error('Failed to insert risk local game');
+                throw new Error('Failed to insert risk game');
             }
 
             const data = await response.json();
-            console.log('Local risk game inserted successfully');
-            console.log('Starting local risk game...');
-            playLocalRiskGame();
+            console.log('Risk game inserted successfully');
+            console.log('Starting risk game...');
+            playRiskGame();
         } catch (error) {
-        console.error('Error inserting local risk game:', error);
+            console.error('Error inserting risk game:', error);
         }
     }
 }
 
 // Is called when the button in the game mode selection screen is pressed. All it does is it removes said screen and calls the playLocalRiskGame() function to start the game.
-function resumeLocalRiskGame() {
+function resumeRiskGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     gameModeOptionsScreen.style.display = 'none';
-    playLocalRiskGame();
+    playRiskGame();
 }
 
 var gameData = null;
@@ -199,9 +248,10 @@ var gameData = null;
 // Originally I had two functions: startRiskLocalGame() and resumeRiskLocalGame(), I decided to combine them and 
 // generalize them for simplification purposes. Anyway, this function gets the userData to then get the game data 
 // and calls the neccessary starting functions to setup the game screen.
-async function playLocalRiskGame() {
+async function playRiskGame() {
     const userData = await getData();
-    gameData = await getLocalRiskGameData(userData._id);
+    gameData = await getRiskGameData(userData._id);
+    fetchBalanceAndAvatar();
     if(gameData) {
         console.log(gameData);
         nextTurn();
@@ -209,7 +259,7 @@ async function playLocalRiskGame() {
 }
 
 // This function is used to fetch the game data of a local game of risk from the database using a get request to the server.
-async function getLocalRiskGameData(userId) {
+async function getRiskGameData(userId) {
     try {
         // Fetch user data using token
         const response = await fetch('/riskLocalGame-data', {
@@ -235,7 +285,7 @@ async function getLocalRiskGameData(userId) {
     }
 }
 
-async function updateLocalRiskGameData() {
+async function updateRiskGameData() {
     try {
         const response = await fetch('/updateRiskLocalGame-data', {
             method: 'POST',

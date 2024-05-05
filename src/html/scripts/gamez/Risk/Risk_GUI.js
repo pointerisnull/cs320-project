@@ -1,4 +1,5 @@
 const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#e2f0cb", "#85c1ff"];
+const colorsFillActual = ["Light Blue", "Green", "Pink", "Orange", "Yellow", "Blue"];
 const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
 
 // These next two functions (setBanners() and updateBanner()) displays and updates the banner that shows on the top of 
@@ -21,7 +22,7 @@ function updateTopBanner() {
         }
     }
 
-    bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFill[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
+    bannerText.innerHTML = gameData.player_turn +  "'s Turn: " + colorsFillActual[gameData.playerNames.indexOf(gameData.player_turn)] + " | Phase: " + phase;
 }
 
 function updateBottomBanner() {
