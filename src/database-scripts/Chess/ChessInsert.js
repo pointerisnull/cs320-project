@@ -14,19 +14,7 @@ async function createChessGame(player1Id, player2Id) {
     const newGame = {
       _id: new ObjectId(), // MongoDB will generate a unique ObjectId
       players: [player1Id.toString(), player2Id.toString()],
-      board_state: [
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-      ],
-      current_turn: player1Id.toString(),
-      winner: null,
-      moves: [],
+      history: "";
       created_at: new Date(),
       updated_at: new Date()
     };
