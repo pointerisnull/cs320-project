@@ -15,6 +15,17 @@ function nextTurn() {
     reinforcementPhase();
 }
 
+// Function to get the index of a player by name
+function getPlayerIndexByName(playerName) {
+    for (var i = 0; i < gameData.players.length; i++) {
+        if (gameData.players[i].name === playerName) {
+            return i; // Return the index of the player with the matching name
+        }
+    }
+    // If the player with the given name is not found, return -1 or handle accordingly
+    return -1;
+}
+
 // This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
 // the game data, and sets the ability to click on polygons (which is used to divvy out reinforcements by the user).
 function reinforcementPhase() {
@@ -29,8 +40,16 @@ function reinforcementPhase() {
         }
     })
     var numberOfReinforcements = Math.max(Math.floor(numberOfTerritories / 3), 3);
-    gameData.reinforcements = numberOfReinforcements;
-    topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
+    var currentPlayer_index = getPlayerIndexByName(currentPlayer);
+
+    if (currentPlayer_index !== -1) {
+        gameData.players[currentPlayer_index].reinforcements = numberOfReinforcements;
+
+    } else {
+        console.log("Player not found!");
+    }
+
+    topBannerText.innerHTML += " | You have " + gameData.players[currentPlayer_index].reinforcements + " troops to place";
     bottomBannerText.innerHTML = "Please place your reinforcements";
 
     const polygons = document.getElementById("riskSVGMap").contentDocument.getElementsByTagName("polygon");
@@ -187,28 +206,33 @@ function handleReinforcementClick(event) {
     const polygon = event.target;
     const country = polygon.id;
     var topBannerText = document.getElementById("topBannerText");
+    var currentPlayer_index = getPlayerIndexByName(gameData.player_turn);
 
-    if (gameData.reinforcements > 0 && gameData.game_phase === 'reinforcement') {
-        gameData.territories.forEach((territory) => {
-            if (territory.name === country) {
-                if (gameData.player_turn === territory.owner) {
-                    gameData.reinforcements--;
-                    territory.armies += 1;
-                    updateTopBanner();
-                    updateInfoBox(territory);
-                    topBannerText.innerHTML += " | You have " + gameData.reinforcements + " troops to place";
-                    if (gameData.reinforcements === 0) {
-                        console.log("Reinforcement phase over...");
-                        const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    if (currentPlayer_index !== -1) {
+        if (gameData.players[currentPlayer_index].reinforcements > 0 && gameData.game_phase === 'reinforcement') {
+            gameData.territories.forEach((territory) => {
+                if (territory.name === country) {
+                    if (gameData.player_turn === territory.owner) {
+                        gameData.players[currentPlayer_index].reinforcements--;
+                        territory.armies += 1;
+                        updateTopBanner();
+                        updateInfoBox(territory);
+                        topBannerText.innerHTML += " | You have " + gameData.players[currentPlayer_index].reinforcements + " troops to place";
+                        if (gameData.players[currentPlayer_index].reinforcements === 0) {
+                            console.log("Reinforcement phase over...");
+                            const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
-                        polygons.forEach(polygon => {
-                            polygon.removeEventListener('click', handleReinforcementClick);
-                        })
-                        attackPhase();
+                            polygons.forEach(polygon => {
+                                polygon.removeEventListener('click', handleReinforcementClick);
+                            })
+                            attackPhase();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+    } else {
+        console.log("Player not found!");
     }
 }
 
@@ -245,44 +269,51 @@ function continentControl(continents, territories) { // player can get more troo
         return control;
     }
 
-    // increase possible # of troops in reinforce phase
-    if (control.length <= 0) { // if no control
-        var playerTerritoryCounts = []; // check territory ownership for reinforcments
+    var currentPlayer_index = getPlayerIndexByName(gameData.player_turn);
 
-        gameData.playerNames.forEach((player) => {
-            playerTerritoryCounts.push({ playerName: player, territoryCount: 0 });
-            gameData.territories.forEach((territory) => {
-                if (territory.owner === player) {
-                    const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
-                    if (index !== -1) {
-                        playerTerritoryCounts[index].territoryCount += 1;
+    if (currentPlayer_index !== -1) {
+        // increase possible # of troops in reinforce phase
+        if (control.length <= 0) { // if no control
+            var playerTerritoryCounts = []; // check territory ownership for reinforcments
+
+            gameData.playerNames.forEach((player) => {
+                playerTerritoryCounts.push({ playerName: player, territoryCount: 0 });
+                gameData.territories.forEach((territory) => {
+                    if (territory.owner === player) {
+                        const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
+                        if (index !== -1) {
+                            playerTerritoryCounts[index].territoryCount += 1;
+                        }
                     }
-                }
+                });
             });
-        });
 
-        let count = playerTerritoryCounts.length; //
-        if (count <= 9) {
-            reinforcementPhase().gameData.reinforcements += 3; // always at least 3 armies for fewer than 9 territories
-        } else if (count < 42) { // recieved army based on count
-            let recieve = count / 3;
-            reinforcementPhase().gameData.reinforcements += recieve;
-        } else { // reset possible # of troops?
-            //reinforcementPhase().gameData.reinforcements += 0;
-            return;
+            let count = playerTerritoryCounts.length; //
+
+            if (count <= 9) {
+                reinforcementPhase().gameData.players[currentPlayer_index].reinforcements += 3; // always at least 3 armies for fewer than 9 territories
+            } else if (count < 42) { // recieved army based on count
+                let recieve = count / 3;
+                reinforcementPhase().gameData.players[currentPlayer_index].reinforcements += recieve;
+            } else { // reset possible # of troops?
+                //reinforcementPhase().gameData.players[currentPlayer_index].reinforcements += 0;
+                return;
+            }
+        } else { // Africa: 3; Asia: 7; Australia: 2; Europe: 5; North America: 5; South America: 2
+            if (control.includes("North America") == true) { // recieved army based on continent control
+                nextTurn().troopsToSendCount += 5;//reinforcementPhase().gameData.players[currentPlayer_index].reinforcements += 5;
+            } else if (control.includes("South America") == true) { // recieved army based on continent control
+                nextTurn().troopsToSendCount += 2;
+            } else if (control.includes("Europe") == true) { // recieved army based on continent control
+                nextTurn().troopsToSendCount += 5;
+            } else if (control.includes("Australia") == true) { // recieved army based on continent control
+                nextTurn().troopsToSendCount += 2;
+            } else if (control.includes("Asia") == true) { // recieved army based on continent control
+                nextTurn().troopsToSendCount += 7;
+            }
         }
-    } else { // Africa: 3; Asia: 7; Australia: 2; Europe: 5; North America: 5; South America: 2
-        if (control.includes("North America") == true) { // recieved army based on continent control
-            nextTurn().troopsToSendCount += 5;//reinforcementPhase().gameData.reinforcements += 5;
-        } else if (control.includes("South America") == true) { // recieved army based on continent control
-            nextTurn().troopsToSendCount += 2;
-        } else if (control.includes("Europe") == true) { // recieved army based on continent control
-            nextTurn().troopsToSendCount += 5;
-        } else if (control.includes("Australia") == true) { // recieved army based on continent control
-            nextTurn().troopsToSendCount += 2;
-        } else if (control.includes("Asia") == true) { // recieved army based on continent control
-            nextTurn().troopsToSendCount += 7;
-        }
+    } else {
+        console.log("Player not found!");
     }
 }
 
@@ -534,7 +565,7 @@ function tradeIn() {
     });
 
     /*get name of territory and match to card to get army amount*/
-    let reinforcements = 0;
+    let reinforcements = gameData.player.reinforcements;
     for (const troopType in sets) {
         const hand = sets[troopType];
         if (hand.length >= 3) { // if hand has a possible set
@@ -553,7 +584,7 @@ function tradeIn() {
     }
 
     // Add reinforcements to player's army
-    gameData.reinforcements += [reinforcements];
+    reinforcements += gameData.player.reinforcements;
 
     // Remove traded cards from player's collection
     // recievedCard().hand = this.cards.filter(card => !tradedCards.includes(card));
