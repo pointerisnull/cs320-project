@@ -93,10 +93,17 @@ function is_check(color) {
 
 function pawn_promote(pawn) {
 /*TODO*/
+  
   pawn.classList.add("queen");
   pawn.classList.remove("pawn");
-  pawn.children[0].innerHTML = "<img src = \"res/queen_black.svg\">"; 
-
+  pawn.id = "queen" + pawn.id[4] + pawn.id[5];
+  console.log(pawn.id);
+  if (pawn.getAttribute("color") == "white")
+    pawn.children[0].setAttribute("src", "res/queen_white.svg"); 
+  else
+    pawn.children[0].setAttribute("src", "res/queen_black.svg"); 
+  capture_audio.play();
+  
 }
 /*piece legality*/
 function pawn_legality(pawn, fcol, frow, tocol, torow, occupation, color) {
@@ -461,7 +468,7 @@ function undo_move() {
   turn = !turn;
 }
 
-let temp = "f2f4e7e5e2e3";
+let temp = "f2f4e7e5e2e3f7f6f4e5g8h6e5f6f8b4f6g7d8e7";
 
 init_board();
 init_pieces();
