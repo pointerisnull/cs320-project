@@ -19,6 +19,16 @@ async function createRiskGame(userId, gameInfo) {
     // Create a new Risk game object
     const db = client.db();
 
+    // Delete current game if there is one.
+    console.log("Checking Risk database for duplicate game...");
+    const gameId = ObjectId.createFromHexString(userData._id);
+    const currentGame = await db.collection('Risk').findOne({ _id: gameId });
+    if (currentGame) {
+      console.log("Deleting duplicate Risk game...");
+      await db.collection('Risk').deleteOne({ _id: gameId });
+      console.log("Deleted duplicate Risk game");
+    }
+
     // Territories to be shuffled and assigned
     const territories = [
       { name: 'Alaska', owner: null, armies: 3 },
@@ -65,42 +75,42 @@ async function createRiskGame(userId, gameInfo) {
       { name: 'Eastern Australia', owner: null, armies: 2 } // Australia
     ];
 
-    // Shuffle the territories
-    const shuffledTerritories = shuffleArray(territories);
-
     // connections array (hard coded it so if the map ever changes i guess it might be glitchy sry)
     const continents = [
       {
         region: "North America",
-        connections: [territories[1], territories[2], territories[3], territories[4], territories[5], territories[6], territories[7], territories[8]],
+        connections: [territories[0], territories[1], territories[2], territories[3], territories[4], territories[5], territories[6], territories[7]],
         owner: null
       },
       {
         region: "South America",
-        connections: [territories[9], territories[10], territories[11], territories[12], territories[13]],
+        connections: [territories[8], territories[9], territories[10], territories[11], territories[12]],
         owner: null
       },
       {
         region: "Europe",
-        connections: [territories[14], territories[15], territories[16], territories[17], territories[18], territories[19], territories[20]],
+        connections: [territories[13], territories[14], territories[15], territories[16], territories[17], territories[18], territories[19]],
         owner: null
       },
       {
         region: "Asia",
-        connections: [territories[21], territories[22], territories[23], territories[24], territories[25], territories[25], territories[26], territories[27], territories[28], territories[29], territories[30], territories[31], territories[32]],
+        connections: [territories[20], territories[21], territories[22], territories[23], territories[24], territories[25], territories[26], territories[27], territories[28], territories[29], territories[30], territories[31]],
         owner: null
       },
       {
         region: "Africa",
-        connections: [territories[33], territories[34], territories[35], territories[36], territories[37], territories[38]],
+        connections: [territories[32], territories[33], territories[34], territories[35], territories[36], territories[37]],
         owner: null
       },
       {
         region: "Australia",
-        connections: [territories[39], territories[40], territories[41], territories[42]],
+        connections: [territories[38], territories[39], territories[40], territories[41]],
         owner: null
       }
     ];
+
+    // Shuffle the territories
+    const shuffledTerritories = shuffleArray(territories);
 
     function createDeck() {
       const troopTypes = ['Infantry', 'Cavalry', 'Artillery'];
@@ -136,34 +146,36 @@ async function createRiskGame(userId, gameInfo) {
       return names;
     }
 
-    if (gameInfo.gameMode === 'Local') {
-      // Create a new Risk game object
-      const newLocalGame = {
-        _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
-        game_mode: gameInfo.gameMode,
-        playerNames: gameInfo.playerNames,
-        players: gameInfo.players,
-        territories: shuffledTerritories,
-        player_turn: gameInfo.players[0].name, // Index of the current player in the players array
-        winner: null,
-        game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
-        control: continents,
-        Cards: new createDeck(),
-        created_at: new Date(),
-        updated_at: new Date()
-      };
+    // Create a new Risk game object
+    const newGame = {
+      _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
+      game_mode: gameInfo.gameMode,
+      playerNames: gameInfo.playerNames,
+      players: gameInfo.players,
+      territories: shuffledTerritories,
+      player_turn: gameInfo.players[0].name, // Index of the current player in the players array
+      winner: null,
+      game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
+      control: continents,
+      Cards: new createDeck(),
+      created_at: new Date(),
+      updated_at: new Date()
+    };
 
-      // Assign territories to players in order
-      for (let i = 0; i < newLocalGame.territories.length; i++) {
-        const playerIndex = i % newLocalGame.playerNames.length;
-        newLocalGame.territories[i].owner = newLocalGame.playerNames[playerIndex].toString();
-      }
-
-      // Insert the new game document into the Risk collection
-      const result = await db.collection('Risk').insertOne(newLocalGame);
-
-      console.log(`Risk game created with ID: ${result.insertedId}`);
+    // Assign territories to players in order
+    for (let i = 0; i < newGame.territories.length; i++) {
+      const playerIndex = i % newGame.playerNames.length;
+      newGame.territories[i].owner = newGame.playerNames[playerIndex].toString();
     }
+
+    // Insert the new game document into the Risk collection
+    const result = await db.collection('Risk').insertOne(newGame);
+
+    if (result && gameInfo.gameMode === 'Computer') {
+      userData.balance -= 10;
+      await updateUser(userData._id, userData);
+    }
+    console.log(`Risk game created with ID: ${result.insertedId}`);
   } finally {
     await client.close();
   }
