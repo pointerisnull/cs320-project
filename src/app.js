@@ -214,6 +214,42 @@ const server = http.createServer((req, res) => {
         filePath = path.join(__dirname, 'index.html');
     }
 
+    if(req.method == 'POST' && req.url === '/submit'){
+        console.log('Handling POST request for /bugz.html');
+        let data = '';
+
+        // Collect data from the request
+        req.on('data', (chunk) => {
+            console.log('Data chunk received:', chunk);
+            data += chunk;
+        });
+
+        // Process the collected data when the request ends
+        req.on('end', async () => {
+            try {
+                // Parse the form data
+                console.log('Received form data:', data);
+                const formData = querystring.parse(data);
+                console.log('Parsed form data:', formData);
+
+                // Now 'formData' will contain the user input
+                const Bug = formData.bugTitle;
+                const detail = formData.bugDescription;
+                const mailBack = formData.email;
+
+                // Move MongoDB operations here
+                await createUser(Bug, detail, mailBack); // make handle for bugpg
+
+                // Respond to the client
+                res.end('Bug submitted successfully!');
+            } catch (error) {
+                console.error('Error processing form data:', error);
+                res.end('Internal Server Error');
+            }
+        });
+        return;
+    }
+
     // Check if the requested file is within the html directory
     if (filePath.indexOf(__dirname) !== 0) {
         res.writeHead(403);
