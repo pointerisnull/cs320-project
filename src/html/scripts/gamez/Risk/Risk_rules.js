@@ -531,7 +531,7 @@ function tradeIn(reinforcements) {
                 var sets = {}; //sets[troopType];
                 if (hand.length >= 3) { // if hand has a possible set
                     hand.forEach(card => { // create a set from matching troopTypes 
-                        console.log(card.troopType);
+                        //console.log(card.troopType);
                         sets[card.troopType] = sets[card.troopType] || [];
                         sets[card.troopType].push(card);
                     });
@@ -541,19 +541,19 @@ function tradeIn(reinforcements) {
                         // const numSets = Math.floor(hand.length / 3); // possible sets
                         // check if set cards have have troop type
                         for (i = 0; i <= sets.length; i++) {
-                            console.log(sets[i].troopType);
+                            // console.log(sets[i].troopType);
                             if (sets[i].troopType.length == 3 && sets[i].troopType == 'Infantry') { // set reinforments based on set troopType
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 1; // Add reinforcements to player's army
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             } else if (sets[i].troopType.length == 3 && sets[i].troopType == 'Cavalry') {
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 5;
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             } else if (sets[i].troopType.length == 3 && sets[i].troopType == 'Artillery') {
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 10;
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             }
                             // reinforcements += numSets;
                             console.log(`${this.name} traded 3 ${sets[i].troopType} cards for ${reinforcements} troops.`); // ${numSets * 3}

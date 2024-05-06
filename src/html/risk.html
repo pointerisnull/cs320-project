@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="./GC.css">
     <link rel="stylesheet" type="text/css" href="./Media/gamez/riskMaps/riskSVGMap/stylesRiskPage.css">
     <link rel="stylesheet" type="text/css" href="./css/Risk.css">
+    <link rel="stylesheet" type="text/css" href="./css/game_pages.css">
     <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel='stylesheet' type='text/css'>
@@ -100,7 +101,7 @@
             </div>
         </div>
         <div id="game-container" class="item body" style="margin: auto;"> <!-- game -->
-            <div id="inside-game-container" class="ui fluid container" style="border:1px dashed black; width:800px; height:560px;">
+            <div id="inside-game-container" class="ui fluid container" style="border:4px solid black; width:800px; height:560px;">
                 <!-- Fullscreen button -->
                 <img src="./Media/gamez/etc/enterFullScreen.png" id="fullscreen-button" onclick="openFullscreen()" width="40px" height="40px"/>
                 <!-- Home screen for Risk -->
@@ -153,17 +154,19 @@
                                 <button onclick="increaseAI(this.value)" value="Computer">+</button>
                             </div>
                             <button onclick="newRiskGame(this.value)" value="Computer" style="width:180px;">Start (10 coins)</button>
+                            <button onclick="backToRiskHomeScreen()" style="position: sticky; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
                         </div>
                     </div>
                     <div class="option-screen" id="riskOnlineGameScreen" style="display:none">
                         <h2>Online Play Coming Soon...</h2>
+                        <button onclick="backToRiskHomeScreen()" style="position: sticky; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
                     </div>
                     <!-- Top Banner -->
-                    <div id="topBanner" style="font-family:'Exo'; position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <div id="topBanner" style="font-family:'Exo'; position: absolute; top: 0; left: 0; width: 100%; height: 5%; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                         <span id="topBannerText"></span>
                     </div>
                     <!-- Bottom Banner -->
-                    <div id="bottomBanner" style="font-family:'Exo'; position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                    <div id="bottomBanner" style="font-family:'Exo'; position: absolute; bottom: 0; width: 100%; height: 5%; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
                         <span id="bottomBannerText"></span>
                     </div>
                     <!-- Skip Buttons -->
