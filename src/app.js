@@ -12,6 +12,7 @@ const { updateUser } = require('./database-scripts/User/UserUpdate');
 const { createRiskGame } = require('./database-scripts/Risk/RiskInsert');
 const { handleLocalRiskGameDataRequest } = require('./handlers/riskLocalGameDataHandler');
 const { updateRiskGame } = require('./database-scripts/Risk/RiskUpdate');
+const { createBug } = require('./database-scripts/Bugs/BugInsert');
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, req.url);
@@ -214,6 +215,8 @@ const server = http.createServer((req, res) => {
         filePath = path.join(__dirname, 'index.html');
     }
 
+
+    // Bug html
     if(req.method == 'POST' && req.url === '/submit'){
         console.log('Handling POST request for /bugz.html');
         let data = '';
@@ -238,7 +241,7 @@ const server = http.createServer((req, res) => {
                 const mailBack = formData.email;
 
                 // Move MongoDB operations here
-                await createUser(Bug, detail, mailBack); // make handle for bugpg
+                await createBug(Bug, detail, mailBack); // make handle for bugpg
 
                 // Respond to the client
                 res.end('Bug submitted successfully!');
