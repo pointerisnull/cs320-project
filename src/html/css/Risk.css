@@ -73,6 +73,35 @@ button {
     display: none;
 }
 
+/* Style for player name input section */
+#riskLocalMultiplayerGameSettingsPlayersNames {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+#riskLocalMultiplayerGameSettingsPlayersNames button {
+    width:150px;
+}
+
+/* Style for player name label */
+#playerNameLabel {
+    font-size: 18px;
+    margin: 10px;
+}
+
+/* Style for player name input field */
+#playerNameInput {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 /* Start screen styles (I called it "option-screen" to generalize it more). */
 .option-screen {
     position: absolute;

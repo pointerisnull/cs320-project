@@ -1,7 +1,26 @@
+function backToRiskHomeScreen() {
+    const startScreen = document.getElementById("startScreen");
+    const gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+    const riskLocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
+    const riskComputerSettingsScreen = document.getElementById("riskComputerSettingsScreen");
+    const riskOnlineGameScreen = document.getElementById("riskOnlineGameScreen");
+    const numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
+    const playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
+
+    gameModeOptionsScreen.style.display = 'none';
+    riskLocalMultiplayerGameSettingsScreen.style.display = 'none';
+    riskComputerSettingsScreen.style.display = 'none';
+    riskOnlineGameScreen.style.display = 'none';
+    numberOfPlayersDiv.style.display = 'none';
+    playersNamesDiv.style.display = 'none';
+    startScreen.style.display = 'flex';
+}
+
 // This function is called when the "Play Game" button is pushed on the start screen.
 async function selectGameModeScreen() {
     var startScreen = document.getElementById("startScreen");
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
+
 
     startScreen.style.display = 'none';
     gameModeOptionsScreen.style.display = 'flex';
@@ -27,9 +46,11 @@ var contentHeight = insideGameContainer.style.height;
 function riskLocalMultiplayerGame() {
     var gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     var riskLocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
+    const numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 
     gameModeOptionsScreen.style.display = 'none';
     riskLocalMultiplayerGameSettingsScreen.style.display = 'flex';
+    numberOfPlayersDiv.style.display = 'flex';
 }
 
 function riskComputerGame() {
@@ -43,6 +64,7 @@ function riskComputerGame() {
 function riskOnlineGame() {
     const gameModeOptionsScreen = document.getElementById("gameModeOptionsScreen");
     const riskOnlineGameScreen = document.getElementById("riskOnlineGameScreen");
+
     gameModeOptionsScreen.style.display = 'none';
     riskOnlineGameScreen.style.display = 'flex';
 }
@@ -145,6 +167,7 @@ function generatePlayerNameInput(playerIndex) {
     // Create label for the current player
     var playerNameLabel = document.createElement("label");
     playerNameLabel.textContent = "Enter name for Player " + (playerIndex + 1) + ":";
+    playerNameLabel.id = "playerNameLabel";
     playersNamesDiv.appendChild(playerNameLabel);
 
     // Create input field for the current player

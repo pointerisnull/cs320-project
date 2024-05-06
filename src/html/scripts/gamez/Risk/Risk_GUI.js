@@ -1,6 +1,7 @@
-const colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#e2f0cb", "#85c1ff"];
-const colorsFillActual = ["Light Blue", "Green", "Pink", "Orange", "Yellow", "Blue"];
-const colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
+var colorsFill = ["#cce5ff", "#d8e9b6", "#f0d6e1", "#fad8be", "#e2f0cb", "#85c1ff"];
+var colorsFillActual = ["Light Blue", "Green", "Pink", "Orange", "Yellow", "Blue"];
+var colorsStroke = ["#0066cc", "#4d9900", "#cc0066", "#ff6633", "#99cc00", "#0077cc"];
+var colorsText = ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"];
 
 // These next two functions (setBanners() and updateBanner()) displays and updates the banner that shows on the top of 
 // the game container. The banner displays relevant information (i.e., whose turn it is and their color, phase, phase information, etc.).

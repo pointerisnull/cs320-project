@@ -269,6 +269,16 @@ function updateTerritoryColors() {
                 if (country) {
                     country.style.fill = colorsFill[gameData.playerNames.indexOf(territory.owner)];
                     country.style.stroke = colorsStroke[gameData.playerNames.indexOf(territory.owner)];
+                    // Update text color based on fill color
+                    let nextSibling = country.nextSibling; // Start with the next sibling
+                    while (nextSibling) {
+                        if (nextSibling.nodeName === 'text') {
+                            // Found the <text> element
+                            nextSibling.style.fill = colorsText[gameData.playerNames.indexOf(territory.owner)];
+                            break; // Exit the loop
+                        }
+                        nextSibling = nextSibling.nextSibling; // Move to the next sibling
+                    }
                 }
             }
         }
