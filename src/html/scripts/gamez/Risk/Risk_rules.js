@@ -26,6 +26,17 @@ function getPlayerIndexByName(playerName) {
     return -1;
 }
 
+// Function to get the index of a card by name
+function getCardIndexByName(gainedCard) {
+    for (var i = 0; i < gameData.Cards.length; i++) {
+        if (gameData.Cards[i].territory.name === gainedCard) {
+            return i; // Return the index of the card with the matching territory
+        }
+    }
+    // If the card with the given name is not found, return -1 or handle accordingly
+    return -1;
+}
+
 // This function encompasses the entire reinforcement phase. It updates the banner, calculates the number of reinforcements, updates 
 // the game data, and sets the ability to click on polygons (which is used to divvy out reinforcements by the user).
 function reinforcementPhase() {
@@ -41,10 +52,10 @@ function reinforcementPhase() {
     })
     var numberOfReinforcements = Math.max(Math.floor(numberOfTerritories / 3), 3);
     var currentPlayer_index = getPlayerIndexByName(currentPlayer);
+    //var currentPlayer_index = gameData.players.name.indexof(currentPlayer);
 
     if (currentPlayer_index !== -1) {
         gameData.players[currentPlayer_index].reinforcements = numberOfReinforcements;
-
     } else {
         console.log("Player not found!");
     }
@@ -56,6 +67,7 @@ function reinforcementPhase() {
     Array.from(polygons).forEach(polygon => {
         polygon.addEventListener('click', handleReinforcementClick);
     });
+    console.log(tradeIn());
 }
 
 // Function to initialize attack phase
@@ -129,44 +141,44 @@ async function endCurrentTurn() {
 }
 
 // This function is called at the end of every turn to check if a player has won or not.
-// function checkWin() {
-//     var playerTerritoryCounts = [];
+function checkWin() {
+    var playerTerritoryCounts = [];
 
-//     gameData.playerNames.forEach((player) => {
-//         playerTerritoryCounts.push({ playerName: player, territoryCount: 0 });
-//         gameData.territories.forEach((territory) => {
-//             if (territory.owner === player) {
-//                 const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
-//                 if (index !== -1) {
-//                     playerTerritoryCounts[index].territoryCount += 1;
-//                 }
-//             }
-//         });
-//     });
-
-//     // Check if any player owns all territories.
-//     const winner = playerTerritoryCounts.find(object => object.territoryCount === gameData.territories.length);
-//     return winner ? winner.playerName : null;
-// }
-function checkWin() { // needs tested
-    var win = null;
-    var winner = null;
-
-    gameData.playerNames.forEach((player) => { // check if each player owns each territory
+    gameData.playerNames.forEach((player) => {
+        playerTerritoryCounts.push({ playerName: player, territoryCount: 0 });
         gameData.territories.forEach((territory) => {
             if (territory.owner === player) {
-                win = true;
-            } else {
-                win = false;
-                return;
+                const index = playerTerritoryCounts.findIndex(object => object.playerName === player);
+                if (index !== -1) {
+                    playerTerritoryCounts[index].territoryCount += 1;
+                }
             }
         });
-        if (win == true) { // if a player has won all the territories
-            winner = player;
-        }
     });
-    return winner;
+
+    // Check if any player owns all territories.
+    const winner = playerTerritoryCounts.find(object => object.territoryCount === gameData.territories.length);
+    return winner ? winner.playerName : null;
 }
+// function checkWin() { // needs tested
+//     var win = null;
+//     var winner = null;
+
+//     gameData.playerNames.forEach((player) => { // check if each player owns each territory
+//         gameData.territories.forEach((territory) => {
+//             if (territory.owner === player) {
+//                 win = true;
+//             } else {
+//                 win = false;
+//                 return;
+//             }
+//         });
+//         if (win == true) { // if a player has won all the territories
+//             winner = player;
+//         }
+//     });
+//     return winner;
+// }
 
 // This function takes the gameData object (which just has all the data about this specific local game of risk from the database) 
 // and uses that to set the fill and stroke of each polygon (i.e., country) in the svg (which is embedded as an iframe which is why 
@@ -447,10 +459,85 @@ function handleFortifySecondClick(event) {
     }
 }
 
-var hand = []; // player hand of cards (add to db to save offline)
-const deck = [gameData.Cards];
-const territories = [gameData.territories];
-var gainedTerritory = null;
+const territories = gameData.territories;
+
+function recieveCard(gainedTerritory) { // needs graphics
+    let gainedCard = gainedTerritory;
+
+    var currentPlayer_index = getPlayerIndexByName(gameData.player_turn);
+    //const gainedCard = singleAttack().findTerritoryByPolygonId(attacker).name; // name of territory just won in attack;
+
+    if (currentPlayer_index !== -1) {
+        var hand = gameData.players[currentPlayer_index].hand;
+        if (hand.includes(gainedCard)) {
+            console.log("Player already has card for this territory.");
+            return hand;
+        }
+        var deck = gameData.Cards;
+        const cardIndex = getCardIndexByName(gainedCard);
+        // const cardIndex = deck.indexOf(gainedCard); // get card from name of gained territory
+
+        if (cardIndex !== -1) {
+            deck.splice(cardIndex, 1); // remove card from deck?
+            hand.push(gainedCard);// add card to player hand
+            console.log("Gained %s card", gainedCard);
+            return hand;
+        } else {
+            console.log("Card not found in deck");
+            return hand;
+        }
+    } else {
+        console.log("Player not found!");
+    }
+}
+
+function tradeIn() {
+    // trooptype army value
+    const infantry = 1;
+    const cavalry = 5;
+    const artillery = 10;
+
+    var currentPlayer_index = getPlayerIndexByName(gameData.player_turn);
+    /*get name of territory and match to card to get army amount*/
+    let reinforcements = gameData.players[currentPlayer_index].reinforcements;
+    var hand = gameData.players[currentPlayer_index].hand;
+
+    if (currentPlayer_index !== -1) {
+        for (const troopType in hand) {
+            var sets = sets[troopType];
+            if (hand.length >= 3) { // if hand has a possible set
+                this.hand.forEach(card => { // create a set from matching troopTypes 
+                    sets[card.troopType] = sets[card.troopType] || [];
+                    sets[card.troopType].push(card);
+                });
+                if (sets > 0) {
+                    const numSets = Math.floor(hand.length / 3); // possible sets
+                    // check if set cards have have troop type
+                    for (i = 0; i <= numSets; i++) {
+                        if (card.troopType == 'Infantry') { // set reinforments based on set troopType
+                            reinforcements += infantry; // Add reinforcements to player's army
+                        } else if (card.troopType == 'Cavalry') {
+                            reinforcements += cavalry;
+                        } else if (card.troopType == 'Artillery') {
+                            reinforcements += artillery;
+                        }
+                    }
+                    // reinforcements += numSets;
+                    console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${reinforcements} troops.`);
+                } else {
+                    return sets;
+                }
+            } else {
+                console.log("No possible sets yet");
+            }
+        }
+    } else {
+        console.log("Player not found!");
+    }
+
+    // Remove traded cards from player's hand
+    // recievedCard().hand = this.cards.filter(card => !tradedCards.includes(card));
+}
 
 // This function is called when the current player selects two valid territories and the number of troops to send. This function encapsulates the entire attack.
 function singleAttack() {
@@ -498,7 +585,7 @@ function singleAttack() {
         <button onclick="hideAttackSummaryScreen(); displayTroopSendScreen();">Ok</button>
         `;
 
-        const updatedPlayerCards = recieveCard(gainedTerritory, hand, deck, territories);
+        const updatedPlayerCards = recieveCard(gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].name);
         console.log("Updated player's cards:", updatedPlayerCards);
     }
     else {
@@ -524,68 +611,4 @@ function singleAttack() {
         }
     });
     attackSummaryScreen.style.display = 'block';
-}
-
-function recieveCard(gainedTerritory, hand, deck, territories) { // Not done or tested yet
-    // const currentPlayer = gameData.player_turn; // owner
-    // var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
-    gainedTerritory = singleAttack().findTerritoryByPolygonId(attacker).name; // name of territory just one in attack
-
-    const gainedCard = gainedTerritory;
-
-    if (hand.includes(gainedCard)) {
-        console.log("Player already has card for this territory.");
-        return hand;
-    }
-
-    const cardIndex = deck.indexOf(gainedCard);
-
-    if (cardIndex !== -1) {
-        deck.splice(cardIndex, 1); // remove card from deck?
-        hand.push(gainedCard);// add card to player hand
-        console.log("Gained %s card", gainedCard);
-        return hand;
-    } else {
-        console.log("Card not found in deck");
-        return hand;
-    }
-}
-
-function tradeIn() {
-    // trooptype army value
-    const infantry = 1;
-    const cavalry = 5;
-    const artillery = 10;
-
-    var sets = {};
-
-    this.hand.forEach(card => { // create a set from matching troopTypes 
-        sets[card.troopType] = sets[card.troopType] || [];
-        sets[card.troopType].push(card);
-    });
-
-    /*get name of territory and match to card to get army amount*/
-    let reinforcements = gameData.player.reinforcements;
-    for (const troopType in sets) {
-        const hand = sets[troopType];
-        if (hand.length >= 3) { // if hand has a possible set
-            const numSets = Math.floor(hand.length / 3); // possible sets
-            // check if set cards have have troop type
-            if (card.troopType == 'Infantry') { // set reinforments based on set troopType
-                reinforcements += infantry;
-            } else if (card.troopType == 'Cavalry') {
-                reinforcements += cavalry;
-            } else if (card.troopType == 'Artillery') {
-                reinforcements += artillery;
-            }
-            // reinforcements += numSets;
-            console.log(`${this.name} traded ${numSets * 3} ${troopType} cards for ${reinforcements} troops.`);
-        }
-    }
-
-    // Add reinforcements to player's army
-    reinforcements += gameData.player.reinforcements;
-
-    // Remove traded cards from player's collection
-    // recievedCard().hand = this.cards.filter(card => !tradedCards.includes(card));
 }
