@@ -284,6 +284,38 @@ function knight_legality(piece, fcol, frow, tocol, torow, occupation, color) {
 
 function king_legality(piece, fcol, frow, tocol, torow, occupation, color) {
   let move = false;
+  if (color == "white") {
+    //short castle
+    if (piece.first_move && tocol - fcol == 2 && frow == torow) {
+      if (is_occupied(get_square("g1")) == "empty" 
+        && is_occupied(get_square("f1")) == "empty"
+        && get_square("h1").children[0].first_move) {
+        move = true;
+      }
+    } else if (piece.first_move && fcol - tocol == 3 && frow == torow) {
+      if (is_occupied(get_square("b1")) == "empty" 
+        && is_occupied(get_square("c1")) == "empty"
+        && is_occupied(get_square("d1")) == "empty"
+        && get_square("a1").children[0].first_move) {
+        move = true;
+      }
+    }
+  } else if (color == "black") {
+    if (piece.first_move && tocol - fcol == 2 && frow == torow) {
+      if (is_occupied(get_square("g8")) == "empty" 
+        && is_occupied(get_square("f8")) == "empty"
+        && get_square("h8").children[0].first_move) {
+        move = true;
+      }
+    } else if (piece.first_move && fcol - tocol == 3 && frow == torow) {
+      if (is_occupied(get_square("b8")) == "empty" 
+        && is_occupied(get_square("c8")) == "empty"
+        && is_occupied(get_square("d8")) == "empty"
+        && get_square("a8").children[0].first_move) {
+        move = true;
+      }
+    }
+  }
   if(color != occupation) {
   //vertical
     if(tocol == fcol) 
@@ -327,7 +359,7 @@ function is_legal_move(piece, destination) {
   return false;
 }
 
-function move_piece(from_square, to_square) {
+function move_piece(from_square, to_square, is_special_move) {
   const piece = get_square(from_square).children[0];
   const destination = get_square(to_square);
   const destination_id = destination.id;
@@ -355,30 +387,49 @@ function move_piece(from_square, to_square) {
     else if (color == "black" && destination_id[1] == '1')
       pawn_promote(piece);
   } else if (piece.classList.contains("king")) {
+    //castling
+    if (color == "white" && piece.first_move) {
+      if (destination_id == "b1") {
+        move_piece("a1", "c1", true);
+      } else if (destination_id == "g1") {
+        move_piece("h1", "f1", true);
+      }
+    } else if (color == "black" && piece.first_move) {
+      if (destination_id == "b8") {
+        move_piece("a8", "c8", true);
+      } else if (destination_id == "g8") {
+        move_piece("h8", "f8", true);
+      }
+    }
     for (let i = 0; i < board_squares.length; i++)
       if (board_squares[i].classList.contains("check") && is_occupied(board_squares[i]) == "empty")
       board_squares[i].classList.remove("check");
   }
+  if (is_special_move == false) {
+    turn = !turn;
+    history = history + piece.square_id;
+    history = history + destination_id;
+    document.getElementById("turn").innerHTML = turn ? "White's Turn | " + history : "Black's Turn | " + history;
+  }
   
-  turn = !turn;
-  history = history + piece.square_id;
-  history = history + destination_id;
-  document.getElementById("turn").innerHTML = turn ? "White's Turn | " + history : "Black's Turn | " + history;
   /*update the piece's coordinates*/
   piece.first_move = false;
   piece.square_id = destination_id;
- 
-  if (is_check("white")) { 
-    check_audio.play();
-    if (color == "white")
-      undo_move();
-  }
-  else if (is_check("black")) {
-    check_audio.play();
-    if (color == "black")
-      undo_move();
-  } 
-  else move_audio.play();
+
+  if (is_special_move == false) {
+    if (is_check("white")) { 
+      check_audio.play();
+      if (color == "white")
+        undo_move();
+    }
+    else if (is_check("black")) {
+      check_audio.play();
+      if (color == "black")
+        undo_move();
+    } 
+    else move_audio.play();
+  } else capture_audio.play();
+
 }
 
 /*main movement functions*/
@@ -408,7 +459,7 @@ function drop(ev) {
   if (!is_legal_move(piece, destination))
     return;
 
-  move_piece(piece.square_id, destination_id);
+  move_piece(piece.square_id, destination_id, false);
  
 }
 /*setup*/
@@ -454,10 +505,9 @@ async function play_board(moves, main_board) {
   for (let i = 0; i < moves.length; i = i+4) {
     let from = moves[i] + moves[i+1];
     let to = moves[i+2] + moves[i+3];
-    move_piece(from, to, main_board);
+    move_piece(from, to, false);
     if (main_board) await delay(300);
   }
-  //reset_board();
 }
 
 function undo_move() {
@@ -465,10 +515,14 @@ function undo_move() {
   reset_board();
   history = "";
   play_board(temp, false);
-  turn = !turn;
+  //turn = !turn;
+  clone_board();
+  clone_pieces();
 }
 
-let temp = "f2f4e7e5e2e3f7f6f4e5g8h6e5f6f8b4f6g7d8e7";
+let temp = "";
+//let temp = "f2f4e7e5e2e3f7f6f4e5g8h6e5f6f8b4f6g7d8e7"; //pawn promote
+//let temp = "g2g4e7e6f2f3d7d5f1h3b8a6f3f4c7c6g1f3c8d7b1a3g8h6c2c3f8d6d2d3d8g5c1e3c6c5d1c2b7b6"; //castling
 
 init_board();
 init_pieces();
