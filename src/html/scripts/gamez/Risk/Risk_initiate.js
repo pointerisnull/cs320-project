@@ -224,7 +224,7 @@ async function newRiskGame(mode) {
 
         if(aiCountComputer > 0) {
             for(i = 1; i <= aiCountComputer; i++) {
-                playerNames.push("Computer" + " (" + i  + ")");
+                players.push({ name: "Computer" + "(" + i + ")", reinforcements: 3, hand: [] });
             }
         }
     }
@@ -232,13 +232,24 @@ async function newRiskGame(mode) {
     if(mode === 'Local') {
         if(aiCountLocal > 0) {
             for(i = 1; i <= aiCountLocal; i++) {
-                playerNames.push("Computer" + " (" + i  + ")");
+                players.push({ name: "Computer" + "(" + i + ")", reinforcements: 3, hand: [] });
             }
         }
     }
 
+    function getName() {
+        const names = [];
+        for (let player of players) {
+            names.push(player.name);
+        }
+        return names;
+    }
+
+    playerNames = new getName();
+
     if(userData) {
         const gameInfo = {
+            players,
             playerNames,
             gameMode: mode
         };

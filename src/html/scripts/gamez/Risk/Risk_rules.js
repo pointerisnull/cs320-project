@@ -474,7 +474,7 @@ function handleFortifySecondClick(event) {
     }
 }
 
-const territories = gameData.territories;
+ const territories = gameData.territories;
 // Function to remove card from a specific array
 function removeCardFromArray(card, array) {
     const index = array.indexOf(card);

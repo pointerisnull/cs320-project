@@ -88,7 +88,7 @@ function skipAttackPhase() {
     polygons.forEach(polygon => {
         polygon.removeEventListener('click', handleAttackSecondClick);
     });
-    removeShimmer();
+    //removeShimmer();
     fortificationPhase();
 }
 
@@ -106,6 +106,6 @@ function skipFortifyPhase() {
     polygons.forEach(polygon => {
         polygon.removeEventListener('click', handleFortifySecondClick);
     });
-    removeShimmer();
+    //removeShimmer();
     endCurrentTurn();
 }
