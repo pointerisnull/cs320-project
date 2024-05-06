@@ -138,31 +138,10 @@ async function createRiskGame(userData, gameInfo) {
 
       return deck;
     }
+
     // Create a new Risk game object
     const newGame = {
       _id: ObjectId.createFromHexString(userData._id), // MongoDB will take the userData._id and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
-      game_mode: gameInfo.gameMode,
-      playerNames: gameInfo.playerNames,
-      territories: shuffledTerritories,
-      player_turn: gameInfo.playerNames[0], // Index of the current player in the players array
-      winner: null,
-      reinforcements: {}, // Reinforcements for each player
-      game_phase: 'reinforcement', // Game phases: 'reinforcement', 'attack', 'fortify', etc.
-      control: continents,
-      Cards: new createDeck(),
-      created_at: new Date(),
-      updated_at: new Date()
-    };
-
-    // Assign territories to players in order
-    for (let i = 0; i < newGame.territories.length; i++) {
-      const playerIndex = i % newGame.playerNames.length;
-      newGame.territories[i].owner = newGame.playerNames[playerIndex].toString();
-    }
-    if(result && gameInfo.gameMode === 'Computer') {
-    // Create a new Risk game object
-    const newGame = {
-      _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
       game_mode: gameInfo.gameMode,
       playerNames: gameInfo.playerNames,
       players: gameInfo.players,
