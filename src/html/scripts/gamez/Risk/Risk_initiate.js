@@ -28,19 +28,12 @@ async function selectGameModeScreen() {
     // This part of the function is just checking if a game is currently saved to the database under the user's id, if so, a button will be displayed to resume that specific game.
     const userData = await getData();
     checkGameData = await getRiskGameData(userData._id);
-
     if(checkGameData) {
         const resumeRiskGameButton = document.getElementById("resumeRiskGameButton");
         resumeRiskGameButton.textContent = "Resume Game";
         resumeRiskGameButton.style.display = 'block';
     }
 }
-
-/* Get the relevant elements to be displayed in fullscreen mode*/
-var gameContainer = document.getElementById("game-container");
-var insideGameContainer = document.getElementById('inside-game-container');
-var contentWidth = insideGameContainer.style.width;
-var contentHeight = insideGameContainer.style.height;
 
 /* The next few functions pertain to the settings page that displays when the local multiplayer game mode is selected. */
 function riskLocalMultiplayerGame() {
@@ -153,8 +146,9 @@ function decreaseAI(mode) {
 var risklocalMultiplayerGameSettingsScreen = document.getElementById("riskLocalMultiplayerGameSettingsScreen");
 var numberOfPlayersDiv = document.getElementById("riskLocalMultiplayerGameSettingsNumberOfPlayers");
 var playersNamesDiv = document.getElementById("riskLocalMultiplayerGameSettingsPlayersNames");
-// Variable to store player names
-var playerNames = [];
+// Variables to store player data
+var players = [/*{ name: null, reinforcements: 3, hand: [] }*/]; // object w/ player name, hand for cards recieved & reinforcments for each player
+var playerNames = null;
 
 // Function to generate input field for player names one at a time
 function generatePlayerNameInput(playerIndex) {
@@ -180,11 +174,12 @@ function generatePlayerNameInput(playerIndex) {
     // Create button to submit the name
     var submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
-    submitButton.onclick = function() {
+    submitButton.onclick = function () {
         // Get the value entered by the user
         var playerName = playerNameInput.value;
         // Add the name to the array
-        playerNames.push(playerName);
+        players.push({ name: playerName, reinforcements: 3, hand: [] });
+
         // If there are more players, generate input field for the next player
         if (playerIndex < playerCount - 1) {
             generatePlayerNameInput(playerIndex + 1);
@@ -230,6 +225,7 @@ async function newRiskGame(mode) {
 
     if(userData) {
         const gameInfo = {
+            players,
             playerNames,
             gameMode: mode
         };

@@ -121,7 +121,7 @@ async function createRiskGame(userData, gameInfo) {
 
       territories.forEach((territory, index) => { // create 42 cards with territories
         const troopType = troopTypes[index % troopTypes.length]; // pick a troopType from shuffled troopType array
-        
+
         const card = { // card object
           territory: territory,
           troopType: troopType
@@ -138,7 +138,6 @@ async function createRiskGame(userData, gameInfo) {
 
       return deck;
     }
-
     // Create a new Risk game object
     const newGame = {
       _id: ObjectId.createFromHexString(userData._id), // MongoDB will take the userData._id and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
