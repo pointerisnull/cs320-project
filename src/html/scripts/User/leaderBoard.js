@@ -13,9 +13,9 @@ async function fetchLeaderboardData() {
                         <td>${user.user_name}</td>
                         <td>${user._id}</td>
                         <td>${user.balance}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>${user.wins}</td>
+                        <td>${user.losses}</td>
+                        <td>${user.games_played}</td>
                     </tr>`;
         tbody.innerHTML += row;
     });

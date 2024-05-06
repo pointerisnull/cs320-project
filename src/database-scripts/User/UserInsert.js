@@ -17,7 +17,10 @@ async function createUser(user_name, password, email, avatar) {
             password: password,
             email: email,
             avatar: avatar,
-            balance: 100
+            balance: 100,
+            wins: 0,
+            losses: 0,
+            games_played: 0
         };
 
         // Insert the new user into the UserInformation collection

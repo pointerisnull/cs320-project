@@ -164,8 +164,11 @@ async function createRiskGame(userData, gameInfo) {
     // Insert the new game document into the Risk collection
     const result = await db.collection('Risk').insertOne(newGame);
 
-    if (result && gameInfo.gameMode === 'Computer') {
-      userData.balance -= 10;
+    if(result) {
+      userData.games_played += 1;
+      if (gameInfo.gameMode === 'Computer') {
+        userData.balance -= 10;
+      }
       await updateUser(userData._id, userData);
     }
     console.log(`Risk game created with ID: ${result.insertedId}`);
