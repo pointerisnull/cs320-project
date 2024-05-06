@@ -17,7 +17,7 @@ function isAdjacent(attackerPolygonId, defenderPolygonId) {
     const distance = calculateDistance(attackerPolygonBounds.left, attackerPolygonBounds.top, defenderPolygonBounds.left, defenderPolygonBounds.top);
 
     // Check if the distance is below a threshold to consider them adjacent
-    if (distance < 150 && attackerPolygon !== defenderPolygon) {
+    if (distance < 90 && attackerPolygon !== defenderPolygon) {
         return true;
     } else {
         return false;
@@ -74,3 +74,38 @@ function decreaseFortifyTroopsToSend() {
     document.getElementById('fortifyTroopsToSendCount').textContent = fortifyTroopsToSendCount;
 }
 
+function skipAttackPhase() {
+    document.getElementById('attackSelectScreen').style.display = 'none';
+    document.getElementById('skipButtons').style.display = 'none';
+    document.getElementById('skipAttackPhaseButton').style.display = 'none';
+    attacker = null;
+    defender = null;
+    troopsAttackingCount = 1;
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleAttackFirstClick);
+    });
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleAttackSecondClick);
+    });
+    //removeShimmer();
+    fortificationPhase();
+}
+
+function skipFortifyPhase() {
+    document.getElementById("fortifySelectionScreen").style.display = 'none';
+    document.getElementById('skipButtons').style.display = 'none';
+    document.getElementById('skipFortifyPhaseButton').style.display = 'none';
+    firstTerritoryToFortify = null;
+    secondTerritoryToFortify = null;
+    fortifyTroopsToSendCount = 0
+    const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleFortifyFirstClick);
+    });
+    polygons.forEach(polygon => {
+        polygon.removeEventListener('click', handleFortifySecondClick);
+    });
+    //removeShimmer();
+    endCurrentTurn();
+}

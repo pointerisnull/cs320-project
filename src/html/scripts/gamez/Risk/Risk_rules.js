@@ -120,6 +120,9 @@ function fortificationPhase() {
     bottomBannerText.innerHTML = "Choose two adjacent, owned territories to move troops between."
     updateTopBanner();
 
+    document.getElementById('skipButtons').style.display = 'block';
+    document.getElementById('skipFortifyPhaseButton').style.display = 'block';
+
     const polygons = document.getElementById("riskSVGMap").contentDocument.querySelectorAll("polygon");
 
     polygons.forEach(polygon => {
@@ -139,7 +142,7 @@ async function endCurrentTurn() {
     if (win != null) {
         gameData.game_phase = "End";
 
-        const updated = await updateLocalRiskGameData();
+        const updated = await updateRiskGameData();
 
         console.log(updated);
         if (updated) { // Nothing implemented yet for when someone wins.
@@ -155,7 +158,7 @@ async function endCurrentTurn() {
         }
         gameData.game_phase = "reinforcement";
 
-        const updated = await updateLocalRiskGameData();
+        const updated = await updateRiskGameData();
 
         console.log(updated);
         if (updated) {
@@ -471,7 +474,7 @@ function handleFortifySecondClick(event) {
     }
 }
 
-const territories = gameData.territories;
+ const territories = gameData.territories;
 // Function to remove card from a specific array
 function removeCardFromArray(card, array) {
     const index = array.indexOf(card);
@@ -572,12 +575,17 @@ function tradeIn(reinforcements) {
 }
 
 // This function is called when the current player selects two valid territories and the number of troops to send. This function encapsulates the entire attack.
-function singleAttack() {
+async function singleAttack() {
     document.getElementById('attackSelectScreen').style.display = 'none';
+    document.getElementById('skipButtons').style.display = 'none';
+    document.getElementById('skipAttackPhaseButton').style.display = 'none';
     var attackerLostTroops = 0;
     var defenderLostTroops = 0;
-    var attackerCurrentTroops = findTerritoryByPolygonId(attacker).armies;
+    var attackerCurrentTroops = troopsAttackingCount;
     var defenderCurrentTroops = findTerritoryByPolygonId(defender).armies;
+
+    gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies -= troopsAttackingCount;
+    updateInfoBox(findTerritoryByPolygonId(attacker));
     // var attackerBeginningTroops = attackerCurrentTroops;
     // var defenderBeginningTroops = defenderCurrentTroops;
     var randomValue = 0;
@@ -585,6 +593,20 @@ function singleAttack() {
     var loser = null;
     var bottomBannerText = document.getElementById("bottomBannerText");
     const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+
+    attackLiveScreen.style.maxHeight = '200px';
+    attackLiveScreen.style.width = '150px';
+    attackLiveScreen.style.overflow = 'scroll';
+    attackLiveScreen.innerHTML = `
+    <div style="text-align:center;"><span class="popup_screen_text_headers">Live Attack</span></div>
+    <hr></hr>
+    <div style="text-align:center;"><span class="popup_screen_text">${attacker}:  ${attackerCurrentTroops}</span></div>
+    <div style="text-align:center;"><span class="popup_screen_text">${defender}:  ${defenderCurrentTroops}</span></div>
+    <hr></hr>
+    `;
+    attackLiveScreen.style.display = 'block';
+    // const attackSummaryScreen = document.getElementById('attackSummaryScreen');
+    await sleep(2000);
 
     while (attackerCurrentTroops > 0 && defenderCurrentTroops > 0) {
         randomValue = Math.random();
@@ -598,13 +620,23 @@ function singleAttack() {
         }
         console.log(attacker, ": ", attackerCurrentTroops);
         console.log(defender, ": ", defenderCurrentTroops);
+
+        attackLiveScreen.innerHTML += `
+        <div style="text-align:center;"><span class="popup_screen_text">${attacker}:  ${attackerCurrentTroops}</span></div>
+        <div style="text-align:center;"><span class="popup_screen_text">${defender}:  ${defenderCurrentTroops}</span></div>
+        <hr></hr>
+        `
+        await sleep(2000);
     }
+
+    await sleep(3000);
+    attackLiveScreen.style.display = 'none';
 
     if (attackerCurrentTroops) {
         winner = attacker;
         loser = defender;
-        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops;
-        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops + 1;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + findTerritoryByPolygonId(attacker).armies;
+        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = 1;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].owner = findTerritoryByPolygonId(attacker).owner; //
         updateTerritoryColors();
         bottomBannerText.innerHTML = "You successfully invaded " + loser + "!";
@@ -622,7 +654,7 @@ function singleAttack() {
     } else {
         winner = defender;
         loser = attacker;
-        gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = attackerCurrentTroops + 1;
+        // gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(attacker))].armies = 0;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = defenderCurrentTroops;
         attackSummaryScreen.innerHTML = `
         <div>${attacker} lost ${attackerLostTroops} troop(s)</div>

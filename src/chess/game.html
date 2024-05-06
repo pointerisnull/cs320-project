@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>ChessJS</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="chess.css">
+</head>
+<body>
+	<div class="ui top fixed menu">
+		<div class="item" style="margin: 0px; padding: 5px 0px 0px 5px" >
+      <!--	<a href="../index.html" ><img src="./Media/logo.png" width="50px"></a> -->
+		</div>
+      <h2>ChessJS > </h2>
+      <h2 id="turn"> White's Turn</h2>
+       
+	</div>
+  
+  <div id="board" class="chess_board">
+     <!--row 8-->
+    <div class = "square white">
+      <div class = "piece rook" color = "black">
+        <img src = "res/rook_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece knight" color = "black">
+        <img src = "res/knight_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece bishop" color = "black">
+        <img src = "res/bishop_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece queen" color = "black">
+        <img src = "res/queen_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece king" color = "black">
+        <img src = "res/king_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece bishop" color = "black">
+        <img src = "res/bishop_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece knight" color = "black">
+        <img src = "res/knight_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece rook" color = "black">
+        <img src = "res/rook_black.svg">
+      </div>
+    </div>
+     <!--row 7-->
+    <div class = "square black">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "black">
+        <img src = "res/pawn_black.svg">
+      </div>
+    </div>
+     <!--row 6-->
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+     <!--row 5-->
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+     <!--row 4-->
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+     <!--row 3-->
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+    <div class = "square black"></div>
+    <div class = "square white"></div>
+     <!--row 2-->
+    <div class = "square white">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece pawn" color = "white">
+        <img src = "res/pawn_white.svg">
+      </div>
+    </div>
+     <!--row 1-->
+    <div class = "square black">
+      <div class = "piece rook" color = "white">
+        <img src = "res/rook_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece knight" color = "white">
+        <img src = "res/knight_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece bishop" color = "white">
+        <img src = "res/bishop_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece queen" color = "white">
+        <img src = "res/queen_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece king" color = "white">
+        <img src = "res/king_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece bishop" color = "white">
+        <img src = "res/bishop_white.svg">
+      </div>
+    </div>
+    <div class = "square black">
+      <div class = "piece knight" color = "white">
+        <img src = "res/knight_white.svg">
+      </div>
+    </div>
+    <div class = "square white">
+      <div class = "piece rook" color = "white">
+        <img src = "res/rook_white.svg">
+      </div>
+    </div>
+  </div>
+
+
+</body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="chess.js"></script>
+</html>

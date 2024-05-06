@@ -1,5 +1,6 @@
 const { connectToDatabase, client } = require('../../mongoConnection');
 const { ObjectId } = require('mongodb');
+const { updateUser } = require('../User/UserUpdate');
 
 // Function to shuffle an array (mainly used for the territories field)
 function shuffleArray(array) {
@@ -11,7 +12,7 @@ function shuffleArray(array) {
 }
 
 // Function to create a new Risk game
-async function createRiskGame(userId, gameInfo) {
+async function createRiskGame(userData, gameInfo) {
   try {
     // Connect to MongoDB
     await connectToDatabase();
@@ -22,10 +23,10 @@ async function createRiskGame(userId, gameInfo) {
     // Delete current game if there is one.
     console.log("Checking Risk database for duplicate game...");
     const gameId = ObjectId.createFromHexString(userData._id);
-    const currentGame = await db.collection('Risk').findOne({ _id: gameId });
-    if (currentGame) {
+    const currentGame = await db.collection('Risk').findOne({_id: gameId});
+    if(currentGame) {
       console.log("Deleting duplicate Risk game...");
-      await db.collection('Risk').deleteOne({ _id: gameId });
+      await db.collection('Risk').deleteOne({_id: gameId});
       console.log("Deleted duplicate Risk game");
     }
 
@@ -138,17 +139,9 @@ async function createRiskGame(userId, gameInfo) {
       return deck;
     }
 
-    function getName() {
-      const names = [];
-      for (let player of gameInfo.players) {
-        names.push(player.name);
-      }
-      return names;
-    }
-
     // Create a new Risk game object
     const newGame = {
-      _id: ObjectId.createFromHexString(userId), // MongoDB will take the userId and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
+      _id: ObjectId.createFromHexString(userData._id), // MongoDB will take the userData._id and use that ObjectId as the gameId (this means that a user can only have one active local multiplayer risk game saved at a time).
       game_mode: gameInfo.gameMode,
       playerNames: gameInfo.playerNames,
       players: gameInfo.players,

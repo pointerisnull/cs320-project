@@ -103,69 +103,126 @@
             <div id="inside-game-container" class="ui fluid container" style="border:1px dashed black; width:800px; height:560px;">
                 <!-- Fullscreen button -->
                 <img src="./Media/gamez/etc/enterFullScreen.png" id="fullscreen-button" onclick="openFullscreen()" width="40px" height="40px"/>
+                <!-- Home screen for Risk -->
                 <div class="option-screen" id="startScreen">
                     <h1>Welcome to Risk</h1>
-                    <button onclick="selectGameModeScreen()">Play</button>
-                    <button onclick="riskSettingsScreen()">Settings</button>
-                    <button onclick="riskHowTo()">How to Play</button>
-                    <button onclick="openFullscreen()">Fullscreen</button>
+                    <button onclick="selectGameModeScreen()" style="width:17%;">Play</button>
+                    <button onclick="riskSettingsScreen()" style="width:17%;">Settings</button>
+                    <button onclick="riskHowTo()" style="width:17%;">How to Play</button>
+                    <button onclick="openFullscreen()" style="width:17%;">Fullscreen</button>
                 </div>
-                <div class="option-screen" id="gameModeOptionsScreen" style="display:none">
-                    <h1>Select Game Mode</h1>
-                    <button id="resumeLocalRiskGameButton" onclick="resumeLocalRiskGame()" style="display:none"></button>
-                    <!-- <button id="resumeComputerRiskGameButton" onclick="" style="display:none"></button> -->
-                    <button onclick="riskOnlineGame()">Play - Online</button>
-                    <button onclick="riskComputerGame()">Play - Computer(s)</button>
-                    <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
-                </div>
-                <div class="option-screen" id="riskLocalMultiplayerGameSettingsScreen" style="display:none">
-                    <h1>Choose Settings</h1>
-                    <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
-                        <h2>Number of Players</h2>
-                        <div class="addMinusButtonsWithNumber">
-                            <button onclick="decreasePlayer()">-</button>
-                            <span id="playerCount">1</span>
-                            <button onclick="increasePlayer()">+</button>
+                <div id="playRisk">
+                    <div class="option-screen" id="gameModeOptionsScreen" style="display:none">
+                        <h1>Select Game Mode</h1>
+                        <button id="resumeRiskGameButton" onclick="resumeRiskGame()" style="display:none"></button>
+                        <!-- <button id="resumeComputerRiskGameButton" onclick="" style="display:none"></button> -->
+                        <button onclick="riskOnlineGame()">Play - Online</button>
+                        <button onclick="riskComputerGame()">Play - Computer</button>
+                        <button onclick="riskLocalMultiplayerGame()">Play - Local Multiplayer</button>
+                        <button onclick="backToRiskHomeScreen()" style="position: sticky; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
+                    </div>
+                    <div class="option-screen" id="riskLocalMultiplayerGameSettingsScreen" style="display:none">
+                        <h1>Choose Settings</h1>
+                        <div id="riskLocalMultiplayerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
+                            <h2>Number of Players</h2>
+                            <div class="addMinusButtonsWithNumber">
+                                <button onclick="decreasePlayer()">-</button>
+                                <span id="playerCount">1</span>
+                                <button onclick="increasePlayer()">+</button>
+                            </div>
+                            <h2>Number of AI Opponents</h2>
+                            <div class="addMinusButtonsWithNumber">
+                                <button onclick="decreaseAI(this.value)" value="Local">-</button>
+                                <span id="aiCountLocal">1</span>
+                                <button onclick="increaseAI(this.value)" value="Local">+</button>
+                            </div>
+                            <button onclick="generatePlayerNameInput(0)" style="width:131px;">Next</button>
                         </div>
-                        <h2>Number of AI Opponents</h2>
-                        <div class="addMinusButtonsWithNumber">
-                            <button onclick="decreaseAI()">-</button>
-                            <span id="aiCount">1</span>
-                            <button onclick="increaseAI()">+</button>
+                        <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
+                            <h1>Choose Player Names</h1>
                         </div>
-                        <button onclick="generatePlayerNameInput(0)" style="width:131px;">Next</button>
+                        <button onclick="backToRiskHomeScreen()" style="position: sticky; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
                     </div>
-                    <div id="riskLocalMultiplayerGameSettingsPlayersNames" style="display:none">
-                        <h1>Choose Player Names</h1>
+                    <div class="option-screen" id="riskComputerSettingsScreen" style="display:none">
+                        <h1>Choose Settings</h1>
+                        <div id="riskComputerGameSettingsNumberOfPlayers" style="display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px;">
+                            <h2>Number of AI Opponents</h2>
+                            <div class="addMinusButtonsWithNumber">
+                                <button onclick="decreaseAI(this.value)" value="Computer">-</button>
+                                <span id="aiCountComputer">1</span>
+                                <button onclick="increaseAI(this.value)" value="Computer">+</button>
+                            </div>
+                            <button onclick="newRiskGame(this.value)" value="Computer" style="width:180px;">Start (10 coins)</button>
+                        </div>
+                    </div>
+                    <div class="option-screen" id="riskOnlineGameScreen" style="display:none">
+                        <h2>Online Play Coming Soon...</h2>
+                    </div>
+                    <!-- Top Banner -->
+                    <div id="topBanner" style="font-family:'Exo'; position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                        <span id="topBannerText"></span>
+                    </div>
+                    <!-- Bottom Banner -->
+                    <div id="bottomBanner" style="font-family:'Exo'; position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
+                        <span id="bottomBannerText"></span>
+                    </div>
+                    <!-- Skip Buttons -->
+                    <div id="skipButtons" style="display: none;">
+                        <button id="skipAttackPhaseButton" onclick="skipAttackPhase()" style="display:none;">Skip Phase</button>
+                        <button id="skipFortifyPhaseButton" onclick="skipFortifyPhase()" style="display:none;">Skip Phase</button>
+                    </div>
+                    <div id="popup_screens">
+                        <!-- All screens in-game which require user interaction. -->
+                        <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
+                        <div id="attackLiveScreen" class="game-screen" style="display: none;"></div>
+                        <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
+                        <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
+                        <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
+                            <div class="popup_screen_text">
+                                <p>Select another attacker or continue on and fortify.</p>
+                                <button onclick="attackPhase()" style="margin-bottom:10px;">Attack again</button>
+                                <button onclick="fortificationPhase()" style="margin-bottom:10px;">Continue</button>
+                            </div> 
+                        </div>
+                        <div id="fortifySelectionScreen" class="game-screen" style="display: none;"></div>
+                        <!-- Info box -->
+                        <div id="infoBox" class="game-screen" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
                     </div>
                 </div>
-                <div class="option-screen" id="riskOnlineGameScreen" style="display:none">
-                    <h2>Online Play Coming Soon...</h2>
-                </div>
-                <!-- Top Banner -->
-                <div id="topBanner" style="font-family:'Exo'; position: absolute; top: 0; left: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
-                    <span id="topBannerText"></span>
-                </div>
-                <!-- Bottom Banner -->
-                <div id="bottomBanner" style="font-family:'Exo'; position: absolute; bottom: 0; width: 100%; height: 30px; background-color: #333; color: white; text-align: center; display: none; justify-content: center; align-items: center; display: none; opacity: 0.6;">
-                    <span id="bottomBannerText"></span>
-                </div>
-                <div id="popup_screens">
-                    <!-- All screens in-game which require user interaction. -->
-                    <div id="attackSelectScreen" class="game-screen" style="display: none;"></div>
-                    <div id="attackSummaryScreen" class="game-screen" style="display: none;"></div>
-                    <div id="troopSendScreen" class="game-screen" style="display: none;"></div>
-                    <div id="attackPhaseContinueOrOverScreen" class="game-screen" style="display: none;">
-                        <div class="popup_screen_text">
-                            <p>Select another attacker or continue on and fortify.</p>
-                            <button onclick="attackPhase()" style="margin-bottom:10px;">Attack again</button>
-                            <button onclick="fortificationPhase()" style="margin-bottom:10px;">Continue</button>
-                        </div> 
+                <!-- Settings page for Risk home screen. -->
+                <div id="settingsRisk" class="option-screen" style="display:none;overflow: scroll;">
+                    <h1>Settings</h1>
+                    <h2>Player Colors</h2>
+                    <hr style="max-width:240px;">
+                    <div id="playerColors" style="justify-content: center; text-align:center;">
+                        <label for="player1Color" style="padding:10px;">Player 1 Color:</label>
+                        <input type="color" id="player1Color" value="#cce5ff"><br>
+                    
+                        <label for="player2Color" style="padding:10px;">Player 2 Color:</label>
+                        <input type="color" id="player2Color" value="#d8e9b6"><br>
+
+                        <label for="player3Color" style="padding:10px;">Player 3 Color:</label>
+                        <input type="color" id="player3Color" value="#f0d6e1"><br>
+                    
+                        <label for="player4Color" style="padding:10px;">Player 4 Color:</label>
+                        <input type="color" id="player4Color" value="#fad8be"><br>
+
+                        <label for="player5Color" style="padding:10px;">Player 5 Color:</label>
+                        <input type="color" id="player5Color" value="#e2f0cb"><br>
+                    
+                        <label for="player6Color" style="padding:10px;">Player 6 Color:</label>
+                        <input type="color" id="player6Color" value="#85c1ff"><br>
+
+                        <p style="font-size:10px;">(NOTE: Changing colors may have unintended effects!)</p>
+                        <button onclick="saveColors()">Save Colors</button>
                     </div>
-                    <div id="fortifySelectionScreen" class="game-screen" style="display: none;"></div>
-                    <!-- Info box -->
-                    <div id="infoBox" class="game-screen" style="position: absolute; display: none; background-color: white; padding: 10px; border: 1px solid black;"></div>
+                    <button onclick="closeRiskSettingsScreen()" style="position: sticky; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
                 </div>
+                <!-- How to page for Risk home screen. -->
+                <div id="howToRisk" class="option-screen" style="display:none; width:100%; position: relative;">
+                    <button onclick="closeRiskInstructions()" style="position: absolute; bottom: 1px; left: 0.5%; z-index: 1;width: 70px;height: 40px;">Exit</button>
+                    <iframe id="riskInstructions" src="https://images-na.ssl-images-amazon.com/images/I/B1pzzdfRijS.pdf" style="width:100%; height:100%; position: relative; z-index: 0;" frameborder="0"></iframe>
+                </div>             
                 <!-- SVG Map -->
                 <iframe id="riskSVGMap" src="./Media/gamez/riskMaps/riskSVGMap/RiskMapSVGRiskPage.html" width="100%" height="100%" style="border:none;    background: linear-gradient(to bottom, #cccccc, #999999);"></iframe>
             </div>
@@ -200,6 +257,7 @@
 <script src="./scripts/gamez/Risk/Risk_GUI.js"></script>
 <script src="./scripts/gamez/Risk/Risk_random.js"></script>
 <script src="./scripts/gamez/Risk/Risk_computer_rules.js"></script>
+<script src="./scripts/gamez/Risk/Risk_home_screen.js"></script>
 
 <script src="./scripts/User/signUp_Login.js"></script>
 <script src="./scripts/Ads/randAds.js"></script>

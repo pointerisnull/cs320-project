@@ -29,7 +29,32 @@ function openFullscreen() {
         gameContainer.style.alignItems = 'center';
         gameContainer.style.display = 'flex';
     } 
+    scaleText('inside-game-container');
 }
+
+function scaleText(containerId) {
+    var container = document.getElementById(containerId);
+    var textElements = container.querySelectorAll('.text');
+
+    // Get container dimensions
+    var containerWidth = container.offsetWidth;
+    var containerHeight = container.offsetHeight;
+
+    // Calculate font size based on container dimensions
+    var fontSizeWidth = containerWidth * 0.03; // Adjust this multiplier as needed
+    var fontSizeHeight = containerHeight * 0.03; // Adjust this multiplier as needed
+
+    // Set font size based on the smaller dimension (width or height)
+    var fontSize = Math.min(fontSizeWidth, fontSizeHeight);
+
+    // Apply font size to all text elements inside the container
+    textElements.forEach(function(text) {
+        text.style.fontSize = fontSize + 'px';
+    });
+}
+
+// Call the scaleText function initially
+scaleText('inside-game-container');
 
 document.addEventListener('fullscreenchange', escapeFullscreen);
 
