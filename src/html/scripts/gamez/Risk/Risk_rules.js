@@ -11,8 +11,8 @@ function nextTurn() {
     setInfoBox();
     setBanners();
     updateTopBanner();
-    
-    if(gameData.player_turn.indexOf('Computer') === -1) {
+
+    if (gameData.player_turn.indexOf('Computer') === -1) {
         bottomBannerText.innerHTML = '';
         reinforcementPhase();
     }
@@ -474,7 +474,7 @@ function handleFortifySecondClick(event) {
     }
 }
 
- const territories = gameData.territories;
+const territories = gameData.territories;
 // Function to remove card from a specific array
 function removeCardFromArray(card, array) {
     const index = array.indexOf(card);
@@ -531,7 +531,7 @@ function tradeIn(reinforcements) {
                 var sets = {}; //sets[troopType];
                 if (hand.length >= 3) { // if hand has a possible set
                     hand.forEach(card => { // create a set from matching troopTypes 
-                        console.log(card.troopType);
+                        //console.log(card.troopType);
                         sets[card.troopType] = sets[card.troopType] || [];
                         sets[card.troopType].push(card);
                     });
@@ -541,19 +541,19 @@ function tradeIn(reinforcements) {
                         // const numSets = Math.floor(hand.length / 3); // possible sets
                         // check if set cards have have troop type
                         for (i = 0; i <= sets.length; i++) {
-                            console.log(sets[i].troopType);
+                            // console.log(sets[i].troopType);
                             if (sets[i].troopType.length == 3 && sets[i].troopType == 'Infantry') { // set reinforments based on set troopType
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 1; // Add reinforcements to player's army
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             } else if (sets[i].troopType.length == 3 && sets[i].troopType == 'Cavalry') {
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 5;
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             } else if (sets[i].troopType.length == 3 && sets[i].troopType == 'Artillery') {
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                                 reinforcements += 10;
-                                console.log(reinforcements);
+                                //console.log(reinforcements);
                             }
                             // reinforcements += numSets;
                             console.log(`${this.name} traded 3 ${sets[i].troopType} cards for ${reinforcements} troops.`); // ${numSets * 3}
@@ -639,18 +639,51 @@ async function singleAttack() {
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].armies = 1;
         gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].owner = findTerritoryByPolygonId(attacker).owner; //
         updateTerritoryColors();
-        bottomBannerText.innerHTML = "You successfully invaded " + loser + "!";
-        attackSummaryScreen.innerHTML = `
-        <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
-        <div>${defender} lost ${defenderLostTroops} troop(s)</div>
-        <hr></hr>
-        <div>${winner} beat ${loser}</div>
-        <hr></hr>
-        <button onclick="hideAttackSummaryScreen(); displayTroopSendScreen();">Ok</button>
-        `;
+
 
         const updatedPlayerCards = recieveCard(gameData.territories[gameData.territories.indexOf(findTerritoryByPolygonId(defender))].name);
         console.log("Updated player's cards:", updatedPlayerCards);
+
+        if (updatedPlayerCards.gainedCard === null) {
+            bottomBannerText.innerHTML = "You successfully invaded " + loser + "!";
+            attackSummaryScreen.innerHTML = `
+                    <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
+                    <div>${defender} lost ${defenderLostTroops} troop(s)</div>
+                    <hr></hr>
+                    <div>${winner} beat ${loser}</div>
+                    <hr></hr>
+                    <button onclick="hideAttackSummaryScreen();">Ok</button>
+                    `;
+        } else {
+            // function changeImage(imgPath) {
+            //     // Set the innerHTML of the container div to include an img tag with the src attribute pointing to the image
+            //     imageContainer.innerHTML = '<img src="' + imgPath + '" alt="Your Image">';
+            // }
+            // if (updatedPlayerCards.gainedCard === "North West Territory") {
+            //     changeImage("./src/html/Media/gamez/riskMaps/cards/1.png");
+            // } else if (updatedPlayerCards.gainedCard === "Greenland") {
+            //     changeImage("./src/html/Media/gamez/riskMaps/cards/2.png");
+            // } else if (updatedPlayerCards.gainedCard === "Alberta") {
+            //     changeImage("./src/html/Media/gamez/riskMaps/cards/3.png");
+            // }
+            bottomBannerText.innerHTML = "You successfully invaded " + loser + "!";
+            attackSummaryScreen.innerHTML = `
+                    <div>${attacker} lost ${attackerLostTroops} troop(s)</div>
+                    <div>${defender} lost ${defenderLostTroops} troop(s)</div>
+                    <hr></hr>
+                    <div>${winner} beat ${loser}</div>
+                    <hr></hr>
+                    <button onclick="hideAttackSummaryScreen();">Ok</button>
+                    `;
+            attackSummaryScreen.innerHTML = `
+        <div>${attacker} gained ${updatedPlayerCards.gainedCard} card(s)</div>
+        <div><img src="./src/html/Media/gamez/riskMaps/cards/' + ${updatedPlayerCards.gainedCard} + '.png" alt="Your Image"></div>
+        <hr></hr>
+        <button onclick="hideAttackSummaryScreen(); displayTroopSendScreen();">Ok</button>
+        `;
+            attackSummaryScreen.innerHTML = '<img src="' + updatedPlayerCards.gainedCard + '" alt="Your Image">';
+        }
+
     } else {
         winner = defender;
         loser = attacker;
