@@ -16,5 +16,8 @@
     "openai": "^4.29.2",
     "ws": "^8.16.0"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }

@@ -233,3 +233,9 @@ async function computerSingleFortify(fortifyingSet) {
     await sleep(2000);
     endCurrentTurn();
 }
+
+module.exports = {
+    computerReinforcementPhase,
+    computerAttackPhase,
+    computerFortifyPhase
+};
