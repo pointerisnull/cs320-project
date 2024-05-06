@@ -159,6 +159,8 @@ async function computerSingleAttack(attackingSet) {
         gameData.territories[gameData.territories.indexOf(attackingSet.defender)].owner = attackingSet.attacker.owner;
         updateTerritoryColors();
         bottomBannerText.innerHTML = gameData.player_turn + " successfully invaded " + loser + "!";
+        const updatedPlayerCards = recieveCard(gameData.territories[gameData.territories.indexOf(attackingSet.defender)].name);
+        console.log("Updated player's cards:", updatedPlayerCards);
     }
     else {
         winner = attackingSet.defender.name;
